@@ -1,0 +1,48 @@
+<header class="navbar-default amtn">
+	<div class="container">
+		<div class="row">
+			<div class="col-dt-3 navbar-header">
+				<button class="navbar-toggle">
+					<span></span>
+					<span></span>
+					<span></span>
+				</button>
+				<a class="navbar-logo" href="/micro">
+					<span class="spr spr-logo"></span>
+				</a>
+			</div>
+			<div class="col-dt-9 navbar-collapse">
+				<nav class="navbar-nav clr">
+					<a href="#">Товар</a>
+					<a href="/micro/users">Пользователи</a>
+					<a href="#">Сайт</a>
+					<a href="#">График работы</a>
+					<a href="#">Настройки</a>
+				</nav>
+				<div class="navbar-profile">
+					<a class="btn btn-success profile-toggle">Профиль</a>
+
+					<ul class="dropdown-menu-profile">
+						<li class="profilebox">
+							<a class="clr" href="">
+								<img src="<%= auth_user.photo %>" alt="">
+								<span><%= auth_user.name %></span>
+							</a>
+						</li>
+						<li class="divider"></li>
+						<li>
+							<a href="#">Мои сообщения</a>
+						</li>
+						<li>
+							<a href="#">Настройки</a>
+						</li>
+						<li class="divider"></li>
+						<li>
+							<a href="#">Выйти</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</header>

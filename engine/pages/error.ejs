@@ -1,0 +1,8 @@
+<% layout('../layout/clear') -%>
+<% block('title', "Ошибка") -%>
+
+<main class="app-error" role="error">
+	<%= error.status %><%= error.message %>
+
+	<%-partial('../partials/footer-mini')%>
+</main>

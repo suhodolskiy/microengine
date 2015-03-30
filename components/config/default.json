@@ -1,0 +1,23 @@
+{
+    "port": 3000,
+    "server": "127.0.0.1",
+    "mongoose": {
+        "uri" : "127.0.0.1/micro-database",
+        "options": {
+            "server": {
+                "socketOptions": {
+                    "keepAlive": 1
+                }
+            }
+        }
+    },
+    "session" : {
+        "secret" : "IlyaSuhodolskiy",
+        "key": "sid",
+        "cookie": {
+            "path": "/",
+            "httpOnly": true,
+            "maxAge": null
+        }
+    }
+}

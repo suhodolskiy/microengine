@@ -1,0 +1,51 @@
+<% layout('../layout/base') -%>
+<% block('title', pageNameRu) -%>
+
+<div class="app-page-navigation">
+	<div class="container">
+		<div class="col-ld-12">
+			<nav>
+				<a href="/micro/users" class="selected">Список пользователи</a>
+				<a href="/micro/usergroup">Группы пользователей</a>
+				<a href="#">Настройка пользователей</a>
+			</nav>
+		</div>
+	</div>
+</div>
+<div class="app-content container">
+	<div class="row">
+		<div class="col-ld-12">
+			<div class="app-card">
+				<div class="card-title">
+					<a class="btn btn-success">Добавить</a>
+					<a class="btn btn-info">Изменить</a>
+					<a class="btn btn-danger">Удалить</a>
+				</div>
+				<div class="card-content">
+					<table class="app-table">
+						<thead>
+							<tr>
+								<td>Фото</td>
+								<td>ФИО</td>
+								<td>E-mail</td>
+								<td>Группа</td>
+								<td>Дата регистрации</td>
+							</tr>
+						</thead>
+						<tbody>
+							<% users.forEach(function(user) {%>
+							    <tr class="success" user-id="<%= user._id %>">
+							    	<td><%= user.photo %></td>
+							    	<td><a href="/micro/user/<%= user.name %>"><%= user.name %></a></td>
+							        <td><%= user.email %></td>
+							        <td group-id="<%= user._group[0]._id %>"><%= user._group[0].name %></td>
+							        <td><%= moment(user.created).format("YYYY-MM-DD") %></td>
+							    </tr>
+							<% }); %>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

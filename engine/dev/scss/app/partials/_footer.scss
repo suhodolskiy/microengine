@@ -1,0 +1,15 @@
+footer.footer-default{ position: absolute; bottom: 0; left: 0; right: 0; background: #2B394A;
+	.container{ position: relative; padding-top: 20px; padding-bottom: 20px; font-size: 13px; color: #94a7c0;
+		a{ color: #94a7c0; &:hover{color: $link-color;}}
+	}
+}
+
+footer.footer-mini{ padding-top: 40px; position: absolute; bottom: 0; left: 0; right: 0;
+	.container{ position: relative; padding-top: 40px; padding-bottom: 40px; font-size: 13px; color: #94a7c0; text-align: center;
+		a{ color: #94a7c0; &:hover{color: $link-color;}}
+	}
+}
+
+@media (max-width: 768px) {
+	footer.footer-default .col-tb-6{text-align: center;}
+}
