@@ -1,18 +1,15 @@
-var mongoose = require('./components/mongoose/'),
+var mongoose = require('./components/mongoose'),
     log = require('./components/log')(module),
     async = require('async');
 
-var Users = require('./components/models/users.js').Users;
-
-var userGroup = require('./components/models/userGroup.js').userGroup;
+var Events = require('./models/events.js').Events;
 
 
 
 // Async 
     async.series([
         open,
-        requireModels,
-        createUsers
+        requireModels
     ], function(err, results){
         console.log(arguments);
         
@@ -33,7 +30,7 @@ var userGroup = require('./components/models/userGroup.js').userGroup;
         db.dropCollection('users', callback);
     }
     function requireModels(callback){
-        require('./components/models/users.js');
+        require('./models/pages.js');
 
         async.each(Object.keys(mongoose.models), function(modelName, callback){
             mongoose.models[modelName].ensureIndexes(callback);
@@ -132,7 +129,23 @@ var userGroup = require('./components/models/userGroup.js').userGroup;
             user.save(callback);
         }, callback);
     };
+    function createEvents(callback){
+        _events = [
+            {
+                "title": "Суходольский Илья Валерьевич",
+                "start": "Sat May 02 2015 00:00:00 GMT+0300 (MSK)"
+            },
+            {
+                "title": "Thomas Banks",
+                "start": "Wed May 06 2015 00:00:00 GMT+0300 (MSK)"
+            }
+        ];
 
+        async.each(_events, function(_eventsData, callback){
+            var _event = new mongoose.models.Events(_eventsData);
+            _event.save(callback);
+        }, callback);
+    };
     function createUserGroup(callback){
         _userGroup = [
             {
@@ -147,4 +160,41 @@ var userGroup = require('./components/models/userGroup.js').userGroup;
             var _group = new mongoose.models.userGroup(_userGroupData);
             _group.save(callback);
         }, callback);
+    };
+    function createNewsCategories(callback){
+        _newsCategories = [
+            {
+                "name": {
+                    "initial" : "Интерьеры",
+                    "trslt" : "interery"
+                },
+                "description" : "Aрхитектурно и художественно оформленное внутреннее пространство здания, обеспечивающее человеку эстетическое восприятие и благоприятные условия жизнедеятельности; внутреннее пространство здания или отдельного помещения, архитектурное решение которого определяется его функциональным назначением."
+            },
+            {
+                "name": {
+                    "initial" : "Конструкции",
+                    "trslt" : "konstrukcii"
+                },
+                "description" : ""
+            }
+        ];
+
+        async.each(_newsCategories, function(_newsCategoriesData, callback){
+            var _group = new mongoose.models.NewsCategories(_newsCategoriesData);
+            _group.save(callback);
+        }, callback);
+    };
+    function createNews(callback){
+            _newsCategories = [
+            {
+                "name": {
+                    "initial" : "Квартира дизайнера по ул. Шпилевского, Минск",
+                    "trslt" : "kvartira-dizajnera-po-ul-shpilevskogo-minsk"
+                },
+                "_category" : "5519c8cf4c39bc1b0f79c1e8",
+                "_author" : "5516d21062a68259378b7eff",
+                "description" : "Aрхитектурно и художественно оформленное внутреннее пространство здания, обеспечивающее человеку эстетическое восприятие и благоприятные условия жизнедеятельности; внутреннее пространство здания или отдельного помещения, архитектурное решение которого определяется его функциональным назначением.",
+                "publish" : true
+            }
+        ];
     };
