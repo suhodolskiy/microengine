@@ -11,6 +11,7 @@ var express = require('express'),
 
 	// Dashboard
 		router.get('/', checkAuth, require('./dashboard').get);
+			router.get('/rates', checkAuth, require('./dashboard/exchangerates').get);
 
 	// Help
 		router.get('/help', checkAuth, require('./help').get);
@@ -46,6 +47,27 @@ var express = require('express'),
 			router.get('/site/pages/edit/:id', checkAuth, require('./site/pages/edit/').get);
 				router.post('/site/pages/edit', checkAuth, require('./site/pages/edit/data').post);
 
+		// News
+			router.get('/site/news', checkAuth, require('./site/news').get);
+			router.get('/site/news/data', checkAuth, require('./site/news/data').get);
+
+				router.post('/site/news/remove', checkAuth, require('./site/news/remove').post);
+
+			router.get('/site/news/new', checkAuth, require('./site/news/new/').get);
+				router.post('/site/news/new', checkAuth, require('./site/news/new/data').post);
+
+			router.get('/site/news/edit/:id', checkAuth, require('./site/news/edit/').get);
+				router.post('/site/news/edit', checkAuth, require('./site/news/edit/data').post);
+
+
+			// Сategories 
+				router.get('/site/news/categories', checkAuth, require('./site/news/сategories/').get);
+				router.get('/site/news/categories/data', checkAuth, require('./site/news/сategories/data').get);
+					router.post('/site/news/categories/new', checkAuth, require('./site/news/сategories/new').post);
+					router.post('/site/news/categories/edit_data', checkAuth, require('./site/news/сategories/editData').post);
+					router.post('/site/news/categories/edit', checkAuth, require('./site/news/сategories/edit').post);
+					router.post('/site/news/categories/remove', checkAuth, require('./site/news/сategories/remove').post);
+
 
 	// Calendar
 		router.get('/calendar', checkAuth, require('./calendar').get);
@@ -53,16 +75,38 @@ var express = require('express'),
 		router.post('/events/transfer', checkAuth, require('./calendar/transfer').post);
 		router.post('/events/new', checkAuth, require('./calendar/new').post);
 		router.post('/events/remove', checkAuth, require('./calendar/remove').post);
+
+	// Store
+			router.get('/store', checkAuth, require('./store').get);
+
+				router.post('/store/goods/data', checkAuth, require('./store/goods/data').post);
+
+				router.get('/store/category/data', checkAuth, require('./store/category/data').get);
+					router.post('/store/category/transfer', checkAuth, require('./store/category/transfer').post);
+					router.post('/store/category/remove', checkAuth, require('./store/category/remove').post);
+					router.post('/store/category/create', checkAuth, require('./store/category/new').post);
+					router.post('/store/category/rename', checkAuth, require('./store/category/rename').post);
+
+
+		// Units
+			router.get('/store/units', checkAuth, require('./store/units').get);
+			router.get('/store/units/data', checkAuth, require('./store/units/data').get);	
+
+				router.post('/store/units/new', checkAuth, require('./store/units/new').post);
+				router.post('/store/units/remove', checkAuth, require('./store/units/remove').post);
+
+
+		// Providers
+			router.get('/store/providers', checkAuth, require('./store/providers').get);
+			router.get('/store/providers/data', checkAuth, require('./store/providers/data').get);
+
+				router.post('/store/providers/new', checkAuth, require('./store/providers/new').post);
+				router.post('/store/providers/remove', checkAuth, require('./store/providers/remove').post);
+				router.post('/store/providers/edit_data', checkAuth, require('./store/providers/edit_data').post);
+				router.post('/store/providers/edit', checkAuth, require('./store/providers/edit').post);
+
 		
-
-	// Site
-		// News
-			router.get('/site/news', checkAuth, require('./site/news').get);
-
-				router.get('/site/news/add', checkAuth, require('./site/news/add').get);
-
-			// Сategories 
-				router.get('/site/news/сategories', checkAuth, require('./site/news/сategories').get);
+							
 
 
 module.exports = router;

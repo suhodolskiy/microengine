@@ -1,25 +1,27 @@
-<% layout('../layout/base') -%>
+<% layout('../layout/base_chart') -%>
 <% block('title', pageNameRu) -%>
 
-
-<div class="app-content dashboard container">
-	<div class="row">
-		<div class="col-ph-12">
-			<div class="title">
-				<h1 class="title">Добро пожаловать - <span><%=authUser.name %></span>!</h1>
-			</div>
+<div class="row">
+	<div class="col-ph-12">
+		<div class="title">
+			<h1 class="title">Добро пожаловать, <span><%=authUser.name %></span>!</h1>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-ph-6">
-			<div class="app-card">
-				<div class="card-title clr">
-					<div class="card-header">
-						<h1>Курсы <span>валют</span></h1>
-					</div>
+</div>
+<div class="row">
+	<div class="col-ph-12">
+		<div class="app-card">
+			<div class="card-title clr">
+				<div class="card-header">
+					<h1>Курсы <span>валют</span></h1>
 				</div>
+				<div class="panel-tools">
+					<a data-tool="" class="tool-refresh"></a>
+				</div>
+			</div>
+			<div class="card-content">
+				<canvas id="chart-rates"></canvas>
 			</div>
 		</div>
 	</div>
 </div>
-

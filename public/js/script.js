@@ -117,6 +117,162 @@
 						}
 					});
 				break;
+				case 'newscategories':
+					$dataTable = $table.DataTable({
+						"sAjaxSource": "/micro/site/news/categories/data",
+						"dataSrc": "data",
+						"responsive": true,
+						"aoColumns": [
+							{
+								"mDataProp": "_id", 
+								"sDefaultContent": "n/a",
+								"mRender": function ( data, type, full) {
+									return '<i class="fa fa-plus-circle"></i>'; 
+								},
+								"sClass": "td-trigger", 
+								"width": "60px"
+							},
+							{
+								"mDataProp": "name.initial", "sDefaultContent": "n/a"
+							},
+							{
+								"mDataProp": "name.trslt", "sDefaultContent": "n/a"
+							},
+							{
+								"mDataProp": "_author[0].name", "sDefaultContent": "n/a", "className": "desktop"
+							},
+							{
+								"mDataProp": "created", "sDefaultContent": "n/a",
+								"mRender": function(data){
+									return '<span class="muted">'+moment(data).format("DD-MM-YYYY")+'</span>';
+								},
+								"className": "desktop"
+							}
+						],
+						"createdRow": function (row, data, index) {
+							$(row).attr('data-id', data._id).children('.td-trigger').append(CheckBoxTable.create(index));
+						}
+					});
+				break;
+				case 'news':
+					$dataTable = $table.DataTable({
+						"sAjaxSource": "/micro/site/news/data",
+						"dataSrc": "data",
+						"responsive": true,
+						"aoColumns": [
+							{
+								"mDataProp": "_id", 
+								"sDefaultContent": "n/a",
+								"mRender": function ( data, type, full) {
+									return '<i class="fa fa-plus-circle"></i>'; 
+								},
+								"sClass": "td-trigger", 
+								"width": "60px"
+							},
+							{
+								"mDataProp": "name.initial", "sDefaultContent": "n/a"
+							},
+							{
+								"mDataProp": "_category[0].name.initial", "sDefaultContent": "n/a", "className": "desktop"
+							},
+							{
+								"mDataProp": "_author[0].name", "sDefaultContent": "n/a", "className": "desktop"
+							},
+							{
+								"mDataProp": "created", "sDefaultContent": "n/a",
+								"mRender": function(data){
+									return '<span class="muted">'+moment(data).format("DD-MM-YYYY")+'</span>';
+								},
+								"className": "desktop"
+							}
+						],
+						"createdRow": function (row, data, index) {
+							$(row).attr('data-id', data._id).children('.td-trigger').append(CheckBoxTable.create(index));
+						}
+					});
+				break;
+				case 'providers':
+					$dataTable = $table.DataTable({
+						"sAjaxSource": "/micro/store/providers/data",
+						"dataSrc": "data",
+						"responsive": true,
+						"aoColumns": [
+							{
+								"mDataProp": "_id", 
+								"sDefaultContent": "n/a",
+								"mRender": function ( data, type, full) {
+									return '<i class="fa fa-plus-circle"></i>'; 
+								},
+								"sClass": "td-trigger", 
+								"width": "60px"
+							},
+							{
+								"mDataProp": "name", "sDefaultContent": "n/a"
+							},
+							{
+								"mDataProp": "address", "sDefaultContent": "n/a", "className": "none"
+							},
+							{
+								"mDataProp": "unp", "sDefaultContent": "n/a", "className": "none"
+							},
+							{
+								"mDataProp": "phone", "sDefaultContent": "n/a"
+							},
+							{
+								"mDataProp": "email", "sDefaultContent": "n/a"
+							},
+							{
+								"mDataProp": "bank.name", "sDefaultContent": "n/a", "className": "none"
+							},
+							{
+								"mDataProp": "bank.address", "sDefaultContent": "n/a", "className": "none"
+							},
+							{
+								"mDataProp": "bank.mfo", "sDefaultContent": "n/a", "className": "none"
+							},
+							{
+								"mDataProp": "bank.expense", "sDefaultContent": "n/a", "className": "none"
+							},
+							{
+								"mDataProp": "created", "sDefaultContent": "n/a",
+								"mRender": function(data){
+									return '<span class="muted">'+moment(data).format("DD-MM-YYYY")+'</span>';
+								},
+								"className": "none"
+							}
+						],
+						"createdRow": function (row, data, index) {
+							$(row).attr('data-id', data._id).children('.td-trigger').append(CheckBoxTable.create(index));
+						}
+					});
+				break;
+				case 'units':
+					$dataTable = $table.DataTable({
+						"sAjaxSource": "/micro/store/units/data",
+						"dataSrc": "data",
+						"responsive": true,
+						"aoColumns": [
+							{
+								"mDataProp": "_id", 
+								"sDefaultContent": "n/a",
+								"mRender": function ( data, type, full) {
+									return '<i class="fa fa-plus-circle"></i>'; 
+								},
+								"sClass": "td-trigger", 
+								"width": "60px"
+							},
+							{
+								"mDataProp": "measure", "sDefaultContent": "n/a"
+							},
+							{
+								"mDataProp": "value", "sDefaultContent": "n/a", "className": "desktop"
+							}
+						],
+						"createdRow": function (row, data, index) {
+							$(row).attr('data-id', data._id).children('.td-trigger').append(CheckBoxTable.create(index));
+						}
+					});
+				break;
 		};
 		function dataTablesReload(){
 			CheckBoxTable.clean().reset(); // reset and clean checkboxes list
@@ -218,6 +374,123 @@
 			});
 		});
 
+		// Create new news
+		$('form#newNews').submit(function(event) {
+			event.preventDefault();
+			var $form = $(this);
+
+			console.log($form.serialize());
+
+			$.ajax({url: '/micro/site/news/new',type: 'POST', data: $form.serialize(),
+				complete: function() {$form[0].reset();}, 
+                statusCode: {
+                	200: function(){
+                		Notification.new('success', 'Новость успешно создана');
+                	},
+                    403: function(jqXHR) {
+                        var error = JSON.parse(jqXHR.responseText);
+                        Notification.new('error', error.message);
+                    }
+                }
+			});
+		});
+
+		// Edit news
+		$('form#editNews').submit(function(event) {
+			event.preventDefault();
+			var $form = $(this);
+
+			$.ajax({url: '/micro/site/news/edit',type: 'POST', data: $form.serialize(),
+                statusCode: {
+                	200: function(){
+                		Notification.new('success', 'Новость успешно изменена');
+                	},
+                    403: function(jqXHR) {
+                        var error = JSON.parse(jqXHR.responseText);
+                        Notification.new('error', error.message);
+                    }
+                }
+			});
+		});
+
+
+		// Chart
+
+
+		// function ChartRates(options){
+		// 	this.canvas = $(options.chart);
+
+		// 	console.log('obj1');
+
+		// 	if(!this.canvas.length || location.path == '/micro'){return false;}
+
+
+		// 	console.log('obj2');
+
+		// 	this.url = options.url;
+		// 	this.data = {
+		// 		labels: [],
+		// 		datasets: {
+		// 			USD: {
+		// 				label: "USD",
+		// 				fillColor: "rgba(220,220,220,0.5)",
+		// 				strokeColor: "rgba(220,220,220,8)",
+		// 				pointColor: "rgba(220,220,220,8)",
+		// 				pointStrokeColor: "#fff",
+		// 		        pointHighlightFill: "#fff",
+		// 		        pointHighlightStroke: "rgba(220,220,220,1)"
+		// 			},
+		// 			EUR: {
+		// 				label: "EUR",
+		// 				fillColor: "rgba(151,187,205,0.2)",
+		// 				strokeColor: "rgba(151,187,205,1)",
+		// 				pointColor: "rgba(151,187,205,1)",
+		// 				pointStrokeColor: "#fff",
+		// 				pointHighlightFill: "#fff",
+		// 				pointHighlightStroke: "rgba(151,187,205,1)"
+		// 			},
+		// 			RUB: {
+		// 				label: "RUB",
+		// 				fillColor: "rgba(34,166,80,0.2)",
+		// 				strokeColor: "#22a659",
+		// 				pointColor: "#22a659",
+		// 				pointStrokeColor: "#fff",
+		// 				pointHighlightFill: "#fff",
+		// 				pointHighlightStroke: "rgba(151,187,205,1)"
+		// 			}
+		// 		}
+		// 	};
+		// 	// this.chart = new Chart(this.canvas.get(0).getContext("2d")).Line(this.data, {
+		// 	// 	responsive: true
+		// 	// }); 
+		// };
+		// ChartRates.prototype.get = function(){
+		// 	var Rate = this;
+
+		// 	$.ajax({
+		// 		url: Rate.url,
+		// 		type: 'GET',
+		// 		success: function(data){
+		// 			$.each(data, function(i, rate) {
+		// 				Rate.chart.addData([rate.USD, rate.EUR, rate.RUB], moment(rate.date).format('MM.D.YYYY'));
+		// 			});
+		// 		}
+		// 	});		
+
+		// 	return Rate;	
+		// };
+		// ChartRates.prototype.init = function(){
+		// 	this.chart = new Chart(this.chart).Line(this.data, {
+		// 		responsive: true
+		// 	});
+		// 	return this;
+		// }
+
+
+		// test = new ChartRates({chart: '#chart-rates', url: '/micro/rates'}).get();
+
+
+
 		/********************************************************************************************* 
 			
 			Translit - Class
@@ -274,6 +547,248 @@
 
 
 
+
+
+		/********************************************************************************************* 
+
+			Store Tree - Class
+			
+		*********************************************************************************************/
+
+		function Category(tree, options){
+			var Category = this;
+			this.tree = $('#store-category');
+
+			if(!this.tree.length){return false;}
+			
+			this.selected = null;
+			this.url = {
+				get: '/micro/store/category/data', 
+				move:  '/micro/store/category/transfer', 
+				rename: '/micro/store/category/rename', 
+				create: '/micro/store/category/create', 
+				remove: '/micro/store/category/remove'
+			};
+
+			$.ajax({
+				url: Category.url.get,
+				type: 'GET',
+				success: function(data){
+					var nData = []; 
+					$.each(data, function(index, val) {nData.push({id: val._id, parent: val.parent, text: val.text})});
+					Category.init(nData);
+				}
+			});
+		};
+
+		Category.prototype.init = function(data){
+			var Category = this;
+
+			Category.tree.bind("select_node.jstree", function (e, data) {
+				Category.selected = data.node.id;
+				panelTools.setSelected();
+				goods.reload();
+			}).bind("move_node.jstree", function (e, data) {
+				$.ajax({
+					url: '/micro/store/category/transfer',
+					type: 'POST',
+					data: {
+						id: data.node.id,
+						parent: data.parent
+					},
+					statusCode: {
+						200: function(){
+							Notification.new('success', 'Категория <b>"'+data.node.text+'"</b>, успешно перенесена.');
+						},
+						400: function(){
+							Notification.new('error', 'Ошибка при переносе категории "'+data.node.text+'"');
+						}
+					}
+				});
+			}).bind("create_node.jstree", function (e, data) {
+				$.ajax({
+					url: Category.url.create,
+					type: 'POST',
+					data: {
+						parent: data.node.parent,
+						text: data.node.text
+					},
+					statusCode: {
+						200: function(){
+							Notification.new('success', 'Категория "'+data.node.text+'", успешно создана');
+							Category.reload();
+						}
+					}
+				});
+			}).bind("rename_node.jstree", function (e, data) {
+				console.log(data);
+				$.ajax({
+					url: Category.url.rename,
+					type: 'POST',
+					data: {
+						id: data.node.id,
+						old: data.old,
+						text: data.text
+					},
+					statusCode: {
+						200: function(){
+							Notification.new('success', 'Категория переименована!');
+						}
+					}
+				});
+			}).bind("delete_node.jstree", function (e, data) {
+				if(data.node.children.length > 0){
+					Notification.new('error', 'Удаление невозможно. Категория содержит подкатегории.');
+					Category.tree.jstree(true).refresh();
+
+					return false;
+				}
+				console.log(data);
+				$.ajax({
+					url: Category.url.remove,
+					type: 'POST',
+					data: {id: data.node.id},
+					statusCode: { 200: function(){ Notification.new('success', 'Категория "'+data.node.text+'", удалена!'); Category.reload() }}
+				});
+			}).jstree({
+			    "plugins" : ["dnd","search"],
+				'core' : {
+					"multiple" : false,
+					"check_callback" : true,
+			   		'data' : data
+			    } 
+			});
+		};
+		Category.prototype.reload = function(){
+			var Category = this;
+				$.ajax({
+					url: Category.url.get,
+					type: 'GET',
+					success: function(data){
+						var nData = []; 
+
+						$.each(data, function(index, val) {nData.push({id: val._id, parent: val.parent, text: val.text})});
+
+						Category.tree.jstree(true).settings.core.data = nData;
+						Category.tree.jstree(true).refresh();
+
+						Category.selected = null;
+						panelTools.setSelected();
+					}
+				});
+			return this;
+		};
+
+		// Element tree
+		Category.prototype.createNODE = function(name){
+			var ref = this.tree.jstree(true), sel = ref.get_selected();
+				
+
+			if(!sel.length) { 
+				sel = sel[0];
+				sel = ref.create_node('#', {"type":"folder", "text": name});
+			} else {
+				sel = sel[0];
+				sel = ref.create_node(sel, {"type":"folder", "text": name});
+			}
+		};
+		Category.prototype.removeNODE = function(){
+			var ref = this.tree.jstree(), 
+				sel = ref.get_selected();
+			
+			if(!sel.length) { return false; }
+			ref.delete_node(sel);
+		};
+		Category.prototype.selectNODE = function(){
+			var ref = this.tree.jstree(true),
+				sel = ref.get_selected();
+
+			return sel[0];
+		};
+		Category.prototype.renameNODE = function(){
+			var ref = this.tree.jstree(true),
+				sel = ref.get_selected();
+
+			if(!sel.length) { return false; }
+
+			sel = sel[0]; ref.edit(sel);
+		};
+
+		category = new Category($('#store-category'));
+
+
+		/********************************************************************************************* 
+
+			Store Goods - Class
+			
+		*********************************************************************************************/
+
+		function Goods(options){
+			if(!options.table.length){return false;}
+	
+			var Goods = this;
+			this.selected = null;
+			this.table = options.table.DataTable({
+				"dataSrc": "data",
+				"responsive": true,
+				"ajax": {
+					"url": "/micro/store/goods/data",
+					"type": 'POST',
+					"data": {
+						id: function(){return category.selected}
+					}
+				},	
+				"aoColumns": [
+					{
+						"mDataProp": "_id", 
+						"sDefaultContent": "n/a",
+						"mRender": function ( data, type, full) {
+							return '<i class="fa fa-plus-circle"></i>'; 
+						},
+						"sClass": "td-trigger", 
+						"width": "30px"
+					},
+					{
+						"mDataProp": "name", "sDefaultContent": "n/a"
+					},
+					{
+						"mDataProp": "amount", "sDefaultContent": "n/a"
+					},
+					{
+						"mDataProp": "unit", "sDefaultContent": "n/a"
+					},
+					{
+						"mDataProp": "purchaseprice", "sDefaultContent": "n/a", "className": "none"
+					},
+					{
+						"mDataProp": "markup", 
+						"sDefaultContent": "n/a", 
+						"className": "none", 
+						"mRender": function(data){
+							return data+'%';
+						}
+					},
+					{
+						"mDataProp": "price", "sDefaultContent": "n/a"
+					},
+					{
+						"mDataProp": "only", "sDefaultContent": "n/a"
+					},
+
+				],
+				"createdRow": function (row, data, index) {
+					$(row).attr('data-id', data._id);
+				}
+			});
+		};
+
+		Goods.prototype.reload = function(){
+			this.table.ajax.reload(function(){},true);
+		};
+
+		goods = new Goods({table: $('[table-store=goods]')});
+
+
 		/********************************************************************************************* 
 
 			Panel CardTools - Class
@@ -299,11 +814,19 @@
 						 	window.location.href = "/micro/site/pages/edit/"+CheckBoxTable.selected[0];
 						}
 					break;
+					case 'edit-news':
+						if(!$(this).hasClass('disabled')){
+						 	window.location.href = "/micro/site/news/edit/"+CheckBoxTable.selected[0];
+						}
+					break;
 					case 'table-reload':
 						dataTablesReload();
 					break;
 					case 'card-resize':
 						PanelTools.card.toggleClass('fullsize');
+					break;
+					case 'category-edit':
+						if(!$(this).hasClass('disabled')){ category.renameNODE(); } else{ Notification.new('error', 'Ни одна категория не выбранна!'); }
 					break;
 				};
 			});
@@ -317,18 +840,26 @@
 			} else{ 
 				this.noti.removeClass('is-visible').html(''); 
 			}
-
 			PanelTools.tools.each(function(i, tool){
 				var tool = $(tool);
 
-				if(tool.data('tool') == 'edit' || tool.data('tool') == 'edit-page'){
+				if(tool.data('tool') == 'edit' || tool.data('tool') == 'edit-page' || tool.data('tool') == 'edit-news'){
 					if(lSelected == 1){ tool.removeClass('disabled'); } else{ tool.addClass('disabled'); }	
 				}
 				if(tool.data('tool') == 'remove'){
 					if(lSelected > 0){ tool.removeClass('disabled'); } else{ tool.addClass('disabled'); }	
 				}
+				if(tool.data('tool') == 'category-edit' || tool.data('tool') == 'category-remove'){
+					if(category.selected != null){
+						tool.removeClass('disabled');
+						
+					} else{
+						tool.addClass('disabled');
+					}
+				}
 			});
 		};
+		
 		// init
 		panelTools = new PanelTools({panel:'.panel-tools'});
 
@@ -380,7 +911,6 @@
 
 		// init
 		Notification = new Messenger();
-
 
 
 		/********************************************************************************************* 
@@ -449,7 +979,7 @@
 			this.modal = $('#'+options.target);
 
 			if(!this.target.length || !this.modal.length){
-				console.log('PopUp: "'+options.target+'", not found Target or Modal Window')
+				// console.log('PopUp: "'+options.target+'", not found Target or Modal Window')
 				return false;
 			}
 
@@ -471,7 +1001,6 @@
 				if($(this).hasClass('disabled')){
 					return false;
 				}
-
 				if(PopUp.settings.loadData){
 					PopUp.show().loadData();
 				} else{
@@ -715,7 +1244,230 @@
 						});
 					}
 				});
-
+			// Add new newscategories
+				new PopUp({target: 'add-newscategories'}, function(PopUp){
+					$.ajax({
+						url: '/micro/site/news/categories/new',
+						type: 'POST',
+						data: PopUp.form.serialize(),
+						complete: function() {
+	                    	PopUp.hide().clean();
+	                    }, 
+	                    statusCode: {
+	                        200: function() {
+	                            dataTablesReload();
+	                            Notification.new('success', '<b>Добавлена</b> новая категория');
+	                        },
+	                        403: function(jqXHR) {
+	                            var error = JSON.parse(jqXHR.responseText);
+	                            Notification.new('danger', error.message);
+	                        }
+	                    }
+					});
+				});
+			// Edit newscategories
+				new PopUp({target: 'edit-newscategories', loadData: true, path: '/micro/site/news/categories/edit_data'}, function(PopUp){
+					$.ajax({
+						url: '/micro/site/news/categories/edit',
+						type: 'POST',
+						data: PopUp.form.serialize(),
+						complete: function() {
+	                    	PopUp.hide().clean();
+	                    }, 
+	                    statusCode: {
+	                        200: function() {
+	                            dataTablesReload();
+	                            Notification.new('success','Данные успешно изменены');
+	                        },
+	                        403: function(jqXHR) {
+	                            var error = JSON.parse(jqXHR.responseText);
+	                            Notification.new('danger', error.message);
+	                        }
+	                    }
+					});
+				});
+			// Remove newscategories
+				new PopUp({target: 'remove-newscategories'}, function(PopUp){
+					if(CheckBoxTable.selected.length == 0){
+						Notification.new('info','Выберите хотя бы 1 запись');
+						PopUp.hide();
+					} else{
+						$.ajax({
+							url: '/micro/site/news/categories/remove',
+							contentType: 'application/json',
+							type: 'POST',
+							data: JSON.stringify(CheckBoxTable.selected),
+							complete: function() {
+		                    	PopUp.hide().clean();
+		                    }, 
+		                    statusCode: {
+		                        200: function() {
+		                            dataTablesReload();
+		                            Notification.new('success','Категории(ия) удалена(ы)');
+		                        },
+		                        403: function(jqXHR) {
+		                            var error = JSON.parse(jqXHR.responseText);
+		                            Notification.new('danger', error.message);
+		                        }
+		                    }
+						});
+					}
+				});
+			// Remove newscategories
+				new PopUp({target: 'remove-news'}, function(PopUp){
+					if(CheckBoxTable.selected.length == 0){
+						Notification.new('info','Выберите хотя бы 1 запись');
+						PopUp.hide();
+					} else{
+						$.ajax({
+							url: '/micro/site/news/remove',
+							contentType: 'application/json',
+							type: 'POST',
+							data: JSON.stringify(CheckBoxTable.selected),
+							complete: function() {
+		                    	PopUp.hide().clean();
+		                    }, 
+		                    statusCode: {
+		                        200: function() {
+		                            dataTablesReload();
+		                            Notification.new('success','Новость(и) удалена(ы)');
+		                        },
+		                        403: function(jqXHR) {
+		                            var error = JSON.parse(jqXHR.responseText);
+		                            Notification.new('danger', error.message);
+		                        }
+		                    }
+						});
+					}
+				});
+			// Add new providers
+				new PopUp({target: 'add-providers'}, function(PopUp){
+					$.ajax({
+						url: '/micro/store/providers/new',
+						type: 'POST',
+						data: PopUp.form.serialize(),
+						complete: function() {
+	                    	PopUp.hide().clean();
+	                    }, 
+	                    statusCode: {
+	                        200: function() {
+	                            dataTablesReload();
+	                            Notification.new('success', '<b>Добавлена</b> новая поставщик');
+	                        },
+	                        403: function(jqXHR) {
+	                            var error = JSON.parse(jqXHR.responseText);
+	                            Notification.new('danger', error.message);
+	                        }
+	                    }
+					});
+				});
+			// Remove newscategories
+				new PopUp({target: 'remove-providers'}, function(PopUp){
+					if(CheckBoxTable.selected.length == 0){
+						Notification.new('info','Выберите хотя бы 1 запись');
+						PopUp.hide();
+					} else{
+						$.ajax({
+							url: '/micro/store/providers/remove',
+							contentType: 'application/json',
+							type: 'POST',
+							data: JSON.stringify(CheckBoxTable.selected),
+							complete: function() {
+		                    	PopUp.hide().clean();
+		                    }, 
+		                    statusCode: {
+		                        200: function() {
+		                            dataTablesReload();
+		                            Notification.new('success','Поставщик(и) удален(ы)');
+		                        },
+		                        403: function(jqXHR) {
+		                            var error = JSON.parse(jqXHR.responseText);
+		                            Notification.new('danger', error.message);
+		                        }
+		                    }
+						});
+					}
+				});
+			// Edit newscategories
+				new PopUp({target: 'edit-providers', loadData: true, path: '/micro/store/providers/edit_data'}, function(PopUp){
+					$.ajax({
+						url: '/micro/store/providers/edit',
+						type: 'POST',
+						data: PopUp.form.serialize(),
+						complete: function() {
+	                    	PopUp.hide().clean();
+	                    }, 
+	                    statusCode: {
+	                        200: function() {
+	                            dataTablesReload();
+	                            Notification.new('success','Данные успешно изменены');
+	                        },
+	                        403: function(jqXHR) {
+	                            var error = JSON.parse(jqXHR.responseText);
+	                            Notification.new('danger', error.message);
+	                        }
+	                    }
+					});
+				});
+			// Add new unit
+				new PopUp({target: 'add-unit'}, function(PopUp){
+					$.ajax({
+						url: '/micro/store/units/new',
+						type: 'POST',
+						data: PopUp.form.serialize(),
+						complete: function() {
+	                    	PopUp.hide().clean();
+	                    }, 
+	                    statusCode: {
+	                        200: function() {
+	                            dataTablesReload();
+	                            Notification.new('success', '<b>Добавлена</b> новая еденица измерения');
+	                        },
+	                        403: function(jqXHR) {
+	                            var error = JSON.parse(jqXHR.responseText);
+	                            Notification.new('danger', error.message);
+	                        }
+	                    }
+					});
+				});
+			// Remove newscategories
+				new PopUp({target: 'remove-units'}, function(PopUp){
+					if(CheckBoxTable.selected.length == 0){
+						Notification.new('info','Выберите хотя бы 1 запись');
+						PopUp.hide();
+					} else{
+						$.ajax({
+							url: '/micro/store/units/remove',
+							contentType: 'application/json',
+							type: 'POST',
+							data: JSON.stringify(CheckBoxTable.selected),
+							complete: function() {
+		                    	PopUp.hide().clean();
+		                    }, 
+		                    statusCode: {
+		                        200: function() {
+		                            dataTablesReload();
+		                            Notification.new('success','Еденицы(а) измерения удалены(а)');
+		                        },
+		                        403: function(jqXHR) {
+		                            var error = JSON.parse(jqXHR.responseText);
+		                            Notification.new('danger', error.message);
+		                        }
+		                    }
+						});
+					}
+				});
+			// Add new unit
+				new PopUp({target: 'add-store-category'}, function(PopUp){
+					var name = PopUp.form.find('input[name=name]').val();
+					category.createNODE(name);
+					PopUp.hide().clean();
+				});
+			// Remove newscategories
+				new PopUp({target: 'remove-store-category'}, function(PopUp){
+					category.removeNODE();
+					PopUp.hide().clean();
+				});
 
 
 			/********************************************************************************************* 

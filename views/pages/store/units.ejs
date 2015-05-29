@@ -1,0 +1,93 @@
+<% layout('../../layout/base') -%>
+<% block('title', pageNameRu) -%>
+
+
+<div class="row">
+	<div class="col-ph-12">
+		<div class="app-card">
+			<div class="card-title clr">
+				<div class="card-header">
+					<h1>Еденицы <span>измерения</span></h1>
+				</div>
+				<div class="panel-tools">
+					<a data-tool="card-resize" class="tool-resize"></a>
+					<a data-tool="table-reload" class="tool-refresh" ></a>
+					<a data-tool="trigger" class="tool-more"><span class="notifications"></span></a>
+					<div class="tools-more">
+						<a data-modal="add-unit" class="tool-add"></a>
+						<a data-modal="edit-newscategories" data-tool="edit" class="tool-edit disabled"></a>
+						<a data-modal="remove-units" data-tool="remove" class="tool-remove disabled"></a>
+					</div>
+				</div>
+			</div>
+			<div class="card-content">
+				<table class="app-table" table-name="units">
+					<thead>
+						<tr>
+							<th></th>
+							<th>Мера</th>
+							<th>Значение/Описание</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="cd-modal" id="add-unit">
+	<div class="cd-modal-container">
+		<div class="cd-modal-title">
+			<h4>
+				Добавить <span>новую еденицу измерения</span>
+			</h4>
+			<button class="cd-modal-close ion-close"></button>
+		</div>
+		<form>
+			<div class="cd-modal-body">
+				<div class="form-group">
+					<label>Мера</label>
+					<input type="text" name="measure" class="form-control" placeholder="Еденица измерения">
+				</div>
+				<div class="form-group">
+					<label>Значение/Описание</label>
+					<input type="text" name="value" class="form-control" placeholder="Значение/Описание еденицы измерения">
+				</div>
+			</div>
+			<div class="cd-modal-footer text-right">
+				<button class="btn btn-success" type="submit">Добавить</button>
+				<button class="btn" type="reset">Отчистить</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="cd-modal" id="remove-units">
+	<div class="cd-modal-container">
+		<div class="cd-modal-title">
+			<h4>
+				Вы действительно хотите удалить<br> <span>выбранные записи?</span>
+			</h4>
+			<button class="cd-modal-close ion-close"></button>
+		</div>
+		<form id="usersRemove">
+			<div class="cd-modal-footer text-center">
+				<button class="btn btn-success" type="submit">Да</button>
+				<button class="btn cd-modal-close" type="reset">Нет</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -9,13 +9,47 @@
 				<div class="card-header">
 					<h1>Список <span>новостей</span></h1>
 				</div>
-				<div class="card-tools">
-					<a class="card-resize ion-arrow-resize"></a>
+				<div class="panel-tools">
+					<a data-tool="card-resize" class="tool-resize"></a>
+					<a data-tool="table-reload" class="tool-refresh" ></a>
+					<a data-tool="trigger" class="tool-more"><span class="notifications"></span></a>
+					<div class="tools-more">
+						<a href="/micro/site/news/new" class="tool-add"></a>
+						<a data-tool="edit-news" class="tool-edit disabled"></a>
+						<a data-modal="remove-news" data-tool="remove" class="tool-remove disabled"></a>
+					</div>
 				</div>
 			</div>
 			<div class="card-content">
-				xXx
+				<table class="app-table" table-name="news">
+					<thead>
+						<tr>
+							<th></th>
+							<th>Название</th>
+							<th>Категория</th>
+							<th>Автор</th>
+							<th>Дата Создание</th>
+						</tr>
+					</thead>
+				</table>
 			</div>
 		</div>
+	</div>
+</div>
+
+<div class="cd-modal" id="remove-news">
+	<div class="cd-modal-container">
+		<div class="cd-modal-title">
+			<h4>
+				Вы действительно хотите удалить<br> <span>выбранные записи?</span>
+			</h4>
+			<button class="cd-modal-close ion-close"></button>
+		</div>
+		<form id="usersRemove">
+			<div class="cd-modal-footer text-center">
+				<button class="btn btn-success" type="submit">Да</button>
+				<button class="btn cd-modal-close" type="reset">Нет</button>
+			</div>
+		</form>
 	</div>
 </div>

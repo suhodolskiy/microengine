@@ -1,0 +1,175 @@
+<% layout('../../layout/base') -%>
+<% block('title', pageNameRu) -%>
+
+
+<div class="row">
+	<div class="col-ph-12">
+		<div class="app-card">
+			<div class="card-title clr">
+				<div class="card-header">
+					<h1>Список <span>поставщиков</span></h1>
+				</div>
+				<div class="panel-tools">
+					<a data-tool="card-resize" class="tool-resize"></a>
+					<a data-tool="table-reload" class="tool-refresh" ></a>
+					<a data-tool="trigger" class="tool-more"><span class="notifications"></span></a>
+					<div class="tools-more">
+						<a data-modal="add-providers" class="tool-add"></a>
+						<a data-modal="edit-providers" class="tool-edit"></a>
+						<a data-modal="remove-providers" class="tool-remove"></a>
+					</div>
+				</div>
+			</div>
+			<div class="card-content">
+				<table class="app-table" table-name="providers">
+					<thead>
+						<tr>
+							<th></th>
+							<th>Название</th>
+							<th>Адрес</th>
+							<th>УНП</th>
+							<th>Телефон</th>
+							<th>E-mail</th>
+							<th>Название банка</th>
+							<th>Адрес банка</th>
+							<th>МФО</th>
+							<th>Рассчетный счет</th>
+							<th>Дата добавления</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="cd-modal" id="remove-providers">
+	<div class="cd-modal-container">
+		<div class="cd-modal-title">
+			<h4>
+				Вы действительно хотите удалить<br> <span>выбранные записи?</span>
+			</h4>
+			<button class="cd-modal-close ion-close"></button>
+		</div>
+		<form id="usersRemove">
+			<div class="cd-modal-footer text-center">
+				<button class="btn btn-success" type="submit">Да</button>
+				<button class="btn cd-modal-close" type="reset">Нет</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="cd-modal" id="add-providers">
+	<div class="cd-modal-container">
+		<div class="cd-modal-title">
+			<h4>
+				Добавить <span>нового поставщика</span>
+			</h4>
+			<button class="cd-modal-close ion-close"></button>
+		</div>
+		<form>
+			<div class="cd-modal-body">
+				<div class="form-group">
+					<label>Название организации</label>
+					<input type="text" name="name" class="form-control" placeholder="Название организации">
+				</div>
+				<div class="form-group">
+					<label>Адрес</label>
+					<input type="text" name="address" class="form-control" placeholder="Адрес организации">
+				</div>
+				<div class="form-group">
+					<label>УНП</label>
+					<input type="text" name="unp" class="form-control" placeholder="УНП организации">
+				</div>
+				<div class="form-group">
+					<label>Телефон</label>
+					<input type="text" name="phone" class="form-control" placeholder="Телефон организации">
+				</div>
+				<div class="form-group">
+					<label>E-mail</label>
+					<input type="email" name="email" class="form-control" placeholder="E-mail организации">
+				</div>
+				<div class="form-group">
+					<label>Рассчетный счет</label>
+					<input type="text" name="expense" class="form-control" placeholder="Рассчетный счет организации">
+				</div>
+				<div class="form-group">
+					<label>Банк</label>
+					<input type="text" name="bank_name" class="form-control" placeholder="Название банка">
+				</div>
+				<div class="form-group">
+					<label>Адрес</label>
+					<input type="text" name="bank_address" class="form-control" placeholder="Адрес банка">
+				</div>
+				<div class="form-group">
+					<label>МФО</label>
+					<input type="text" name="bank_mfo" class="form-control" placeholder="МФО банка">
+				</div>
+			</div>
+			<div class="cd-modal-footer text-right">
+				<button class="btn btn-success" type="submit">Добавить</button>
+				<button class="btn" type="reset">Отчистить</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="cd-modal" id="edit-providers">
+	<div class="cd-modal-container">
+		<div class="cd-modal-title">
+			<h4>
+				Редактирование <span>данных поставщика</span>
+			</h4>
+			<button class="cd-modal-close ion-close"></button>
+		</div>
+		<form>
+			<div class="cd-modal-body">
+				<div class="form-group hide">
+					<label>ID</label>
+					<input type="text" name="id" class="form-control">
+				</div>
+				<div class="form-group">
+					<label>Название организации</label>
+					<input type="text" name="name" class="form-control" placeholder="Название организации">
+				</div>
+				<div class="form-group">
+					<label>Адрес</label>
+					<input type="text" name="address" class="form-control" placeholder="Адрес организации">
+				</div>
+				<div class="form-group">
+					<label>УНП</label>
+					<input type="text" name="unp" class="form-control" placeholder="УНП организации">
+				</div>
+				<div class="form-group">
+					<label>Телефон</label>
+					<input type="text" name="phone" class="form-control" placeholder="Телефон организации">
+				</div>
+				<div class="form-group">
+					<label>E-mail</label>
+					<input type="email" name="email" class="form-control" placeholder="E-mail организации">
+				</div>
+				<div class="form-group">
+					<label>Рассчетный счет</label>
+					<input type="text" name="expense" class="form-control" placeholder="Рассчетный счет организации">
+				</div>
+				<div class="form-group">
+					<label>Банк</label>
+					<input type="text" name="bank_name" class="form-control" placeholder="Название банка">
+				</div>
+				<div class="form-group">
+					<label>Адрес</label>
+					<input type="text" name="bank_address" class="form-control" placeholder="Адрес банка">
+				</div>
+				<div class="form-group">
+					<label>МФО</label>
+					<input type="text" name="bank_mfo" class="form-control" placeholder="МФО банка">
+				</div>
+			</div>
+			<div class="cd-modal-footer text-right">
+				<button class="btn btn-success" type="submit">Изменить</button>
+				<button class="btn" type="reset">Отмена</button>
+			</div>
+		</form>
+	</div>
+</div>

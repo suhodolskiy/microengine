@@ -9,13 +9,105 @@
 				<div class="card-header">
 					<h1>Категории <span>новостей</span></h1>
 				</div>
-				<div class="card-tools">
-					<a class="card-resize ion-arrow-resize"></a>
+				<div class="panel-tools">
+					<a data-tool="card-resize" class="tool-resize"></a>
+					<a data-tool="table-reload" class="tool-refresh" ></a>
+					<a data-tool="trigger" class="tool-more"><span class="notifications"></span></a>
+					<div class="tools-more">
+						<a data-modal="add-newscategories" class="tool-add"></a>
+						<a data-modal="edit-newscategories" data-tool="edit" class="tool-edit disabled"></a>
+						<a data-modal="remove-newscategories" data-tool="remove" class="tool-remove disabled"></a>
+					</div>
 				</div>
 			</div>
 			<div class="card-content">
-				xXx
+				<table class="app-table" table-name="newscategories">
+					<thead>
+						<tr>
+							<th></th>
+							<th>Название</th>
+							<th>URL</th>
+							<th>Автор</th>
+							<th>Дата создания</th>
+						</tr>
+					</thead>
+				</table>
 			</div>
 		</div>
+	</div>
+</div>
+
+<div class="cd-modal" id="add-newscategories">
+	<div class="cd-modal-container">
+		<div class="cd-modal-title">
+			<h4>
+				Добавить <span>новую категорию</span>
+			</h4>
+			<button class="cd-modal-close ion-close"></button>
+		</div>
+		<form>
+			<div class="cd-modal-body">
+				<div class="form-group">
+					<label>Название</label>
+					<input type="text" name="name" class="form-control translit-input" placeholder="Название категории">
+				</div>
+				<div class="form-group">
+					<label>URL</label>
+					<input type="text" name="nameTrslt" class="form-control translit-output" placeholder="URL формируеться автоматически из название категории" readonly>
+				</div>
+			</div>
+			<div class="cd-modal-footer text-right">
+				<button class="btn btn-success" type="submit">Добавить</button>
+				<button class="btn" type="reset">Отчистить</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="cd-modal" id="edit-newscategories">
+	<div class="cd-modal-container">
+		<div class="cd-modal-title">
+			<h4>
+				Редактирование <span>категории</span>
+			</h4>
+			<button class="cd-modal-close ion-close"></button>
+		</div>
+		<form id="users-edit">
+			<div class="cd-modal-body">
+				<div class="form-group hide">
+					<label>ID</label>
+					<input type="text" name="id" class="form-control">
+				</div>
+				<div class="form-group">
+					<label>Название</label>
+					<input type="text" name="name" class="form-control translit-input" placeholder="Название категории">
+				</div>
+				<div class="form-group">
+					<label>URL</label>
+					<input type="text" name="nameTrslt" class="form-control translit-output" placeholder="URL формируеться автоматически из название категории" readonly>
+				</div>
+			</div>
+			<div class="cd-modal-footer text-center">
+				<button class="btn btn-success" type="submit">Изменить</button>
+				<button class="btn cd-modal-close" type="reset">Отмена</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="cd-modal" id="remove-newscategories">
+	<div class="cd-modal-container">
+		<div class="cd-modal-title">
+			<h4>
+				Вы действительно хотите удалить<br> <span>выбранные записи?</span>
+			</h4>
+			<button class="cd-modal-close ion-close"></button>
+		</div>
+		<form id="usersRemove">
+			<div class="cd-modal-footer text-center">
+				<button class="btn btn-success" type="submit">Да</button>
+				<button class="btn cd-modal-close" type="reset">Нет</button>
+			</div>
+		</form>
 	</div>
 </div>
