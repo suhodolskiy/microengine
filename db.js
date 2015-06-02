@@ -2,7 +2,7 @@ var mongoose = require('./components/mongoose'),
     log = require('./components/log')(module),
     async = require('async');
 
-var Goods = require('./models/goods.js').Goods;
+var GoodsTurnover = require('./models/goodsturnover.js').GoodsTurnover;
 
 
 

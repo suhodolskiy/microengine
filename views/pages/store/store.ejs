@@ -1,69 +1,280 @@
 <% layout('../../layout/store') -%>
 <% block('title', pageNameRu) -%>
 
-
 <div class="row">
 	<div class="col-ph-12">
-		<div class="app-card">
-			<div class="card-title clr">
-				<div class="card-header">
-					<h1>Складской <span>учет</span></h1>
-				</div>
-				<div class="panel-tools store">
-					<a data-tool="card-resize" class="tool-resize"></a>
-					<a data-tool="trigger" class="tool-more"><span class="notifications"></span></a>
-					<div class="tools-more">
-						<a data-modal="add-newscategories" class="tool-add"></a>
-						<a data-modal="edit-newscategories" data-tool="edit" class="tool-edit disabled"></a>
-						<a data-modal="remove-newscategories" data-tool="remove" class="tool-remove disabled"></a>
-					</div>
-					<a class="divider"></a>
-					<a data-modal="add-store-category" class="tool-add"></a>
-					<a data-tool="category-edit" class="tool-edit disabled"></a>
-					<a data-tool="category-remove" data-modal="remove-store-category" class="tool-remove disabled"></a>
-				</div>
+		<div class="app-card store clr">
+			<div class="app-card-category">
+				<div id="store-category" style="overflow: scroll"></div>
+				<div class="store-category-panel"></div>
 			</div>
-			<div class="card-content">
-				<div class="row-fluid">
-					<div class="col-ld-2">
-				  		<div id="store-category" style="overflow: scroll;"></div>
+			<div class="app-card-content">
+				<div class="card-title clr">
+					<div class="card-header">
+						<h1>Складской <span>учет</span></h1>
 					</div>
-					<div class="col-ld-10">
-						<table class="app-table " table-store="goods">
-							<thead>
-								<tr>
-									<th></th>
-									<th>Наименование</th>
-									<th>Кол-во</th>
-									<th>Ед.изм</th>
-									<th>Закуп.стоимость</th>
-									<th>Наценка</th>
-									<th>Цена</th>
-									<th>Всего</th>
-								</tr>
-							</thead>
-						</table>
-						<table class="app-table" table-store="motion">
-							<thead>
-								<tr>
-									<th></th>
-									<th></th>
-									<th>Кол-во</th>
-									<th>Цена</th>
-									<th>Сумма</th>
-									<th>Дата</th>
-									<th>№ документа</th>
-									<th>Поставщик</th>
-									<th>Комментарий</th>
-								</tr>
-							</thead>
-						</table>
+					<div class="panel-tools store">
+						<a data-tool="card-resize" class="tool-resize"></a>
+						<a data-tool="trigger" class="tool-more"><span class="notifications"></span></a>
+						<div class="tools-more">
+							<a data-modal="add-store-goods" class="tool-add"></a>
+							<a data-modal="remove-store-goods" class="tool-remove"></a>
+							<a data-modal="edit-store-goods" class="tool-edit"></a>
+							<a data-modal="supply-store-goods" class="tool-supply"></a>
+							<a data-modal="sale-store-goods" class="tool-sale"></a>
+							
+						</div>
+						<a class="divider"></a>
+						<a data-modal="add-store-category" class="tool-add"></a>
+						<a data-tool="category-edit" class="tool-edit disabled"></a>
+						<a data-tool="category-remove" data-modal="remove-store-category" class="tool-remove disabled"></a>
 					</div>
+				</div>
+				<div class="card-content">
+					<table class="app-table " table-store="goods">
+						<thead>
+							<tr>
+								<th></th>
+								<th>Наименование</th>
+								<th>Кол-во</th>
+								<th>Ед.изм</th>
+								<th>Закуп.стоимость</th>
+								<th>Наценка</th>
+								<th>Цена</th>
+								<th>Всего</th>
+							</tr>
+						</thead>
+					</table>
+					<table class="app-table" table-store="turnover">
+						<thead>
+							<tr>
+								<th></th>
+								<th>Тип</th>
+								<th>№ документа</th>
+								<th>Дата</th>
+								<th>Кол-во</th>
+								<th>Закуп. стоимость</th>
+								<th>Сумма</th>
+								<th>Поставщик</th>
+								<th>Комментарий</th>
+								<th>Провел</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
 
+
+
+
+
+
+<!-- Goods -->
+
+<div class="cd-modal" id="edit-store-goods">
+	<div class="cd-modal-container">
+		<div class="cd-modal-title">
+			<h4>
+				Редактирование <span>товара</span>
+			</h4>
+			<button class="cd-modal-close ion-close"></button>
+		</div>
+		<form id="edit-store-goods">
+			<div class="cd-modal-body">
+				<div class="form-group hide">
+					<label>ID</label>
+					<input type="text" name="id" class="form-control">
+				</div>
+				<div class="form-group">
+					<label>Название</label>
+					<input type="text" name="name" class="form-control" placeholder="Название товара">
+				</div>
+				<div class="form-group">
+					<label>Еденица измерения</label>
+					<select name="unit" class="form-control">
+						<% units.forEach(function(unit) { %>
+        					<option value="<%= unit.measure %>"><%= unit.measure %></option>
+   						 <% }); %>
+					</select>
+				</div>
+				<div class="form-group">
+					<label>Наценка</label>
+					<input type="text" name="markup" class="form-control" placeholder="Торговая наценка">
+				</div>
+			</div>
+			<div class="cd-modal-footer text-center">
+				<button class="btn btn-success" type="submit">Изменить</button>
+				<button class="btn cd-modal-close" type="reset">Отмена</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+<div class="cd-modal" id="sale-store-goods">
+	<div class="cd-modal-container">
+		<div class="cd-modal-title">
+			<h4>
+				Продажа <span>товара</span>
+			</h4>
+			<button class="cd-modal-close ion-close"></button>
+		</div>
+		<form>
+			<div class="cd-modal-body">
+				<div class="form-group hide">
+					<label>ID</label>
+					<input type="text" name="id" class="form-control">
+				</div>
+				<div class="form-group">
+					<label>Количество</label>
+					<input type="text" name="qty" class="form-control" placeholder="Количество товара" id="goods-sale-qty">
+				</div>
+				<div class="form-group readonly">
+					<label>Цена</label>
+					<input type="text" name="price" class="form-control" placeholder="Цена товара" id="goods-sale-price" readonly>
+				</div>
+				<div class="form-group readonly">
+					<label>Всего</label>
+					<input type="text" name="sum" class="form-control" placeholder="Сумма" id="goods-sale-sum" readonly>
+				</div>
+				<div class="form-group">
+					<label>Комментарий</label>
+					<textarea name="comment" class="form-control" placeholder="Комментарий" rows="5"></textarea>
+				</div>
+			</div>
+			<div class="cd-modal-footer text-right">
+				<button class="btn btn-success" type="submit">Продать</button>
+				<button class="btn" type="reset">Отчистить</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="cd-modal" id="supply-store-goods">
+	<div class="cd-modal-container">
+		<div class="cd-modal-title">
+			<h4>
+				Поступление <span>товара</span>
+			</h4>
+			<button class="cd-modal-close ion-close"></button>
+		</div>
+		<form>
+			<div class="cd-modal-body">
+				<div class="form-group hide">
+					<label>ID</label>
+					<input type="text" name="id" class="form-control">
+				</div>
+				<div class="form-group hide">
+					<label>Sum Purchase Price </label>
+					<input type="text" name="sum" class="form-control" id="goods-sum">
+				</div>
+				<div class="form-group readonly">
+					<label>Название</label>
+					<input type="text" name="name" class="form-control" placeholder="Название товара" readonly>
+				</div>
+				<div class="form-group">
+					<label>Кол-во</label>
+					<input type="text" name="qty" class="form-control" placeholder="Количество товара" id="goods-qty">
+				</div>
+				<div class="form-group">
+					<label>Закупочная цена</label>
+					<input type="text" name="purchaseprice" class="form-control" placeholder="Закупочная цена товара" id="goods-purchaseprice">
+				</div>
+				<div class="form-group readonly">
+					<label>Наценка</label>
+					<input type="text" name="markup" class="form-control" placeholder="Торговая наценка" id="goods-markup" readonly>
+				</div>
+				<div class="form-group readonly">
+					<label>Цена</label>
+					<input type="text" name="price" class="form-control" placeholder="Цена товара с наценкой" id="goods-price" readonly>
+				</div>
+				<div class="form-group divider"></div>
+				<div class="form-group">
+					<label>Поставщик</label>
+					<select name="provider" class="form-control">
+						<% providers.forEach(function(provider) { %>
+        					<option value="<%= provider._id %>"><%= provider.name %></option>
+   						 <% }); %>
+					</select>
+				</div>
+				<div class="form-group">
+					<label>Номер документа</label>
+					<input type="text" name="doc" class="form-control" placeholder="Номер товарной накладной" id="goods-qty">
+				</div>
+				<div class="form-group">
+					<label>Комментарий</label>
+					<textarea name="comment" class="form-control" placeholder="Комментарий" rows="5"></textarea>
+				</div>
+			</div>
+			<div class="cd-modal-footer text-right">
+				<button class="btn btn-success" type="submit">Добавить</button>
+				<button class="btn" type="reset">Отчистить</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="cd-modal" id="add-store-goods">
+	<div class="cd-modal-container">
+		<div class="cd-modal-title">
+			<h4>
+				Добавить <span>новый товар</span>
+			</h4>
+			<button class="cd-modal-close ion-close"></button>
+		</div>
+		<form>
+			<div class="cd-modal-body">
+				<div class="form-group">
+					<label>Название</label>
+					<input type="text" name="name" class="form-control" placeholder="Название товара">
+				</div>
+				<div class="form-group">
+					<label>Еденица измерения</label>
+					<select name="unit" class="form-control">
+						<% units.forEach(function(unit) { %>
+        					<option value="<%= unit.measure %>"><%= unit.measure %></option>
+   						 <% }); %>
+					</select>
+				</div>
+				<div class="form-group">
+					<label>Наценка</label>
+					<input type="text" name="markup" class="form-control" placeholder="Торговая наценка">
+				</div>
+			</div>
+			<div class="cd-modal-footer text-right">
+				<button class="btn btn-success" type="submit">Добавить</button>
+				<button class="btn" type="reset">Отчистить</button>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="cd-modal" id="remove-store-goods">
+	<div class="cd-modal-container">
+		<div class="cd-modal-title">
+			<h4>
+				Вы действительно хотите удалить<br> <span>выбранный товар?</span>
+			</h4>
+			<button class="cd-modal-close ion-close"></button>
+		</div>
+		<form id="usersRemove">
+			<div class="cd-modal-footer text-center">
+				<button class="btn btn-success" type="submit">Да</button>
+				<button class="btn cd-modal-close" type="reset">Нет</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+<!-- Category -->
 <div class="cd-modal" id="remove-store-category">
 	<div class="cd-modal-container">
 		<div class="cd-modal-title">

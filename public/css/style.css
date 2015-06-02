@@ -657,6 +657,10 @@ figure {
 .app-table tbody tr.row-selected{
     background: #ffffbe;  
 }
+/* row selected */
+.app-table tbody tr.select{
+    background: rgba(34, 166, 89, 0.56); 
+}
 
 /* child - drop */
 .app-table tbody tr.child{
@@ -787,6 +791,45 @@ figure {
     z-index: 900;
 }
 
+
+
+
+.app-card.store{padding: 0;}
+.app-card-category,
+.app-card-content{
+    float: left;
+}
+
+.app-card-category{
+    position: relative;
+    padding: 20px 20px 30px!important;
+    background: #293c4d;
+    min-height: 500px;
+    height: 100%;
+    width: 20%;
+}
+/*.store-category-panel{
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%;
+    height: 30px;
+    background: red;
+}
+*/
+
+.app-card-content{
+    padding: 0 20px;
+    width: 80%;
+}
+
+
+
+
+
+
+
+
+
 /********************************************************************************************* 
 
             5.3.2 Title Card
@@ -869,6 +912,8 @@ figure {
 .panel-tools .tool-add:before{content: '\f217';}
 .panel-tools .tool-edit:before{content: '\f2bf';}
 .panel-tools .tool-remove:before{content: '\f252';}
+.panel-tools .tool-supply:before{content: '\f267';}
+.panel-tools .tool-sale:before{content: '\f25e';}
 
 
 
@@ -1093,11 +1138,17 @@ figure {
     padding: 7px 12px;
     margin-bottom:10px;
 }
+.form-group.divider{
+    border: 0;
+}
 .form-group.hide{
     display: none;
 }
 .form-group.focus{
-    background: #f0f0f0;
+    /*background: #f0f0f0;*/
+}
+.form-group.readonly{
+    background: #f7f7f7;
 }
 
 .form-group.clear{

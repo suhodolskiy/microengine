@@ -80,6 +80,17 @@ var express = require('express'),
 			router.get('/store', checkAuth, require('./store').get);
 
 				router.post('/store/goods/data', checkAuth, require('./store/goods/data').post);
+					router.post('/store/goods/new', checkAuth, require('./store/goods/new').post);
+					router.post('/store/goods/remove', checkAuth, require('./store/goods/remove').post);
+					router.post('/store/goods/edit_data', checkAuth, require('./store/goods/edit_data').post);
+
+					router.post('/store/goods/supply_data', checkAuth, require('./store/goods/supply_data').post);
+					router.post('/store/goods/supply', checkAuth, require('./store/goods/supply').post);
+
+					router.post('/store/goods/sale_data', checkAuth, require('./store/goods/sale_data').post);
+					router.post('/store/goods/sale', checkAuth, require('./store/goods/sale').post);
+
+				router.post('/store/turnover/data', checkAuth, require('./store/turnover/data').post);
 
 				router.get('/store/category/data', checkAuth, require('./store/category/data').get);
 					router.post('/store/category/transfer', checkAuth, require('./store/category/transfer').post);

@@ -416,78 +416,73 @@
 
 		// Chart
 
+		function ChartRates(options){
+			this.canvas = $(options.chart);
+			this.url = options.url;
+			this.options = {
+				labels: [],
+				datasets: {
+					USD: {
+						label: "USD",
+						fillColor: "rgba(220,220,220,0.5)",
+						strokeColor: "rgba(220,220,220,8)",
+						pointColor: "rgba(220,220,220,8)",
+						pointStrokeColor: "#fff",
+				        pointHighlightFill: "#fff",
+				        pointHighlightStroke: "rgba(220,220,220,1)"
+					},
+					EUR: {
+						label: "EUR",
+						fillColor: "rgba(151,187,205,0.2)",
+						strokeColor: "rgba(151,187,205,1)",
+						pointColor: "rgba(151,187,205,1)",
+						pointStrokeColor: "#fff",
+						pointHighlightFill: "#fff",
+						pointHighlightStroke: "rgba(151,187,205,1)"
+					},
+					RUB: {
+						label: "RUB",
+						fillColor: "rgba(34,166,80,0.2)",
+						strokeColor: "#22a659",
+						pointColor: "#22a659",
+						pointStrokeColor: "#fff",
+						pointHighlightFill: "#fff",
+						pointHighlightStroke: "rgba(151,187,205,1)"
+					}
+				}
+			};
 
-		// function ChartRates(options){
-		// 	this.canvas = $(options.chart);
+			if(!this.canvas.length){return false;}
 
-		// 	console.log('obj1');
+			this.chart = new Chart(this.canvas.get(0).getContext("2d")).Line(this.options, {responsive: true}); 
 
-		// 	if(!this.canvas.length || location.path == '/micro'){return false;}
+			this.get();
+		};
 
+		ChartRates.prototype.drop = function(){
+			var Rate = this;
 
-		// 	console.log('obj2');
+			
+			$.each(this.chart.datasets, function(i, points) {
+				console.log(points.length);
+			});
+		};
+		ChartRates.prototype.get = function(){
+			var Rate = this;
 
-		// 	this.url = options.url;
-		// 	this.data = {
-		// 		labels: [],
-		// 		datasets: {
-		// 			USD: {
-		// 				label: "USD",
-		// 				fillColor: "rgba(220,220,220,0.5)",
-		// 				strokeColor: "rgba(220,220,220,8)",
-		// 				pointColor: "rgba(220,220,220,8)",
-		// 				pointStrokeColor: "#fff",
-		// 		        pointHighlightFill: "#fff",
-		// 		        pointHighlightStroke: "rgba(220,220,220,1)"
-		// 			},
-		// 			EUR: {
-		// 				label: "EUR",
-		// 				fillColor: "rgba(151,187,205,0.2)",
-		// 				strokeColor: "rgba(151,187,205,1)",
-		// 				pointColor: "rgba(151,187,205,1)",
-		// 				pointStrokeColor: "#fff",
-		// 				pointHighlightFill: "#fff",
-		// 				pointHighlightStroke: "rgba(151,187,205,1)"
-		// 			},
-		// 			RUB: {
-		// 				label: "RUB",
-		// 				fillColor: "rgba(34,166,80,0.2)",
-		// 				strokeColor: "#22a659",
-		// 				pointColor: "#22a659",
-		// 				pointStrokeColor: "#fff",
-		// 				pointHighlightFill: "#fff",
-		// 				pointHighlightStroke: "rgba(151,187,205,1)"
-		// 			}
-		// 		}
-		// 	};
-		// 	// this.chart = new Chart(this.canvas.get(0).getContext("2d")).Line(this.data, {
-		// 	// 	responsive: true
-		// 	// }); 
-		// };
-		// ChartRates.prototype.get = function(){
-		// 	var Rate = this;
-
-		// 	$.ajax({
-		// 		url: Rate.url,
-		// 		type: 'GET',
-		// 		success: function(data){
-		// 			$.each(data, function(i, rate) {
-		// 				Rate.chart.addData([rate.USD, rate.EUR, rate.RUB], moment(rate.date).format('MM.D.YYYY'));
-		// 			});
-		// 		}
-		// 	});		
-
-		// 	return Rate;	
-		// };
-		// ChartRates.prototype.init = function(){
-		// 	this.chart = new Chart(this.chart).Line(this.data, {
-		// 		responsive: true
-		// 	});
-		// 	return this;
-		// }
+			$.ajax({
+				url: Rate.url,
+				type: 'GET',
+				success: function(data){
+					$.each(data, function(i, rate) {
+						Rate.chart.addData([rate.USD, rate.EUR, rate.RUB], moment(rate.date).format('MM.D.YYYY'));
+					});
+				}
+			});	
+		}
 
 
-		// test = new ChartRates({chart: '#chart-rates', url: '/micro/rates'}).get();
+		new ChartRates({chart: '#chart-rates', url: '/micro/rates'});
 
 
 
@@ -545,10 +540,6 @@
 		new Translit({input: '.translit-input', output: '.translit-output'});
 
 
-
-
-
-
 		/********************************************************************************************* 
 
 			Store Tree - Class
@@ -587,7 +578,13 @@
 			Category.tree.bind("select_node.jstree", function (e, data) {
 				Category.selected = data.node.id;
 				panelTools.setSelected();
-				goods.reload();
+
+
+
+				goods.reload().reset();
+				turnover.reload();
+
+
 			}).bind("move_node.jstree", function (e, data) {
 				$.ajax({
 					url: '/micro/store/category/transfer',
@@ -722,13 +719,16 @@
 			Store Goods - Class
 			
 		*********************************************************************************************/
-
+		
 		function Goods(options){
-			if(!options.table.length){return false;}
-	
 			var Goods = this;
-			this.selected = null;
-			this.table = options.table.DataTable({
+
+			if(!options.table.length){return false;}
+			this.select = null;
+
+			// this.checkbox = new Checkbox('goods');
+			this.table = options.table;
+			this.datatable = this.table.DataTable({
 				"dataSrc": "data",
 				"responsive": true,
 				"ajax": {
@@ -752,7 +752,7 @@
 						"mDataProp": "name", "sDefaultContent": "n/a"
 					},
 					{
-						"mDataProp": "amount", "sDefaultContent": "n/a"
+						"mDataProp": "qty", "sDefaultContent": "n/a"
 					},
 					{
 						"mDataProp": "unit", "sDefaultContent": "n/a"
@@ -765,29 +765,211 @@
 						"sDefaultContent": "n/a", 
 						"className": "none", 
 						"mRender": function(data){
-							return data+'%';
+							return rateString(data);
 						}
 					},
 					{
 						"mDataProp": "price", "sDefaultContent": "n/a"
 					},
 					{
-						"mDataProp": "only", "sDefaultContent": "n/a"
+						"mDataProp": "sum", "sDefaultContent": "n/a"
 					},
 
 				],
 				"createdRow": function (row, data, index) {
-					$(row).attr('data-id', data._id);
+					$(row).attr('data-id', data._id).children('.td-trigger');
 				}
 			});
+			
+
+			this.table.on( 'click', 'td', function (event) {
+				var $this = $(this), $row = $this.closest('tr'), $rows = $row.siblings('tr');
+
+				if($(event.target).is($this.children('i.fa'))){return false;}
+
+				if($row.hasClass('row-selected')){
+					$row.removeClass('row-selected');
+					Goods.select = null;
+				} else {
+					$rows.removeClass('row-selected');
+					$row.addClass('row-selected');
+					Goods.select = $row.data('id');
+				}
+
+				turnover.reload();
+			});
+
+
 		};
 
+		Goods.prototype.reset = function(){
+			this.select = null;
+			
+			return this;
+		}
+
 		Goods.prototype.reload = function(){
-			this.table.ajax.reload(function(){},true);
+			this.datatable.ajax.reload();
+
+			return this;
 		};
 
 		goods = new Goods({table: $('[table-store=goods]')});
 
+
+		function Turnover(options){
+			var Turnover = this;
+
+			if(!options.table.length){return false;}
+
+			this.table = options.table;
+			this.datatable = this.table.DataTable({
+				"dataSrc": "data",
+				"responsive": true,
+				"ajax": {
+					"url": "/micro/store/turnover/data",
+					"type": 'POST',
+					"data": {
+						id: function(){return goods.select}
+					}
+				},	
+				"aoColumns": [
+					{
+						"mDataProp": "_id", 
+						"sDefaultContent": "n/a",
+						"mRender": function ( data, type, full) {
+							return '<i class="fa fa-plus-circle"></i>'; 
+						},
+						"sClass": "td-trigger", 
+						"width": "30px"
+					},
+					{
+						"mDataProp": "type",
+						"sDefaultContent": "n/a", 
+						"mRender": function(data){
+							if(data == 1){
+								return 'Приход';
+							} else {
+								return 'Расход'
+							}
+						}
+					},
+					{
+						"mDataProp": "doc", 
+						"sDefaultContent": "n/a",
+						"mRender": function(data){
+							if(data == undefined){
+								data = 'n/a';
+							};
+							return '<span class="muted">'+data+'</span>';
+						}
+					},
+					{
+						"mDataProp": "date", 
+						"sDefaultContent": "n/a",
+						"mRender": function(data){
+							return '<span class="muted">'+moment(data).format("DD-MM-YYYY")+'</span>';
+						}
+					},
+					{
+						"mDataProp": "qty", "sDefaultContent": "n/a"
+					},
+					{
+						"mDataProp": "price", "sDefaultContent": "n/a"
+					},
+					{
+						"mDataProp": "sum", "sDefaultContent": "n/a"
+					},
+					{
+						"mDataProp": "_provider[0].name", "sDefaultContent": "n/a", "className": "none"
+					},
+					{
+						"mDataProp": "comment", "sDefaultContent": "n/a", "className": "none"
+					},
+					{
+						"mDataProp": "_creator[0].name", "sDefaultContent": "n/a", "className": "none"
+					}
+
+				],
+				"createdRow": function (row, data, index) {
+					$(row).attr('data-id', data._id).children('.td-trigger');
+				}
+			});
+		};
+
+		Turnover.prototype.reload = function(){
+			this.datatable.ajax.reload();
+		};
+
+		turnover = new Turnover({table: $('[table-store=turnover]')});
+
+
+		function nb(str){
+			var VRegExp = new RegExp(/^(\s|\u00A0)+/g); 
+			return Number(str.replace(/\s/g, ''));
+		};
+		function rateString(rate){
+			return String(rate)+'%';
+		};
+		function rateNumber(rate){
+			return (Number(rate.replace('%',''))+100)/100;
+		};	
+		function roadPrice(price){
+			return (Math.round(price / 100) * 100).toFixed(0);
+		};
+
+		/********************************************************************************************* 
+			
+			Goods Сalculation - Class
+
+		*********************************************************************************************/
+
+		function GoodsCalculation(input, output){
+			this.input = input;
+			this.output = output;
+
+			this.input.purchaseprice.keyup(function(){
+				count();
+			});	
+			this.input.markup.keyup(function(){
+				count();
+			});
+			this.input.qty.keyup(function(){
+				count();
+			});
+
+			var Goods = this;
+
+			function count(){
+				console.log('test');
+				var markup = rateNumber(Goods.input.markup.val()),
+					purchaseprice = nb(Goods.input.purchaseprice.val()),
+					qty = nb(Goods.input.qty.val());
+
+				Goods.output.price.val(roadPrice(markup*purchaseprice));
+			}
+
+			function pc(str){
+				return Number('0.'+str.replace('%',''));
+			};
+			
+		}
+
+		new GoodsCalculation({qty: $("#goods-qty"), purchaseprice: $("#goods-purchaseprice"), markup: $("#goods-markup")}, {price: $("#goods-price")});
+
+
+		function SaleCalculation(input, output){
+			this.input = input;
+			this.output = output;
+
+			var Goods = this;
+
+			this.input.qty.keyup(function(){
+				Goods.output.sum.val(roadPrice(nb(Goods.input.price.val())*nb(Goods.input.qty.val())));
+			});
+		};
+
+		new SaleCalculation({qty: $('#goods-sale-qty'), price: $('#goods-sale-price')},{sum: $('#goods-sale-sum')});
 
 		/********************************************************************************************* 
 
@@ -795,7 +977,7 @@
 			
 		*********************************************************************************************/
 
-		function PanelTools(options){
+		function PanelTools(options, action, selected){
 			this.panel = $(options.panel);
 			this.tools = this.panel.find('[data-tool]');
 			this.trigger = this.panel.children('[data-tool=trigger]');
@@ -804,6 +986,35 @@
 
 			var PanelTools = this;
 
+
+			action(this);
+
+			
+		};
+		PanelTools.prototype.setSelected = function(){
+			var PanelTools = this;
+				lSelected = CheckBoxTable.selected.length;
+
+
+			if(lSelected > 0){ 
+				this.noti.addClass('is-visible').html(lSelected); 
+			} else{ 
+				this.noti.removeClass('is-visible').html(''); 
+			}
+			PanelTools.tools.each(function(i, tool){
+				var tool = $(tool);
+
+				if(tool.data('tool') == 'edit' || tool.data('tool') == 'edit-page' || tool.data('tool') == 'edit-news'){
+					if(lSelected == 1){ tool.removeClass('disabled'); } else{ tool.addClass('disabled'); }	
+				}
+				if(tool.data('tool') == 'remove'){
+					if(lSelected > 0){ tool.removeClass('disabled'); } else{ tool.addClass('disabled'); }	
+				}
+			});
+		};
+		
+		// init
+		panelTools = new PanelTools({panel:'.panel-tools'}, function(PanelTools){
 			PanelTools.tools.click(function() {
 				switch ($(this).data('tool')){
 					case 'trigger':
@@ -830,38 +1041,7 @@
 					break;
 				};
 			});
-		};
-		PanelTools.prototype.setSelected = function(){
-			var PanelTools = this,
-				lSelected = CheckBoxTable.selected.length;
-
-			if(lSelected > 0){ 
-				this.noti.addClass('is-visible').html(lSelected); 
-			} else{ 
-				this.noti.removeClass('is-visible').html(''); 
-			}
-			PanelTools.tools.each(function(i, tool){
-				var tool = $(tool);
-
-				if(tool.data('tool') == 'edit' || tool.data('tool') == 'edit-page' || tool.data('tool') == 'edit-news'){
-					if(lSelected == 1){ tool.removeClass('disabled'); } else{ tool.addClass('disabled'); }	
-				}
-				if(tool.data('tool') == 'remove'){
-					if(lSelected > 0){ tool.removeClass('disabled'); } else{ tool.addClass('disabled'); }	
-				}
-				if(tool.data('tool') == 'category-edit' || tool.data('tool') == 'category-remove'){
-					if(category.selected != null){
-						tool.removeClass('disabled');
-						
-					} else{
-						tool.addClass('disabled');
-					}
-				}
-			});
-		};
-		
-		// init
-		panelTools = new PanelTools({panel:'.panel-tools'});
+		});
 
 
 		/********************************************************************************************* 
@@ -873,12 +1053,14 @@
 		function Messenger(){
 			this.history = [];
 			this.messenger = $('ul.messenger');
+
+			// error
+			if(!this.messenger.length){$.error('Messenger: Messenger not found;');}
+
 			this.settings = {
 				time: 10000,
 				duration: 300
 			};
-			// error
-			if(!this.messenger.length){$.error('Messenger: Messenger not found;');}
 		};
 		Messenger.prototype.new = function(state, mess){
 			var $mess = $('<li class="messenger-message amt fadeInUp '+state+'">'+mess+'<a class="message-close fa fa-times"></a></li>'),
@@ -1019,6 +1201,12 @@
 			PopUp.close.click(function(event) {
 				PopUp.hide();
 			});
+
+			$(document).keyup(function(event) {
+	    		if(event.which == '27'){
+	    			PopUp.hide();
+	    		}
+	    	});
 		};
 
 		PopUp.prototype.show = function(){
@@ -1056,15 +1244,38 @@
                     }
 				});	
 			}
+			if(goods.select){
+				$.ajax({
+					url: PopUp.settings.path,
+					type: 'POST',
+					data: {id : goods.select},
+                    statusCode: {
+                        403: function(jqXHR) {
+                            var error = JSON.parse(jqXHR.responseText);
+                            Notification.new('danger', error.message);
+                        }
+                    },
+                    success: function(data){
+                    	appendData(jQuery.parseJSON(data));
+                    }
+				});	
+			}
 			function appendData(data){
 				$.each(data, function(i, val){
 					// type: input
 					if(val.type == 'input'){
-						PopUp.form.find('input[name='+val.name+']').val(val.text);
+						if(val.name != 'markup'){
+							PopUp.form.find('input[name='+val.name+']').val(val.text);
+						} else {
+							PopUp.form.find('input[name='+val.name+']').val(rateString(val.text));
+						}
 					}
 					// type: select
-					if(val.type == 'select'){				
+					if(val.type == 'select'){	
+						console.log(val);
+
 						var options = PopUp.form.find('select[name='+val.name+']').children('option');
+
 						options.each(function(i, option){
 							if($(option).val() == val.text){
 								$(option).attr("selected", true);
@@ -1352,7 +1563,7 @@
 	                    statusCode: {
 	                        200: function() {
 	                            dataTablesReload();
-	                            Notification.new('success', '<b>Добавлена</b> новая поставщик');
+	                            Notification.new('success', '<b>Добавлена</b> новый поставщик');
 	                        },
 	                        403: function(jqXHR) {
 	                            var error = JSON.parse(jqXHR.responseText);
@@ -1457,18 +1668,133 @@
 						});
 					}
 				});
-			// Add new unit
+			// Add new goodscategory
 				new PopUp({target: 'add-store-category'}, function(PopUp){
 					var name = PopUp.form.find('input[name=name]').val();
 					category.createNODE(name);
 					PopUp.hide().clean();
 				});
-			// Remove newscategories
+			// Remove goodscategories
 				new PopUp({target: 'remove-store-category'}, function(PopUp){
 					category.removeNODE();
 					PopUp.hide().clean();
 				});
+			// Add new goods
+				new PopUp({target: 'add-store-goods'}, function(PopUp){
+					if(category.selected == null){Notification.new('error', 'Категория не выбранна'); PopUp.hide(); return false;}
 
+					$.ajax({
+						url: '/micro/store/goods/new',
+						type: 'POST',
+						data: PopUp.form.serialize()+'&category='+category.selected,
+						complete: function() {
+	                    	PopUp.hide().clean();
+	                    }, 
+	                    statusCode: {
+	                        200: function() {
+	                            goods.reload();
+	                            Notification.new('success', '<b>Добавлен</b> новый товар');
+	                        },
+	                        403: function(jqXHR) {
+	                            var error = JSON.parse(jqXHR.responseText);
+	                            Notification.new('danger', error.message);
+	                        }
+	                    }
+					});
+				});
+			// Remove goods
+				new PopUp({target: 'remove-store-goods'}, function(PopUp){
+					if(goods.checkbox.selected.length == 0){
+						Notification.new('info','Выберите хотя бы 1 запись');
+						PopUp.hide();
+					} else{
+						$.ajax({
+							url: '/micro/store/goods/remove',
+							contentType: 'application/json',
+							type: 'POST',
+							data: JSON.stringify(goods.checkbox.selected),
+							complete: function() {
+		                    	PopUp.hide().clean();
+		                    }, 
+		                    statusCode: {
+		                        200: function() {
+		                            dataTablesReload();
+		                            Notification.new('success','Товар успешно удален');
+		                        },
+		                        403: function(jqXHR) {
+		                            var error = JSON.parse(jqXHR.responseText);
+		                            Notification.new('danger', error.message);
+		                        }
+		                    }
+						});
+					}
+				});
+			// Edit goods
+				new PopUp({target: 'edit-store-goods', loadData: true, path: '/micro/store/goods/edit_data'}, function(PopUp){
+					$.ajax({
+						url: '/micro/store/goods/edit',
+						type: 'POST',
+						data: PopUp.form.serialize(),
+						complete: function() {
+	                    	PopUp.hide().clean();
+	                    }, 
+	                    statusCode: {
+	                        200: function() {
+	                            dataTablesReload();
+	                            Notification.new('success','Данные успешно изменены');
+	                        },
+	                        403: function(jqXHR) {
+	                            var error = JSON.parse(jqXHR.responseText);
+	                            Notification.new('danger', error.message);
+	                        }
+	                    }
+					});
+				});
+			// Supply goods
+				new PopUp({target: 'supply-store-goods', loadData: true, path: '/micro/store/goods/supply_data'}, function(PopUp){
+					$.ajax({
+						url: '/micro/store/goods/supply',
+						type: 'POST',
+						data: PopUp.form.serialize()+'&type=1',
+						complete: function() {
+	                    	PopUp.hide().clean();
+	                    }, 
+	                    statusCode: {
+	                        200: function() {
+	                            goods.reload();
+	                            turnover.reload();
+	                            Notification.new('success','Поступление товара успешно проведено');
+	                        },
+	                        403: function(jqXHR) {
+	                            var error = JSON.parse(jqXHR.responseText);
+	                            Notification.new('danger', error.message);
+	                        }
+	                  	}
+					});
+				});
+			// Sale goods
+				new PopUp({target: 'sale-store-goods', loadData: true, path: '/micro/store/goods/sale_data'}, function(PopUp){
+					$.ajax({
+						url: '/micro/store/goods/sale',
+						type: 'POST',
+						data: PopUp.form.serialize()+'&type=0',
+						complete: function() {
+	                    	PopUp.hide().clean();
+	                    }, 
+	                    statusCode: {
+	                        200: function() {
+	                            goods.reload();
+	                            turnover.reload();
+	                            Notification.new('success','Товар успешно продан');
+	                        },
+	                        403: function(jqXHR) {
+	                            var error = JSON.parse(jqXHR.responseText);
+	                            Notification.new('danger', error.message);
+	                        }
+	                  	}
+	                });
+				});
+				
 
 			/********************************************************************************************* 
 				Help Page

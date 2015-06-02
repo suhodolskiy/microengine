@@ -44,9 +44,6 @@ var Schema = mongoose.Schema,
         Providers.statics.new = function(body, callback) {
             var Provider = this;
 
-
-            console.log('ob1');
-
             async.waterfall([
                 function(callback){
                     console.log('ob2');
