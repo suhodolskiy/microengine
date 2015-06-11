@@ -30,7 +30,7 @@ var GoodsTurnover = require('./models/goodsturnover.js').GoodsTurnover;
         db.dropCollection('users', callback);
     }
     function requireModels(callback){
-        require('./models/goods.js');
+        require('./models/goodsturnover.js');
 
         async.each(Object.keys(mongoose.models), function(modelName, callback){
             mongoose.models[modelName].ensureIndexes(callback);

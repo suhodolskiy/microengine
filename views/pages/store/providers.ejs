@@ -9,15 +9,17 @@
 				<div class="card-header">
 					<h1>Список <span>поставщиков</span></h1>
 				</div>
-				<div class="panel-tools">
+				<div class="panel-tools basic-panel">
 					<a data-tool="card-resize" class="tool-resize"></a>
 					<a data-tool="table-reload" class="tool-refresh" ></a>
-					<a data-tool="trigger" class="tool-more"><span class="notifications"></span></a>
-					<div class="tools-more">
-						<a data-modal="add-providers" class="tool-add"></a>
-						<a data-modal="edit-providers" class="tool-edit"></a>
-						<a data-modal="remove-providers" class="tool-remove"></a>
-					</div>
+					<% if(authUser._group[0].lvl == 1){ %>
+						<a class="trigger"><span></span></a>
+						<div class="tools-more">
+							<a data-modal="add-providers" class="tool-add"></a>
+							<a data-modal="edit-providers" data-tool="edit" class="tool-edit disabled"></a>
+							<a data-modal="remove-providers" data-tool="remove" class="tool-remove disabled"></a>
+						</div>
+					<% } %>
 				</div>
 			</div>
 			<div class="card-content">
@@ -173,3 +175,4 @@
 		</form>
 	</div>
 </div>
+

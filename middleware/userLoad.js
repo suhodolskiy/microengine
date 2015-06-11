@@ -5,7 +5,7 @@ module.exports = function(req, res, next){
 
     if(!req.session.authUser) return next();
 
-    Users.findById(req.session.authUser, '-hashedPassword -salt -__v').populate('_group', 'name').exec(function(err, authUser){
+    Users.findById(req.session.authUser, '-hashedPassword -salt -__v').populate('_group').exec(function(err, authUser){
         if(err) return next();
         req.authUser = res.locals.authUser = authUser;
         next();

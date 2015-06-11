@@ -20,6 +20,11 @@ exports.post = function(req, res, next) {
                     text: user.name,
                     name: 'name',
                     type: 'input'
+                },
+                lvl : {
+                    text: user.lvl,
+                    name: 'lvl',
+                    type: 'select'
                 }
             }));
         }

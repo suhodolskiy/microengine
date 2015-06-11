@@ -2,6 +2,13 @@ var crypto = require('crypto'),
     async = require('async'),
     HttpMessage = require('../components/error/').HttpMessage;
 
+
+    crypto.randomBytes(8, function(ex, buf) {
+        var token = buf.toString('hex');
+
+        console.log(token);
+    });
+
 var UserGroup = require('./userGroup.js').UserGroup;
 
 var mongoose = require('../components/mongoose/'),

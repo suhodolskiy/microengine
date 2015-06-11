@@ -5,29 +5,34 @@
 	<div class="col-ph-12">
 		<div class="app-card store clr">
 			<div class="app-card-category">
-				<div id="store-category" style="overflow: scroll"></div>
-				<div class="store-category-panel"></div>
+				<% if(authUser._group[0].lvl == 1 || authUser._group[0].lvl == 2){ %>
+					<div class="category-panel-tools clr">
+						<a data-modal="add-store-category" class="tool-add"></a>
+						<a data-tool="category-edit" class="tool-edit disabled"></a>
+						<a data-tool="category-remove" data-modal="remove-store-category" class="tool-remove disabled"></a>
+					</div>
+				<% } %>
+				<div id="store-category"></div>
 			</div>
 			<div class="app-card-content">
 				<div class="card-title clr">
 					<div class="card-header">
 						<h1>Складской <span>учет</span></h1>
 					</div>
-					<div class="panel-tools store">
+					<div class="panel-tools goods-panel">
 						<a data-tool="card-resize" class="tool-resize"></a>
-						<a data-tool="trigger" class="tool-more"><span class="notifications"></span></a>
+						<a class="trigger"><span></span></a>
 						<div class="tools-more">
-							<a data-modal="add-store-goods" class="tool-add"></a>
-							<a data-modal="remove-store-goods" class="tool-remove"></a>
-							<a data-modal="edit-store-goods" class="tool-edit"></a>
-							<a data-modal="supply-store-goods" class="tool-supply"></a>
-							<a data-modal="sale-store-goods" class="tool-sale"></a>
-							
+							<% if(authUser._group[0].lvl == 1 || authUser._group[0].lvl == 2){ %>
+								<a data-modal="add-store-goods" class="tool-add"></a>
+								<a data-modal="remove-store-goods" data-tool="remove" class="tool-remove disabled"></a>
+								<a data-modal="edit-store-goods" data-tool="edit" class="tool-edit disabled"></a>
+								<a data-modal="supply-store-goods" data-tool="supply" class="tool-supply disabled"></a>
+							<% } %>
+							<% if(authUser._group[0].lvl == 1 || authUser._group[0].lvl == 3){ %>
+								<a data-modal="sale-store-goods" data-tool="sale" class="tool-sale disabled"></a>
+							<% } %>
 						</div>
-						<a class="divider"></a>
-						<a data-modal="add-store-category" class="tool-add"></a>
-						<a data-tool="category-edit" class="tool-edit disabled"></a>
-						<a data-tool="category-remove" data-modal="remove-store-category" class="tool-remove disabled"></a>
 					</div>
 				</div>
 				<div class="card-content">
@@ -45,6 +50,21 @@
 							</tr>
 						</thead>
 					</table>
+				</div>
+				<div class="card-title clr">
+					<div class="card-header">
+						<h1>Движение <span>товара</span></h1>
+					</div>
+					<% if(authUser._group[0].lvl == 1){ %>
+						<div class="panel-tools turnover-panel">
+							<a class="trigger"><span></span></a>
+							<div class="tools-more">
+								<a data-modal="remove-store-turnover" data-tool="remove" class="tool-remove disabled"></a>
+							</div>
+						</div>
+					<% } %>
+				</div>
+				<div class="card-content">
 					<table class="app-table" table-store="turnover">
 						<thead>
 							<tr>
@@ -113,13 +133,6 @@
 	</div>
 </div>
 
-
-
-
-
-
-
-
 <div class="cd-modal" id="sale-store-goods">
 	<div class="cd-modal-container">
 		<div class="cd-modal-title">
@@ -150,6 +163,12 @@
 					<label>Комментарий</label>
 					<textarea name="comment" class="form-control" placeholder="Комментарий" rows="5"></textarea>
 				</div>
+				<% if(authUser._group[0].lvl == 1){ %>
+					<div class="form-group">
+						<label>Дата продажи</label>
+						<input type="text" name="date" class="datepicker" value="1" placeholder="Дата продажи">
+					</div>
+				<% } %>
 			</div>
 			<div class="cd-modal-footer text-right">
 				<button class="btn btn-success" type="submit">Продать</button>
@@ -257,6 +276,7 @@
 		</form>
 	</div>
 </div>
+
 <div class="cd-modal" id="remove-store-goods">
 	<div class="cd-modal-container">
 		<div class="cd-modal-title">
@@ -279,7 +299,24 @@
 	<div class="cd-modal-container">
 		<div class="cd-modal-title">
 			<h4>
-				Вы действительно хотите удалить<br> <span>выбранные записи?</span>
+				Вы действительно хотите удалить<br> <span>выбранную категорию?</span>
+			</h4>
+			<button class="cd-modal-close ion-close"></button>
+		</div>
+		<form id="usersRemove">
+			<div class="cd-modal-footer text-center">
+				<button class="btn btn-success" type="submit">Да</button>
+				<button class="btn cd-modal-close" type="reset">Нет</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="cd-modal" id="remove-store-turnover">
+	<div class="cd-modal-container">
+		<div class="cd-modal-title">
+			<h4>
+				Вы действительно хотите удалить<br> <span> «движение товара»?</span>
 			</h4>
 			<button class="cd-modal-close ion-close"></button>
 		</div>

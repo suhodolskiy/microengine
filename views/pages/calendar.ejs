@@ -9,24 +9,30 @@
 					<div class="card-header">
 						<h1>График <span>работы</span></h1>
 					</div>
-					<div class="panel-tools">
+					<div class="panel-tools basic-panel">
 						<a data-tool="card-resize" class="tool-resize"></a>
 					</div>
 				</div>
 				<div class="card-content">
 					<div class="row-fluid">
-						<div class="col-ld-3">
-							<div class="panel-drop-users">
-								<ul id="calendar-items">
-									<% users.forEach(function(user) { %>
-										<li><%=user.name %></li>
-									<% }); %>
-								</ul>
+						<% if(authUser._group[0].lvl == 1){ %>
+							<div class="col-ld-3">
+								<div class="panel-drop-users">
+									<ul id="calendar-items">
+										<% users.forEach(function(user) { %>
+											<li><%=user.name %></li>
+										<% }); %>
+									</ul>
+								</div>
 							</div>
-						</div>
-						<div class="col-ld-9">
-							<div id="calendar"></div>
-						</div>
+							<div class="col-ld-9">
+								<div id="calendar"></div>
+							</div>
+						<% } else { %>
+							<div class="col-ld-12">
+								<div id="calendar"></div>
+							</div>
+						<% } %>
 					</div>
 				</div>
 			</div>

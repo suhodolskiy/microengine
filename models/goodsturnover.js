@@ -1,5 +1,6 @@
 var mongoose = require('../components/mongoose/'),
     async = require('async'),
+    moment = require('moment'),
     HttpMessage = require('../components/error/').HttpMessage;
 
 var Goods = require('./goods.js').Goods,
@@ -8,6 +9,10 @@ var Goods = require('./goods.js').Goods,
 
 var Schema = mongoose.Schema,
     GoodsTurnover = new Schema({
+        _goods: [{ 
+            type: Schema.Types.ObjectId, 
+            ref: 'Goods'
+        }],
         goods: [{ 
             type: String,
             required: true
@@ -51,8 +56,15 @@ var Schema = mongoose.Schema,
 
 // Statics
     GoodsTurnover.statics.sale = function(body, creator, callback) {
-        var GoodsTurnover = this,
-            turnover = new GoodsTurnover({goods: body.id, type: body.type, doc: body.doc, qty: body.qty, price: body.price, sum: body.sum, comment: body.comment, _creator: creator});
+        var GoodsTurnover = this, turnover, date;
+
+        if(!body.date){
+            date = new Date().toISOString();
+            turnover = new GoodsTurnover({_goods: body.id, goods: body.id, type: body.type, doc: body.doc, qty: body.qty, price: body.price, sum: body.sum, comment: body.comment, _creator: creator, date: date});
+        } else {
+            date = new Date(body.date).toISOString();
+            turnover = new GoodsTurnover({_goods: body.id, goods: body.id, type: body.type, doc: body.doc, qty: body.qty, price: body.price, sum: body.sum, comment: body.comment, _creator: creator, date: date});
+        }
 
         turnover.save(function(err){
             if(err) return err;
@@ -63,12 +75,23 @@ var Schema = mongoose.Schema,
     GoodsTurnover.statics.new = function(body, creator, callback) {
         var GoodsTurnover = this,
             sum = (Math.round(Number(body.purchaseprice)*Number(body.qty))).toFixed(0),
-            turnover = new GoodsTurnover({goods: body.id, type: body.type, doc: body.doc, _provider: body.provider, qty: body.qty, price: body.purchaseprice, sum: sum, comment: body.comment, _creator: creator});
+            turnover = new GoodsTurnover({_goods: body.id, goods: body.id, type: body.type, doc: body.doc, _provider: body.provider, qty: body.qty, price: body.purchaseprice, sum: sum, comment: body.comment, _creator: creator});
 
         turnover.save(function(err){
             if(err) return err;
             callback(null);
         });
+    };
+
+    GoodsTurnover.statics.remove = function(body, callback) {
+        var GoodsTurnover = this;
+
+        GoodsTurnover.findOneAndRemove({_id: body.id}, function(err){
+            if(err){
+                callback(new HttpMessage(403, 'Произошла ошибка при удаление, не найден id'));
+            }
+            callback(null);
+        });  
     };
 
 

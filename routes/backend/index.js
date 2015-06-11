@@ -3,11 +3,11 @@ var express = require('express'),
 	checkAuth = require('../../middleware/checkAuth'),
 	checkLogin = require('../../middleware/checkLogin');
 
-
 	// Login
 		router.get('/login', checkLogin, require('./login').get);
 
 			router.post('/login', require('./login/signin').post);
+			router.get('/signout', checkLogin, require('./login/signout').get);
 
 	// Dashboard
 		router.get('/', checkAuth, require('./dashboard').get);
@@ -79,10 +79,15 @@ var express = require('express'),
 	// Store
 			router.get('/store', checkAuth, require('./store').get);
 
+				router.get('/store/sale', checkAuth, require('./store/sale').get);
+					router.post('/store/sale/data', checkAuth, require('./store/sale/data').post);
+
 				router.post('/store/goods/data', checkAuth, require('./store/goods/data').post);
 					router.post('/store/goods/new', checkAuth, require('./store/goods/new').post);
 					router.post('/store/goods/remove', checkAuth, require('./store/goods/remove').post);
+					
 					router.post('/store/goods/edit_data', checkAuth, require('./store/goods/edit_data').post);
+					router.post('/store/goods/edit', checkAuth, require('./store/goods/edit').post);
 
 					router.post('/store/goods/supply_data', checkAuth, require('./store/goods/supply_data').post);
 					router.post('/store/goods/supply', checkAuth, require('./store/goods/supply').post);
@@ -91,6 +96,7 @@ var express = require('express'),
 					router.post('/store/goods/sale', checkAuth, require('./store/goods/sale').post);
 
 				router.post('/store/turnover/data', checkAuth, require('./store/turnover/data').post);
+					router.post('/store/turnover/remove', checkAuth, require('./store/turnover/remove').post);
 
 				router.get('/store/category/data', checkAuth, require('./store/category/data').get);
 					router.post('/store/category/transfer', checkAuth, require('./store/category/transfer').post);

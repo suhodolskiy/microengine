@@ -5,7 +5,11 @@ var mongoose = require('../components/mongoose/'),
   			type: String,
   			unique: true,
   			required: true
-  		}
+  		},
+        lvl: {
+            type: Number,
+            required: true
+        }
     });
 
 var async = require('async'),
@@ -16,13 +20,15 @@ var async = require('async'),
 		UserGroup.statics.add = function(body, callback) {
             var Group = this;
 
+            console.log(body);
+
             async.waterfall([
                 function(callback){
                    Group.findOne({name: body.name}, callback);
                 },
                 function(group, callback){
                 	if(!group){
-	        			var group = new Group({name: body.name});
+	        			var group = new Group({name: body.name, lvl: body.lvl});
 
 	        			group.save(function(err){
 	        				if(err) return err;
@@ -48,11 +54,11 @@ var async = require('async'),
                 callback(null);
             });
         };
-    // Remove
+    // Edit
         UserGroup.statics.edit = function(body, callback) {
             var Group = this;
 
-            Group.findOneAndUpdate({_id: body.id}, {name: body.name}, function(err){
+            Group.findOneAndUpdate({_id: body.id}, {name: body.name, lvl: body.lvl}, function(err){
                 if(err){
                     callback(new HttpMessage(403, 'Произошла ошибка при изменение пользователя'));
                 }
@@ -63,26 +69,3 @@ var async = require('async'),
 // Exports
 
     exports.UserGroup = mongoose.model('UserGroup', UserGroup);
-
-
-
-
-		  	// async.waterfall([
-	    //         function(callback){
-	    //     		Group.findOne({name: body.name}, callback);
-	    //         },
-	    //         function(group, callback){
-
-	    //     		if(!group){
-	    //     			var group = new Group({name: body.name});
-
-	    //     			group.save(function(err){
-	    //     				if(err) return err;
-	    //     				console.log(err);
-	    //     				callback(null);
-	    //     			});
-	    //     		} else{
-	    //     			callback(new HttpMessage(403, 'Группа с таким именем уже существует'));
-	    //     		}
-	    //         }
-     //        ], callback);

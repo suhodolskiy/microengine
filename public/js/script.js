@@ -12,7 +12,31 @@
 		// dataTables
 		var $table = $('table.app-table'), $dataTable,
 			CheckBoxTable = new Checkbox('table');
-			
+
+		// Sale page
+		var $salePicker = $('#datepicker').val(moment().format('dddd D MMM YYYY'));
+
+		saleDatePicker = new Pikaday({ 
+			field: $salePicker[0],
+			format: 'dddd D MMM YYYY' ,
+			firstDay: 1,
+			onSelect: function(date){
+				dataTablesReload();
+			}
+		});
+
+		// Base
+		var baseDatePicker = $('.datepicker');
+
+		new Pikaday({ 
+			field: baseDatePicker[0],
+			format: 'YYYY-MM-DD' ,
+			firstDay: 1,
+			onSelect: function(date) {
+				baseDatePicker.attr('value',this.getMoment()._d);
+    		}
+		}).setDate(moment()._d);
+	
 		switch($table.attr('table-name')){
 			case 'users':
 					$dataTable = $table.DataTable({
@@ -76,6 +100,9 @@
 							},
 							{
 								"mDataProp": "name", "sDefaultContent": "n/a"
+							},
+							{
+								"mDataProp": "lvl", "sDefaultContent": "n/a"
 							}
 						],
 						"createdRow": function (row, data, index) {
@@ -210,7 +237,12 @@
 								"mDataProp": "name", "sDefaultContent": "n/a"
 							},
 							{
-								"mDataProp": "address", "sDefaultContent": "n/a", "className": "none"
+								"mDataProp": "address", 
+								"sDefaultContent": "n/a", 
+								"mRender": function(data){
+									return '<a class="">'+data+'</a>';
+								},
+								"className": "none"
 							},
 							{
 								"mDataProp": "unp", "sDefaultContent": "n/a", "className": "none"
@@ -225,7 +257,12 @@
 								"mDataProp": "bank.name", "sDefaultContent": "n/a", "className": "none"
 							},
 							{
-								"mDataProp": "bank.address", "sDefaultContent": "n/a", "className": "none"
+								"mDataProp": "bank.address", 
+								"sDefaultContent": "n/a", 
+								"mRender": function(data){
+									return '<a class="">'+data+'</a>';
+								},
+								"className": "none"
 							},
 							{
 								"mDataProp": "bank.mfo", "sDefaultContent": "n/a", "className": "none"
@@ -273,12 +310,69 @@
 						}
 					});
 				break;
+				case 'sale':
+					$dataTable = $table.DataTable({
+						"ajax": {
+							"url": "/micro/store/sale/data",
+							"type": 'POST',
+							"data": function(){
+								if(saleDatePicker._d){
+									var date = moment(saleDatePicker._d), start, end;
+								
+									start = date._d.toISOString(); date._d.setHours(23,59,59,999); end = date._d.toISOString();
+
+									return {'$gte': start, '$lt': end}
+								} else {
+									var start = new Date(), end = new Date();
+
+									start.setHours(0,0,0,0); end.setHours(23,59,59,999);
+
+									return {'$gte': start, '$lt': end}
+								}
+							}
+						},	
+						"responsive": true,
+						"aoColumns": [
+							{
+								"mDataProp": "_id", 
+								"sDefaultContent": "n/a",
+								"mRender": function ( data, type, full) {
+									return '<i class="fa fa-plus-circle"></i>'; 
+								},
+								"sClass": "td-trigger", 
+								"width": "60px"
+							},
+							{
+								"mDataProp": "_goods[0].name", "sDefaultContent": "n/a"
+							},
+							{
+								"mDataProp": "qty", "sDefaultContent": "n/a"
+							},
+							{
+								"mDataProp": "price", "sDefaultContent": "n/a"
+							},
+							{
+								"mDataProp": "sum", "sDefaultContent": "n/a", "className": "desktop"
+							},
+							{
+								"mDataProp": "_creator[0].name", "sDefaultContent": "n/a", "className": "desktop"
+							},
+							{
+								"mDataProp": "comment", "sDefaultContent": "n/a"
+							},
+						],
+						"createdRow": function (row, data, index) {
+							$(row).attr('data-id', data._id).children('.td-trigger').append(CheckBoxTable.create(index));
+						}
+					});
+				break;
 		};
 		function dataTablesReload(){
 			CheckBoxTable.clean().reset(); // reset and clean checkboxes list
-			panelTools.setSelected(); // recalculate selected checkboxes
 			$dataTable.ajax.reload(function(){Notification.new('success','<b>Список</b> обновлен')}, true);
+			basicPanelTools.setAccess();
 		};
+
 
 		// Header
 		var scrollTop, $header = $('.app-header');
@@ -335,6 +429,22 @@
                     }
                 }
 			});
+		});
+
+		// Profile drop menu
+		$('.info-profile').click(function(event) {
+			event.preventDefault();
+			$(this).toggleClass('drop-is-open');
+		});
+
+		// Logout
+		$('#signout').click(function(event) {
+			event.preventDefault();
+			$.ajax({url: '/micro/signout', type: 'GET', statusCode: {
+            	200: function(){
+            		 window.location.href = "/micro/login";
+            	}
+            }});
 		});
 
 		// Create new page
@@ -482,7 +592,7 @@
 		}
 
 
-		new ChartRates({chart: '#chart-rates', url: '/micro/rates'});
+		test = new ChartRates({chart: '#chart-rates', url: '/micro/rates'});
 
 
 
@@ -546,7 +656,7 @@
 			
 		*********************************************************************************************/
 
-		function Category(tree, options){
+		function Category(tree, panelTools){
 			var Category = this;
 			this.tree = $('#store-category');
 
@@ -570,6 +680,34 @@
 					Category.init(nData);
 				}
 			});
+
+			this.panel = panelTools;
+			this.tools = this.panel.find('[data-tool]');
+
+			this.tools.click(function(event) {
+				event.preventDefault();
+				
+				switch ($(this).data('tool')){
+					case 'category-edit':
+						if(!$(this).hasClass('disabled')){ category.renameNODE(); } else{ Notification.new('error', 'Ни одна категория не выбранна!'); }
+					break;
+					case 'category-remove':
+						if($(this).hasClass('disabled')){ Notification.new('error', 'Ни одна категория не выбранна!'); }
+					break;
+				};
+			});
+		};
+
+		Category.prototype.setAccess = function(){
+			var Category = this;
+
+			Category.tools.each(function(i, tool){
+				var tool = $(tool);
+
+				if(tool.data('tool') == 'category-edit' || tool.data('tool') == 'category-remove'){	
+					if(Category.selected != null){ tool.removeClass('disabled'); } else { tool.addClass('disabled'); }
+				}
+			});
 		};
 
 		Category.prototype.init = function(data){
@@ -577,13 +715,14 @@
 
 			Category.tree.bind("select_node.jstree", function (e, data) {
 				Category.selected = data.node.id;
-				panelTools.setSelected();
+				Category.setAccess();
 
 
 
 				goods.reload().reset();
-				turnover.reload();
+				turnover.reset().reload();
 
+				turnoverPanelTools.setAccess();
 
 			}).bind("move_node.jstree", function (e, data) {
 				$.ajax({
@@ -670,7 +809,7 @@
 						Category.tree.jstree(true).refresh();
 
 						Category.selected = null;
-						panelTools.setSelected();
+						Category.setAccess();
 					}
 				});
 			return this;
@@ -711,7 +850,7 @@
 			sel = sel[0]; ref.edit(sel);
 		};
 
-		category = new Category($('#store-category'));
+		category = new Category($('#store-category'), $('.category-panel-tools'));
 
 
 		/********************************************************************************************* 
@@ -720,15 +859,14 @@
 			
 		*********************************************************************************************/
 		
-		function Goods(options){
+		function Goods(options, panelTools){
 			var Goods = this;
 
 			if(!options.table.length){return false;}
-			this.select = null;
-
-			// this.checkbox = new Checkbox('goods');
+			this.selected = [];
 			this.table = options.table;
 			this.datatable = this.table.DataTable({
+				"bJQueryUI": true,
 				"dataSrc": "data",
 				"responsive": true,
 				"ajax": {
@@ -755,7 +893,7 @@
 						"mDataProp": "qty", "sDefaultContent": "n/a"
 					},
 					{
-						"mDataProp": "unit", "sDefaultContent": "n/a"
+						"mDataProp": "unit", "sDefaultContent": "n/a", "className": "desktop"
 					},
 					{
 						"mDataProp": "purchaseprice", "sDefaultContent": "n/a", "className": "none"
@@ -772,7 +910,7 @@
 						"mDataProp": "price", "sDefaultContent": "n/a"
 					},
 					{
-						"mDataProp": "sum", "sDefaultContent": "n/a"
+						"mDataProp": "sum", "sDefaultContent": "n/a", "className": "desktop"
 					},
 
 				],
@@ -789,27 +927,51 @@
 
 				if($row.hasClass('row-selected')){
 					$row.removeClass('row-selected');
-					Goods.select = null;
+					Goods.selected = [];
+					goodsPanelTools.setAccess();
 				} else {
 					$rows.removeClass('row-selected');
 					$row.addClass('row-selected');
-					Goods.select = $row.data('id');
+					Goods.selected = [];
+					Goods.selected.push($row.data('id'));
+					goodsPanelTools.setAccess();
 				}
+				turnover.reset().reload();
 
-				turnover.reload();
+				turnoverPanelTools.setAccess();
 			});
 
+			// this.panel = panelTools;
+			// this.tools = this.panel.find('[data-tool]');
 
+			// this.tools.click(function(event) {
+			// 	event.preventDefault();
+				
+			// 	switch ($(this).data('tool')){
+			// 		case 'category-edit':
+			// 			if(!$(this).hasClass('disabled')){ category.renameNODE(); } else{ Notification.new('error', 'Ни одна категория не выбранна!'); }
+			// 		break;
+			// 		case 'category-remove':
+			// 			if($(this).hasClass('disabled')){ Notification.new('error', 'Ни одна категория не выбранна!'); }
+			// 		break;
+			// 	};
+			// });
 		};
 
+		Goods.prototype.getSelected = function(){
+			return this.selected;
+		}
+
 		Goods.prototype.reset = function(){
-			this.select = null;
+			this.selected = [];
 			
 			return this;
 		}
 
 		Goods.prototype.reload = function(){
 			this.datatable.ajax.reload();
+			this.reset();
+			goodsPanelTools.setAccess()
 
 			return this;
 		};
@@ -822,6 +984,7 @@
 
 			if(!options.table.length){return false;}
 
+			this.selected = [];
 			this.table = options.table;
 			this.datatable = this.table.DataTable({
 				"dataSrc": "data",
@@ -830,9 +993,10 @@
 					"url": "/micro/store/turnover/data",
 					"type": 'POST',
 					"data": {
-						id: function(){return goods.select}
+						id: function(){return goods.selected[0]}
 					}
 				},	
+				"pageLength": 5,
 				"aoColumns": [
 					{
 						"mDataProp": "_id", 
@@ -869,16 +1033,17 @@
 						"sDefaultContent": "n/a",
 						"mRender": function(data){
 							return '<span class="muted">'+moment(data).format("DD-MM-YYYY")+'</span>';
-						}
+						},
+						"className": "desktop"
 					},
 					{
-						"mDataProp": "qty", "sDefaultContent": "n/a"
+						"mDataProp": "qty", "sDefaultContent": "n/a", "className": "desktop"
 					},
 					{
 						"mDataProp": "price", "sDefaultContent": "n/a"
 					},
 					{
-						"mDataProp": "sum", "sDefaultContent": "n/a"
+						"mDataProp": "sum", "sDefaultContent": "n/a", "className": "desktop"
 					},
 					{
 						"mDataProp": "_provider[0].name", "sDefaultContent": "n/a", "className": "none"
@@ -895,10 +1060,41 @@
 					$(row).attr('data-id', data._id).children('.td-trigger');
 				}
 			});
+
+			this.table.on( 'click', 'td', function (event) {
+				var $this = $(this), $row = $this.closest('tr'), $rows = $row.siblings('tr');
+
+				if($(event.target).is($this.children('i.fa'))){return false;}
+
+				if($row.hasClass('row-selected')){
+					$row.removeClass('row-selected');
+					Turnover.selected = [];
+					turnoverPanelTools.setAccess();
+				} else {
+					$rows.removeClass('row-selected');
+					$row.addClass('row-selected');
+					Turnover.selected = [];
+					Turnover.selected.push($row.data('id'));
+					turnoverPanelTools.setAccess();
+				}
+
+			});
 		};
 
+		Turnover.prototype.getSelected = function(){
+			return this.selected;
+		}
+
+		Turnover.prototype.reset = function(){
+			this.selected = [];
+			return this;
+		}
+
+
 		Turnover.prototype.reload = function(){
+			this.selected = [];
 			this.datatable.ajax.reload();
+			turnoverPanelTools.setAccess();
 		};
 
 		turnover = new Turnover({table: $('[table-store=turnover]')});
@@ -941,7 +1137,6 @@
 			var Goods = this;
 
 			function count(){
-				console.log('test');
 				var markup = rateNumber(Goods.input.markup.val()),
 					purchaseprice = nb(Goods.input.purchaseprice.val()),
 					qty = nb(Goods.input.qty.val());
@@ -977,48 +1172,98 @@
 			
 		*********************************************************************************************/
 
-		function PanelTools(options, action, selected){
-			this.panel = $(options.panel);
-			this.tools = this.panel.find('[data-tool]');
-			this.trigger = this.panel.children('[data-tool=trigger]');
-			this.noti = this.panel.find('.notifications');
-			this.card = this.panel.closest('.app-card');
+		// function PanelTools(options, action, selected){
+		// 	this.panel = $(options.panel);
+		// 	this.tools = this.panel.find('[data-tool]');
+		// 	this.trigger = this.panel.children('[data-tool=trigger]');
+		// 	this.noti = this.panel.find('.notifications');
+		// 	this.card = this.panel.closest('.app-card');
 
-			var PanelTools = this;
+		// 	var PanelTools = this;
 
 
-			action(this);
+		// 	PanelTools.tools.click(function() {
+		// 		switch ($(this).data('tool')){
+		// 			case 'trigger':
+		// 				$(this).toggleClass('is-open').next('.tools-more').toggleClass('is-open');
+		// 			break;
+		// 			case 'edit-page':
+		// 				if(!$(this).hasClass('disabled')){
+		// 				 	window.location.href = "/micro/site/pages/edit/"+CheckBoxTable.selected[0];
+		// 				}
+		// 			break;
+		// 			case 'edit-news':
+		// 				if(!$(this).hasClass('disabled')){
+		// 				 	window.location.href = "/micro/site/news/edit/"+CheckBoxTable.selected[0];
+		// 				}
+		// 			break;
+		// 			case 'table-reload':
+		// 				dataTablesReload();
+		// 			break;
+		// 			case 'card-resize':
+		// 				PanelTools.card.toggleClass('fullsize');
+		// 			break;
+		// 		};
+		// 	});
 
 			
-		};
-		PanelTools.prototype.setSelected = function(){
-			var PanelTools = this;
-				lSelected = CheckBoxTable.selected.length;
+		// };
+		// PanelTools.prototype.setAccess = function(action){
+		// 	var lSelected = CheckBoxTable.selected.length;
 
 
-			if(lSelected > 0){ 
-				this.noti.addClass('is-visible').html(lSelected); 
-			} else{ 
-				this.noti.removeClass('is-visible').html(''); 
-			}
-			PanelTools.tools.each(function(i, tool){
-				var tool = $(tool);
+		// 	if(lSelected > 0){ 
+		// 		PanelTools.noti.addClass('is-visible').html(lSelected); 
+		// 	} else{ 
+		// 		PanelTools.noti.removeClass('is-visible').html(''); 
+		// 	}
+		// 	PanelTools.tools.each(function(i, tool){
+		// 		var tool = $(tool);
 
-				if(tool.data('tool') == 'edit' || tool.data('tool') == 'edit-page' || tool.data('tool') == 'edit-news'){
-					if(lSelected == 1){ tool.removeClass('disabled'); } else{ tool.addClass('disabled'); }	
-				}
-				if(tool.data('tool') == 'remove'){
-					if(lSelected > 0){ tool.removeClass('disabled'); } else{ tool.addClass('disabled'); }	
-				}
-			});
-		};
+		// 		if(tool.data('tool') == 'edit' || tool.data('tool') == 'edit-page' || tool.data('tool') == 'edit-news'){
+		// 			if(lSelected == 1){ tool.removeClass('disabled'); } else{ tool.addClass('disabled'); }	
+		// 		}
+		// 		if(tool.data('tool') == 'remove'){
+		// 			if(lSelected > 0){ tool.removeClass('disabled'); } else{ tool.addClass('disabled'); }	
+		// 		}
+		// 	});
+		// };
 		
-		// init
-		panelTools = new PanelTools({panel:'.panel-tools'}, function(PanelTools){
-			PanelTools.tools.click(function() {
-				switch ($(this).data('tool')){
-					case 'trigger':
-						$(this).toggleClass('is-open').next('.tools-more').toggleClass('is-open');
+		// // init
+		// panelTools = new PanelTools({panel:'.panel-tools'});
+
+		function PanelTools(options, actions, set){
+			this.tools = options.panel.find('a[data-tool]');
+			this.trigger = options.panel.find('.trigger');
+			this.noti = this.trigger.children('span');
+			this.set = set;
+
+			this.source =  options.source;
+
+			this.trigger.click(function(event) {
+				$(this).toggleClass('is-open').next('.tools-more').toggleClass('is-open');
+			});
+			this.tools.click(actions);
+		};
+
+		PanelTools.prototype.setAccess = function(){
+			var source = this.source.getSelected();
+
+			if(source.length > 0){this.noti.addClass('is-visible').html(source.length);
+			} else { this.noti.removeClass('is-visible').html('');}
+
+			// basic
+			var PanelTools = this;
+			this.tools.each(function(i, tool){PanelTools.set($(tool), source);});
+		};
+
+
+
+		basicPanelTools = new PanelTools(
+			{panel: $('.basic-panel'), source: CheckBoxTable}, function(){
+				switch($(this).data('tool')){
+					case 'card-resize':
+						$(this).closest('.app-card').toggleClass('fullsize');
 					break;
 					case 'edit-page':
 						if(!$(this).hasClass('disabled')){
@@ -1033,15 +1278,42 @@
 					case 'table-reload':
 						dataTablesReload();
 					break;
+				}
+			}, function(tool, source){
+				if(tool.data('tool') == 'edit' || tool.data('tool') == 'edit-page' || tool.data('tool') == 'edit-news'){
+					if(source.length == 1){ tool.removeClass('disabled') } else { tool.addClass('disabled') };
+				}
+				if(tool.data('tool') == 'remove'){
+					if(source.length >= 1){ tool.removeClass('disabled') } else { tool.addClass('disabled') };
+				}
+			}
+		);
+
+
+
+
+
+		goodsPanelTools = new PanelTools(
+			{panel: $('.goods-panel'), source: goods}, function(){
+				switch($(this).data('tool')){
 					case 'card-resize':
-						PanelTools.card.toggleClass('fullsize');
+						$(this).closest('.app-card').toggleClass('fullsize');
 					break;
-					case 'category-edit':
-						if(!$(this).hasClass('disabled')){ category.renameNODE(); } else{ Notification.new('error', 'Ни одна категория не выбранна!'); }
-					break;
-				};
-			});
-		});
+				}
+			}, function(tool, source){
+				if(tool.data('tool') == 'supply' || tool.data('tool') == 'remove' || tool.data('tool') == 'edit' || tool.data('tool') == 'sale'){
+					if(source.length == 1){ tool.removeClass('disabled') } else { tool.addClass('disabled') };
+				}
+			}
+		);
+
+		turnoverPanelTools = new PanelTools(
+			{panel: $('.turnover-panel'), source: turnover}, function(){}, function(tool, source){
+				if(tool.data('tool') == 'remove' || tool.data('tool') == 'edit'){
+					if(source.length == 1){ tool.removeClass('disabled') } else { tool.addClass('disabled') };
+				}
+			}
+		);
 
 
 		/********************************************************************************************* 
@@ -1115,6 +1387,10 @@
 			Checkbox.selected.splice( $.inArray(row.data('id'), Checkbox.selected), 1 );
 			return this;
 		};
+		Checkbox.prototype.getSelected = function(){
+			return this.selected;
+		};
+
 		Checkbox.prototype.clean = function(){
 			$.each(this.checkbox, function(i, v){
 				v.children('input').prop('checked', false).closest('tr').removeClass('row-selected');
@@ -1145,7 +1421,7 @@
 					Checkbox.addSelected($row);
 				}
 
-				panelTools.setSelected();
+				basicPanelTools.setAccess();
 			});
 			return $new;
 		};
@@ -1244,11 +1520,11 @@
                     }
 				});	
 			}
-			if(goods.select){
+			if(goods.selected[0]){
 				$.ajax({
 					url: PopUp.settings.path,
 					type: 'POST',
-					data: {id : goods.select},
+					data: {id : goods.selected[0]},
                     statusCode: {
                         403: function(jqXHR) {
                             var error = JSON.parse(jqXHR.responseText);
@@ -1704,30 +1980,61 @@
 				});
 			// Remove goods
 				new PopUp({target: 'remove-store-goods'}, function(PopUp){
-					if(goods.checkbox.selected.length == 0){
-						Notification.new('info','Выберите хотя бы 1 запись');
+					if(goods.selected.length == 0){
+						Notification.new('danger','Выберите хотя бы 1 запись');
 						PopUp.hide();
-					} else{
-						$.ajax({
-							url: '/micro/store/goods/remove',
-							contentType: 'application/json',
-							type: 'POST',
-							data: JSON.stringify(goods.checkbox.selected),
-							complete: function() {
-		                    	PopUp.hide().clean();
-		                    }, 
-		                    statusCode: {
-		                        200: function() {
-		                            dataTablesReload();
-		                            Notification.new('success','Товар успешно удален');
-		                        },
-		                        403: function(jqXHR) {
-		                            var error = JSON.parse(jqXHR.responseText);
-		                            Notification.new('danger', error.message);
-		                        }
-		                    }
-						});
+
+						return false;
 					}
+
+					$.ajax({
+						url: '/micro/store/goods/remove',
+						contentType: 'application/json',
+						type: 'POST',
+						data: JSON.stringify({id: goods.selected[0]}),
+						complete: function() {
+	                    	PopUp.hide().clean();
+	                    }, 
+	                    statusCode: {
+	                        200: function() {
+	                            goods.reload().reset();
+	                            Notification.new('success','Товар успешно удален');
+	                        },
+	                        403: function(jqXHR) {
+	                            var error = JSON.parse(jqXHR.responseText);
+	                            Notification.new('error', error.message);
+	                        }
+	                    }
+					});
+				});
+			// Remove goods
+				new PopUp({target: 'remove-store-turnover'}, function(PopUp){
+					if(turnover.selected.length == 0){
+						Notification.new('danger','Выберите хотя бы 1 запись');
+						PopUp.hide();
+
+						return false;
+					}
+
+					$.ajax({
+						url: '/micro/store/turnover/remove',
+						contentType: 'application/json',
+						type: 'POST',
+						data: JSON.stringify({id: turnover.selected[0]}),
+						complete: function() {
+	                    	PopUp.hide().clean();
+	                    }, 
+	                    statusCode: {
+	                        200: function() {
+	                            turnover.reload();
+	                            Notification.new('success','Движение товара успешно удалено');
+	                        },
+	                        403: function(jqXHR) {
+	                            var error = JSON.parse(jqXHR.responseText);
+	                            Notification.new('error', error.message);
+	                        }
+	                    }
+					});
 				});
 			// Edit goods
 				new PopUp({target: 'edit-store-goods', loadData: true, path: '/micro/store/goods/edit_data'}, function(PopUp){
@@ -1740,7 +2047,8 @@
 	                    }, 
 	                    statusCode: {
 	                        200: function() {
-	                            dataTablesReload();
+	                            goods.reload().reset();
+	                            turnover.reload();
 	                            Notification.new('success','Данные успешно изменены');
 	                        },
 	                        403: function(jqXHR) {
@@ -1762,7 +2070,9 @@
 	                    statusCode: {
 	                        200: function() {
 	                            goods.reload();
-	                            turnover.reload();
+	                            turnover.reset().reload();
+								turnoverPanelTools.setAccess();
+
 	                            Notification.new('success','Поступление товара успешно проведено');
 	                        },
 	                        403: function(jqXHR) {
@@ -1784,7 +2094,8 @@
 	                    statusCode: {
 	                        200: function() {
 	                            goods.reload();
-	                            turnover.reload();
+	                           	turnover.reset().reload();
+								turnoverPanelTools.setAccess();
 	                            Notification.new('success','Товар успешно продан');
 	                        },
 	                        403: function(jqXHR) {

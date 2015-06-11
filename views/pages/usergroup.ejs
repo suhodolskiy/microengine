@@ -9,15 +9,18 @@
 				<div class="card-header">
 					<h1>Группы <span>пользователей</span></h1>
 				</div>
-				<div class="panel-tools">
+				<div class="panel-tools basic-panel">
 					<a data-tool="card-resize" class="tool-resize"></a>
 					<a data-tool="table-reload" class="tool-refresh" ></a>
-					<a data-tool="trigger" class="tool-more"><span class="notifications"></span></a>
-					<div class="tools-more">
-						<a data-modal="add-usergroup" class="tool-add"></a>
-						<a data-modal="edit-usergroup" data-tool="edit" class="tool-edit disabled"></a>
-						<a data-modal="remove-usergroup" data-tool="remove" class="tool-remove disabled"></a>
-					</div>
+	
+					<% if(authUser._group[0].lvl == 1){ %>
+						<a class="trigger"><span></span></a>
+						<div class="tools-more">
+							<a data-modal="add-usergroup" class="tool-add"></a>
+							<a data-modal="edit-usergroup" data-tool="edit" class="tool-edit disabled"></a>
+							<a data-modal="remove-usergroup" data-tool="remove" class="tool-remove disabled"></a>
+						</div>
+					<% } %>
 				</div>
 			</div>
 			<div class="card-content">
@@ -26,6 +29,7 @@
 						<tr>
 							<th></th>
 							<th>Название</th>
+							<th>Уровень доступа</th>
 						</tr>
 					</thead>
 				</table>
@@ -47,6 +51,14 @@
 				<div class="form-group">
 					<label>Название</label>
 					<input type="text" name="name" class="form-control" placeholder="Название новой группы">
+				</div>
+				<div class="form-group">
+					<label>Уровень доступа</label>
+					<select name="lvl" class="form-control">
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+					</select>
 				</div>
 			</div>
 			<div class="cd-modal-footer text-right">
@@ -89,6 +101,14 @@
 				<div class="form-group">
 					<label>Название</label>
 					<input type="text" name="name" class="form-control" placeholder="Название группы">
+				</div>
+				<div class="form-group">
+					<label>Уровень доступа</label>
+					<select name="lvl" class="form-control">
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+					</select>
 				</div>
 			</div>
 			<div class="cd-modal-footer text-center">

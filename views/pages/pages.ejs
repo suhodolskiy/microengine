@@ -9,15 +9,18 @@
 				<div class="card-header">
 					<h1>Список <span>статических страниц</span></h1>
 				</div>
-				<div class="panel-tools">
+				<div class="panel-tools basic-panel">
 					<a data-tool="card-resize" class="tool-resize"></a>
 					<a data-tool="table-reload" class="tool-refresh" ></a>
-					<a data-tool="trigger" class="tool-more"><span class="notifications"></span></a>
-					<div class="tools-more">
-						<a href="/micro/site/pages/new" class="tool-add"></a>
-						<a data-tool="edit-page" class="tool-edit disabled"></a>
-						<a data-modal="remove-page" data-tool="remove" class="tool-remove disabled"></a>
-					</div>
+
+					<% if(authUser._group[0].lvl == 1){ %>
+						<a class="trigger"><span></span></a>
+						<div class="tools-more">
+							<a href="/micro/site/pages/new" class="tool-add"></a>
+							<a data-tool="edit-page" class="tool-edit disabled"></a>
+							<a data-modal="remove-page" data-tool="remove" class="tool-remove disabled"></a>
+						</div>
+					<% } %>
 				</div>
 			</div>
 			<div class="card-content">
