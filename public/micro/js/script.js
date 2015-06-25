@@ -9,12 +9,11 @@
 			$appLoading.fadeOut(400, function(){console.log('App Ready!')});
 		}, 500);
 
-		// get access level
+		// disabled
 
-
-		
-
-	
+		$('.disabled').click(function(event) {
+			event.preventDefault();
+		});	
 
 		// dataTables
 		var $table = $('table.app-table'), $dataTable,
@@ -664,10 +663,34 @@
 			});	
 		}
 
-		ChartRates.prototype.load = function(){
-			$.get('http://217.21.36.125/umc/public/api/kurs', function(data) {
-				console.log(data);
-			});
+		ChartRates.prototype.load = function(){ 
+				// http://172.16.0.1/
+				// http://217.21.36.125/
+
+
+			// $.ajax({ 
+			// 	url: 'http://172.16.0.1/umc/public/api/kurs',
+			// 	type: 'GET',
+			// 	dataType: 'JSONP',
+			// 	success: function(data){
+			// 		console.log(data);
+			// 	}
+			// });
+
+			// $.get('http://172.16.0.1/umc/public/api/kurs', function(data) {
+			// 	console.log(data);
+			// });
+
+	$.ajax({
+		url: 'http://172.16.0.1/umc/public/api/kurs',
+		type: 'GET',
+		dataType: 'JSONP',
+		success: function(data){
+			console.log(data.Currency[0].Name);
+		}
+	});
+
+			
 		};
 
 

@@ -12,7 +12,8 @@ exports.get = function(req, res) {
     			res.render('./micro/pages/calendar',{
 					pageName : 'calendar',
 					pageNameRu : 'График работы',
-					users: users
+					users: users,
+					level: req.authUser._group[0].lvl
 				});
             } else{
                 res.status(500).end;                

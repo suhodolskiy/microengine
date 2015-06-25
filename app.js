@@ -42,9 +42,9 @@ var app = express();
 
 // Routes
 
-	var backend = require('./routes/backend/');
 
-	app.use('/micro', backend);
+	app.use('/micro', require('./routes/backend/'));
+	app.use('/', require('./routes/frontend/'));
 	app.use(express.static(path.join(__dirname + '/public')));
 
 

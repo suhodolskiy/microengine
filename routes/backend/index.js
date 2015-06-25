@@ -1,7 +1,8 @@
 var express = require('express'),
 	router = express.Router(),
 	checkAuth = require('../../middleware/checkAuth'),
-	checkLogin = require('../../middleware/checkLogin');
+	checkLogin = require('../../middleware/checkLogin'),
+	level = require('../../middleware/level');
 
 	// Level
 		router.get('/level', checkLogin, require('./level').get);
@@ -28,7 +29,7 @@ var express = require('express'),
 		router.get('/help', checkAuth, require('./help').get);
 
 	// Users
-		router.get('/users', checkAuth, checkLogin, require('./users').get);
+		router.get('/users', checkAuth, require('./users').get);
 		router.get('/users/data', checkAuth, require('./users/data').get);
 
 			router.post('/users/new', checkAuth, require('./users/new').post);		

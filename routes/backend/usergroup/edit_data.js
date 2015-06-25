@@ -7,7 +7,7 @@ exports.post = function(req, res, next) {
 
     async.waterfall([
         function(callback){
-            UserGroup.findOne({_id: body.id},'_id name', callback);
+            UserGroup.findOne({_id: body.id}, callback);
         },
         function(user, callback){
             res.send(JSON.stringify({

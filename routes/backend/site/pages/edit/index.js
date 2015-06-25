@@ -10,7 +10,8 @@ exports.get = function(req, res) {
          	res.render('./micro/pages/edit_page',{
 				pageName : 'editPage',
 				pageNameRu : 'Редактирование страницы',
-				page : page
+				page : page,
+                level: req.authUser._group[0].lvl
 			});	 
         }
     ]);		
