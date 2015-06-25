@@ -1,0 +1,23 @@
+<% layout('../layout/dark') -%>
+<% block('title', pageNameRu) -%>
+
+
+<div class="panel-mini amt fadeInDown">
+	<div class="panel-mini__header">
+		<a class="ion-log-in" id="logo"><span>micro</span>engine</a>
+	</div>
+	<form id="signin">
+		<div class="panel-mini__body">
+			<input type="email" name="email" placeholder="E-mail" required>
+			<input type="password" name="password" placeholder="Пароль" required>
+		</div>
+		<div class="panel-mini__footer">
+			<div>
+				<button class="btn btn-success">Войти</button>
+			</div>
+			<div class="password-recovery">
+				Если забыли пароль, Вы можете его <a href="/micro/forgot">восстановить</a>
+			</div>
+		</div>
+	</form>
+</div>

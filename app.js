@@ -76,12 +76,12 @@ var app = express();
 	// production error handler
 	// no stacktraces leaked to user
 	app.use(function(err, req, res, next) {
-		console.log('x1');
-	    res.status(err.status || 500);
-	    res.render('pages/error', {
-	        message: err.message,
-	        error: {}
-	    });
+		console.log('Error: '+ err.message);
+	    // res.status(err.status || 500);
+	    // res.render('pages/error', {
+	    //     message: err.message,
+	    //     error: {}
+	    // });
 	});
 	
 // Server

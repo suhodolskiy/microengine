@@ -1,0 +1,20 @@
+<% layout('../layout/base') -%>
+<% block('title', News[0].name.initial) -%>
+
+<div class="container">
+	<div class="row b-page">
+		<div class="col-ph-12">
+			<div class="b-page__title">
+				<span><%= News[0]._category[0].name.initial %></span>
+				<h1><%= News[0].name.initial %></h1>
+				<span><%= moment(News[0].created).format('D.MM.YYYY') %></span>
+			</div>
+			<div class="b-page_content">
+				<%- News[0].description %>
+			</div>
+			<div class="b-page_footer">
+				<a href="/">Назад</a>
+			</div>
+		</div>
+	</div>
+</div>

@@ -29,26 +29,30 @@ var mongoose = require('../components/mongoose/'),
 
 // Statics
 
-    ExchangeRates.statics.add = function(date, usd, eur, rub){
-        var Rate = this;
-
-        async.waterfall([
-            function(callback){
-                Rate.findOne({date: date}, callback);
-            },
-            function(rate, callback){
-                if(rate){
-                    callback(new HttpMessage('У вас актуальная версия курсов валют на сегодняшний день.'));
-                } else{
-                    // Add
-                }
-            }
-        ]);
+    ExchangeRates.statics.load = function(){
+        
     };
 
-    ExchangeRates.statics.cleaning = function(){
-        // Cleaning table
-    };
+    // ExchangeRates.statics.add = function(date, usd, eur, rub){
+    //     var Rate = this;
+
+    //     async.waterfall([
+    //         function(callback){
+    //             Rate.findOne({date: date}, callback);
+    //         },
+    //         function(rate, callback){
+    //             if(rate){
+    //                 callback(new HttpMessage('У вас актуальная версия курсов валют на сегодняшний день.'));
+    //             } else{
+    //                 // Add
+    //             }
+    //         }
+    //     ]);
+    // };
+
+    // ExchangeRates.statics.cleaning = function(){
+    //     // Cleaning table
+    // };
 
 
 // Exports

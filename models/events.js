@@ -1,4 +1,5 @@
-var mongoose = require('../components/mongoose');
+var mongoose = require('../components/mongoose'),
+    HttpMessage = require('../components/error/').HttpMessage;
 
 var Schema = mongoose.Schema,
     Events = new Schema({
@@ -28,13 +29,19 @@ var Schema = mongoose.Schema,
             });
     };
 
-    Events.statics.remove = function(body, callback) {
+    Events.statics.remove = function(body, lvl, callback) {
         var Event = this;
 
-        Event.findOneAndRemove({_id: body.id}, function(err){
-            if(err) return err;
-            callback(null);
-        });
+        if(lvl == 1){
+            Event.findOneAndRemove({_id: body.id}, function(err){
+                if(err) return err;
+                callback(null);
+            });
+        } else {
+            callback(new HttpMessage(403, 'Ваш уровень доступа не позволяет выполнить данное действие'))
+        }
+
+       
     };
 
 // Exports

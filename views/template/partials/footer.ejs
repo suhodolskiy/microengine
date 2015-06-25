@@ -1,0 +1,18 @@
+<footer class="b-footer">
+	<div class="container">
+		<div class="col-ph-2">
+			<a class="logo-company">Абсолют</a>
+		</div>
+		<div class="col-ph-7">
+			<nav class="b-footer__menu">
+				<a href="#news">Новости</a>
+				<% Pages.forEach(function(page) { %>
+					<a href="/<%=page.name.trslt %>"><%=page.name.initial %></a>
+				<% }) %>
+			</nav>
+		</div>
+		<div class="col-ph-3 b-footer__company">
+			© ООО «АБСОЛЮТ-ПРОМ». УНП 43285755
+		</div>
+	</div>
+</footer>

@@ -1,6 +1,5 @@
 var UserGroup = require('../../../models/userGroup.js').UserGroup,
-    HttpMessage = require('../../../components/error').HttpMessage,
-    async = require('async');
+    HttpMessage = require('../../../components/error').HttpMessage;
 
 exports.post = function(req, res, next) {
 	UserGroup.add(req.body, function(err){

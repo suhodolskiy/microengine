@@ -35,8 +35,10 @@ var Schema = mongoose.Schema,
             default: Date.now
         },
         description: {
-            type: String,
-            required: true
+            type: String
+        },
+        image: {
+            type: String
         },
         publish: {
             type: Boolean,
@@ -55,7 +57,7 @@ var Schema = mongoose.Schema,
             },
             function(news, callback){
                 if(!news){
-                    var news = new News({name: {initial: body.name, trslt: body.nameTrslt}, _category: body.category, description: body.description, _author: author, publish: publish});
+                    var news = new News({name: {initial: body.name, trslt: body.nameTrslt}, _category: body.category, description: body.description, _author: author, publish: publish, image: body.image});
 
                     news.save(function(err){
                         if(err) return err;
@@ -77,7 +79,7 @@ var Schema = mongoose.Schema,
 
         async.waterfall([
             function(callback){
-                News.findOneAndUpdate({_id: body.id}, {name: {initial: body.name, trslt: body.nameTrslt}, _category: body.category, description: body.description, publish: publish}, callback);
+                News.findOneAndUpdate({_id: body.id}, {name: {initial: body.name, trslt: body.nameTrslt}, _category: body.category, description: body.description, publish: publish, image: body.image}, callback);
             },
             function(news, callback){
                 if(!news){

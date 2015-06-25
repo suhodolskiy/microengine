@@ -1,0 +1,82 @@
+<div class="container">
+	<div class="row" id="news">
+		<div class="col-ph-12">
+			<h1 class="title">Новости, акции и новинки компании</h1>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-ph-12">
+			<div class="b-news owl-carousel owl-theme">
+				<% News.forEach(function(news) { if(news.publish == true && news._category[0].name.trslt == 'novosti-kompanii' || news._category[0].name.trslt == 'novinki'){%>
+						<div class="item">
+							<div class="item-news">
+								<a href="/<%=news._category[0].name.trslt%>/<%=news.name.trslt%>" class="item-news__image">
+									<% if(news.image){ %>
+										<img src="<%=news.image%>" alt="">
+									<% }else{ %>
+										<img src="/template/images/no_image.gif" alt="">
+									<% } %>
+								</a>
+								<a href="/<%=news._category[0].name.trslt%>/<%=news.name.trslt%>" class="item-news__category"><%=news._category[0].name.initial%></a>
+								<a href="/<%=news._category[0].name.trslt%>/<%=news.name.trslt%>" class="item-news__title"><%=news.name.initial%></a>
+							</div>
+						</div>  
+				<% }}); %>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-ph-12">
+			<h1 class="title">Популярные товары</h1>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-ph-12">
+			<div class="b-news owl-carousel owl-theme">
+				<% News.forEach(function(news) { if(news.publish == true && news._category[0].name.trslt == 'populyarnye-tovary'){%>
+						<div class="item">
+							<div class="item-news">
+								<a href="/<%=news._category[0].name.trslt%>/<%=news.name.trslt%>" class="item-news__image">
+									<% if(news.image){ %>
+										<img src="<%=news.image%>" alt="">
+									<% }else{ %>
+										<img src="/template/images/no_image.gif" alt="">
+									<% } %>
+								</a>
+								<a href="/<%=news._category[0].name.trslt%>/<%=news.name.trslt%>" class="item-news__category"><%=news._category[0].name.initial%></a>
+								<a href="/<%=news._category[0].name.trslt%>/<%=news.name.trslt%>" class="item-news__title"><%=news.name.initial%></a>
+							</div>
+						</div>  
+				<% }}); %>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-ph-12">
+			<h1 class="title">Популярные идеи для вашего ремонта</h1>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-ph-12">
+			<div class="b-news owl-carousel owl-theme">
+				<% News.forEach(function(news) { if(news.publish == true && news._category[0].name.trslt != 'populyarnye-tovary' && news._category[0].name.trslt != 'novosti-kompanii' && news._category[0].name.trslt != 'novinki'){%>
+						<div class="item">
+							<div class="item-news">
+								<a href="/<%=news._category[0].name.trslt%>/<%=news.name.trslt%>" class="item-news__image">
+									<% if(news.image){ %>
+										<img src="<%=news.image%>" alt="">
+									<% }else{ %>
+										<img src="/template/images/no_image.gif" alt="">
+									<% } %>
+								</a>
+								<a href="/<%=news._category[0].name.trslt%>/<%=news.name.trslt%>" class="item-news__category"><%=news._category[0].name.initial%></a>
+								<a href="/<%=news._category[0].name.trslt%>/<%=news.name.trslt%>" class="item-news__title"><%=news.name.initial%></a>
+							</div>
+						</div>  
+				<% }}); %>
+			</div>
+		</div>
+	</div>
+</div>

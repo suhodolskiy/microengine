@@ -1,0 +1,19 @@
+<% layout('../layout/dark') -%>
+<% block('title', pageNameRu) -%>
+
+
+<div class="panel-mini forgot amt fadeInDown">
+	<div class="panel-mini__header">
+		<a class="ion-log-in" id="logo" href="/micro/login"><span>micro</span>engine</a>
+		<h1>Забыли пароль?</h1>
+		<div class="description">Введите адрес электронной почты, чтобы сбросить пароль. Возможно, вам понадобится проверить папку нежелательной почты.</div>
+	</div>
+	<form id="forgot-pass">
+		<div class="panel-mini__body">
+			<input type="email" name="email" placeholder="E-mail">
+		</div>
+		<div class="panel-mini__footer">
+			<button class="btn btn-success">Отправить</button>
+		</div>
+	</form>
+</div>

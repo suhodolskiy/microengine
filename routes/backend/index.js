@@ -3,11 +3,22 @@ var express = require('express'),
 	checkAuth = require('../../middleware/checkAuth'),
 	checkLogin = require('../../middleware/checkLogin');
 
+	// Level
+		router.get('/level', checkLogin, require('./level').get);
+
 	// Login
 		router.get('/login', checkLogin, require('./login').get);
 
 			router.post('/login', require('./login/signin').post);
 			router.get('/signout', checkLogin, require('./login/signout').get);
+
+		router.get('/forgot', checkLogin, require('./forgot').get);
+
+			router.post('/forgot', checkLogin, require('./forgot/forgot').post);
+
+		router.get('/reset/:token', require('./reset').get);
+
+			router.post('/reset/:token', require('./reset/reset').post);
 
 	// Dashboard
 		router.get('/', checkAuth, require('./dashboard').get);
@@ -17,7 +28,7 @@ var express = require('express'),
 		router.get('/help', checkAuth, require('./help').get);
 
 	// Users
-		router.get('/users', checkAuth, require('./users').get);
+		router.get('/users', checkAuth, checkLogin, require('./users').get);
 		router.get('/users/data', checkAuth, require('./users/data').get);
 
 			router.post('/users/new', checkAuth, require('./users/new').post);		

@@ -1,0 +1,51 @@
+<% layout('../../layout/store') -%>
+<% block('title', pageNameRu) -%>
+
+
+<div class="row">
+	<div class="col-ph-12">
+		<div class="app-card">
+			<div class="card-title clr">
+				<div class="card-header">
+					<h1>Продажи</h1>
+				</div>
+				<div class="panel-tools basic-panel">
+					<a data-tool="card-resize" class="tool-resize"></a>
+					<a data-tool="table-reload" class="tool-refresh" ></a>
+				</div>
+			</div>
+			<div class="card-content">
+				<div class="sale-datepicker">
+					<input type="text" placeholder="Выберите дату...">
+					<i class="ion-calendar"></i>
+				</div>
+				<table class="app-table" table-name="sale">
+					<thead>
+						<tr>
+							<th></th>
+							<th>Название</th>
+							<th>Провел(а)</th>
+							<th>Количество</th>
+							<th>Цена</th>
+							<th>Сумма</th>
+							<th>Комментарий</th>
+						</tr>
+					</thead>
+					<tfoot>
+						<tr>
+							
+							
+							
+	
+							<th colspan="5" class="text-right"><b>Сумма за день:</b></th>
+							<th class="text-left"></th>
+							<th></th>
+
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+

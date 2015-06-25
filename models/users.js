@@ -1,13 +1,7 @@
 var crypto = require('crypto'),
     async = require('async'),
-    HttpMessage = require('../components/error/').HttpMessage;
-
-
-    crypto.randomBytes(8, function(ex, buf) {
-        var token = buf.toString('hex');
-
-        console.log(token);
-    });
+    HttpMessage = require('../components/error/').HttpMessage,
+    nodemailer = require('nodemailer');
 
 var UserGroup = require('./userGroup.js').UserGroup;
 
@@ -42,6 +36,12 @@ var mongoose = require('../components/mongoose/'),
   		hashedPassword: {
 			type: String,
 			required: true
+        },
+        resetPasswordToken: {
+            type: String
+        },
+        resetPasswordExpires: {
+            type: Date
         }
     });
 
@@ -69,6 +69,97 @@ var mongoose = require('../components/mongoose/'),
 
     // Statics
 
+        var smtpTransport = nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+                user: 'app.microengine@gmail.com',
+                pass: '4c57b5824a3ceabd'
+            }
+        });
+
+        // Reset password
+
+            Users.statics.reset = function(password, token, callback){
+                var User = this;
+
+                async.waterfall([
+                    function(callback){
+                        User.findOne({ resetPasswordToken: token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
+                            if(!user) {
+                                return res.redirect('/micro/login');
+                            }
+
+                            user.password = password;
+                            user.resetPasswordToken = undefined;
+                            user.resetPasswordExpires = undefined;
+
+                            user.save(function(err) {
+                                callback(err, user);
+                            });
+                        });
+                    },
+                    function(user, callback){
+                        var mailOptions = {
+                            to: user.email,
+                            from: 'app.microengine@gmail.com',
+                            subject: 'Ваш пароль был изменен',
+                            text: 'Привет,\n\n' +
+                            'Это подтверждение того, что пароль для вашей учетной записи ' + user.email + ' был изменен.\n'
+                        };
+
+                        smtpTransport.sendMail(mailOptions, function(err) {
+                            callback(null);
+                        });
+                    }
+                ], callback);
+
+                                
+            };
+
+        // Forgot password
+
+            Users.statics.forgot = function(email, host, callback){
+                var User = this;
+
+                console.log('Forgot 2');
+
+                async.waterfall([
+                    function(callback){
+                        crypto.randomBytes(20, function(err, buf) {
+                            var token = buf.toString('hex');
+                            callback(err, token);
+                        });
+                    },
+                    function(token, callback){
+                        User.findOne({email: email}, function(err, user){
+                            if (!user) {
+                                callback(new HttpMessage(403, 'Пользователь с таким E-mail не найден'));
+                            }
+                            user.resetPasswordToken = token;
+                            user.resetPasswordExpires = Date.now() + 3600000;
+
+                            user.save(function(err) {
+                                callback(err, token, user);
+                            });
+                        });
+                    },
+                    function(token, user, callback){
+                        var mailOptions = {
+                            to: user.email,
+                            from: 'app.microengine@gmail.com',
+                            subject: 'Microengine сброс пароля',
+                            text: ' Вы получили это письмо, потому что вы (или кто-то еще) запросили сброс пароля для учетной записи.\n\n' +
+                            'Пожалуйста, нажмите на следующую ссылку, или вставить это в вашем браузере, чтобы завершить процесс:\n\n' +
+                            'http://' + host + '/micro/reset/' + token + '\n\n' +
+                            'Если вы не просили это, пожалуйста, проигнорируйте это письмо и ваш пароль будет оставаться без изменений.\n'
+                        };
+                        smtpTransport.sendMail(mailOptions, function(err) {
+                            callback(null);
+                        });
+                    }
+                ], callback);
+            };
+
         // Аuthorization
 
             Users.statics.signIn = function(body, callback) {
@@ -76,7 +167,11 @@ var mongoose = require('../components/mongoose/'),
 
                 async.waterfall([
                     function(callback){
-                        User.findOne({email: body.email}, callback);
+                        if(body.email.length || body.password.length){
+                            User.findOne({email: body.email}, callback);
+                        } else {
+                            callback(new HttpMessage(403, 'Поля должны быть заполнены'));
+                        }
                     },
                     function(user, callback){
                         if(user){

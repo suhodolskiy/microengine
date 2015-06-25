@@ -1,6 +1,5 @@
 var Users = require('../../../models/users.js').Users,
     HttpMessage = require('../../../components/error').HttpMessage,
-    moment = require('moment'),
     async = require('async');
 
 exports.get = function(req, res) {

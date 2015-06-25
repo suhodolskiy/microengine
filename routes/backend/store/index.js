@@ -16,7 +16,7 @@ exports.get = function(req, res) {
 		}
 	],
 	function(err, results){
-		res.render('./pages/store/store',{
+		res.render('./micro/pages/store/store',{
 			pageName : 'store',
 			pageNameRu : 'Складской учет',
 			units: results[0],
@@ -25,21 +25,3 @@ exports.get = function(req, res) {
 	});
 	
 };
-
-
-
-
-		
-	// async.waterfall([
- //        function(callback){
- //            Unit.find({}, '_id measure').exec(callback);
- //        },
- //        function(unit ,callback){
- //        	if(unit){
- //        		Unit.find({}, '_id measure').exec(callback);
- //        	}
- //        },
- //        function(unit){
- //         	
- //        }
- //    ]);		

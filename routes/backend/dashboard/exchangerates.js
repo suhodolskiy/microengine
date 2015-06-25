@@ -5,7 +5,7 @@ var ExchangeRates = require('../../../models/exchangerates').ExchangeRates,
 exports.get = function(req, res) {
     async.waterfall([
         function(callback){
-            ExchangeRates.find({}).exec(callback);
+            ExchangeRates.find({}).lean().exec(callback);
         },
         function(rates){  
             if(rates){

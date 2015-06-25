@@ -1,5 +1,5 @@
 exports.get = function(req, res) {
-	res.render('./pages/news',{
+	res.render('./micro/pages/news',{
 		pageName : 'news',
 		pageNameRu : 'Список новостей'
 	});

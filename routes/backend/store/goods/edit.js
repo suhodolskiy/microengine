@@ -7,8 +7,6 @@ exports.post = function(req, res, next) {
         if(err){
             return next(new HttpMessage(403, err.message));
         }
-
-        console.log('test');
         res.status(200).end();
     });
 };

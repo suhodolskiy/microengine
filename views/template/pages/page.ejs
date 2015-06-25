@@ -1,0 +1,18 @@
+<% layout('../layout/base') -%>
+<% block('title', Page[0].name.initial) -%>
+
+<div class="container">
+	<div class="row b-page">
+		<div class="col-ph-12">
+			<div class="b-page__title">
+				<h1><%= Page[0].name.initial %></h1>
+			</div>
+			<div class="b-page_content">
+				<%- Page[0].description %>
+			</div>
+			<div class="b-page_footer">
+				<a href="/">Назад</a>
+			</div>
+		</div>
+	</div>
+</div>

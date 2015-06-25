@@ -7,7 +7,7 @@ exports.get = function(req, res) {
             NewsCategories.find({}, '_id name.initial').exec(callback);
         },
         function(newsCategories){
-         	res.render('./pages/new_news',{
+         	res.render('./micro/pages/new_news',{
 				pageName : 'newNews',
 				pageNameRu : 'Создание новости',
 				categories : newsCategories

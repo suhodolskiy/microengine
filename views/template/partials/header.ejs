@@ -1,0 +1,25 @@
+<header class="b-header">
+	<div class="container">
+		<div class="col-ph-2">
+			<a href="/" class="logo-company">Абсолют</a>
+		</div>
+		<div class="col-ph-7">
+			<nav class="b-header__menu">
+				<a href="/#news">Новости</a>
+
+				<% Pages.forEach(function(page) { %>
+					<a href="/<%=page.name.trslt %>"><%=page.name.initial %></a>
+				<% }) %>
+
+					
+			</nav>
+		</div>
+		<div class="col-ph-3 b-header__info">
+			<% if(authUser){%>
+				<a href="/micro" class="btn-header">Админ панель</a>
+			<% } else { %>
+				<div class="b-header__phone">+375 (25) <b>914-60-40</b></div>
+			<% } %>			
+		</div>
+	</div>
+</header>

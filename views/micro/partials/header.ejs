@@ -1,0 +1,23 @@
+<header class="app-header amt">
+	<div class="container">
+		<div class="row">
+			<div class="col-ph-5">
+				<a href="/micro" class="ion-android-star" id="logo">micro<span>engine</span></a>
+			</div>
+			<div class="col-ph-7">
+				<nav class="nav-menu">
+					<a class="info-profile">
+						<span>
+							<%=authUser.name %>
+							<small><%=authUser._group[0].name %></small>
+						</span>
+						<img src="/micro/images/photo.png" alt="">
+					</a>
+					<ul class="info-profile-menu">
+						<li><a id="signout">Выйти</a></li>
+					</ul>
+				</ul>
+			</div>
+		</div>
+	</div>
+</header>

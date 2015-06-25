@@ -3,11 +3,12 @@ var Events = require('../../../models/events.js').Events,
     async = require('async');
 
 exports.post = function(req, res) {
-	Events.remove(req.body, function(err){
-    	if(err){
- 			res.status(403).end();
-    	} else{
-    		res.status(200).end();
+	Events.remove(req.body, req.authUser._group[0].lvl, function(err){
+    	if(err){ 
+    		res.status(403).end();
+    		return false;
     	}
+    	
+    	res.status(200).end();
     });
 }

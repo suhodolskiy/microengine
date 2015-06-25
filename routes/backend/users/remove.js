@@ -1,11 +1,7 @@
 var Users = require('../../../models/users.js').Users,
-    HttpMessage = require('../../../components/error').HttpMessage,
-    str2json = require('string-to-json'),
-    async = require('async');
+    HttpMessage = require('../../../components/error').HttpMessage;
 
 exports.post = function(req, res, next) {
-	var body = req.body;
-	
 	Users.remove(req.body, function(err){
 		if(err){
             return next(new HttpMessage(403, err.message));

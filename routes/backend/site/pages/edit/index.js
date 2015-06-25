@@ -7,7 +7,7 @@ exports.get = function(req, res) {
             Pages.find({_id: req.params.id}, '-author').exec(callback);
         },
         function(page){
-         	res.render('./pages/edit_page',{
+         	res.render('./micro/pages/edit_page',{
 				pageName : 'editPage',
 				pageNameRu : 'Редактирование страницы',
 				page : page

@@ -6,8 +6,6 @@ exports.post = function(req, res, next) {
         if(err){
             return next(new HttpMessage(403, err.message));
         }
-        console.log('callback');
-
         res.status(200).end();
     });
 }

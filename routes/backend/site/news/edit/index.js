@@ -3,7 +3,6 @@ var NewsCategories = require('../../../../../models/newsсategories.js').NewsCat
     async = require('async');
 
 exports.get = function(req, res, next) {
-    console.log('x123');
     async.series([
         function(callback){
             var newsCategories = NewsCategories.find({}, '_id name.initial', function(err, categories){
@@ -16,7 +15,7 @@ exports.get = function(req, res, next) {
             });
         }
     ],function(err, results){
-        res.render('./pages/edit_news',{
+        res.render('./micro/pages/edit_news',{
             pageName : 'editNews',
             pageNameRu : 'Редактирование новости',
             categories : results[0],
