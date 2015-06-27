@@ -450,9 +450,7 @@ figure {
 .fl-right {float: right; }
 .fl-left {float: left; }
 
-.disabled{
-    opacity: 0.5;
-}
+
 
 /********************************************************************************************* 
 
@@ -1088,6 +1086,7 @@ a.DTTT_button > span{
 .tool-remove:before{content: '\f252';}
 .tool-supply:before{content: '\f267';}
 .tool-sale:before{content: '\f25e';}
+.tool-help:before{content: '\f27c';}
 
 
 .panel-tools a:hover,
@@ -1515,6 +1514,9 @@ header.app-header .nav-menu a.icon-notice .icon-notice-amt{
     color: #fff;
 }
 
+
+
+
 /* logo */
 #logo{
     color: #fff;
@@ -1667,6 +1669,10 @@ div.app-menu .app-menu-item .item-drop li a:hover{
     div.app-menu .app-menu-item .item-drop li{text-align: center;}
     div.app-menu .app-menu-item .item-drop li a{padding: 10px;}
     div.app-menu .app-menu-item .item-drop li a:before{content: '';}
+}
+
+div.app-menu .disabled{
+    opacity: 0.5;
 }
 
 

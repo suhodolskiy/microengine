@@ -5,9 +5,7 @@
 		// hide loading/preloader
 		var $appLoading = $('.app-loading');
 
-		setTimeout(function(){
-			$appLoading.fadeOut(400, function(){console.log('App Ready!')});
-		}, 500);
+		$appLoading.fadeOut(400, function(){console.log('App Ready!')});
 
 		// disabled
 
@@ -30,7 +28,6 @@
 				dataTablesReload();
 			}
 		});
-
 
 		// Base
 		var baseDatePicker = $('.datepicker');
@@ -155,6 +152,7 @@
 					$dataTable = $table.DataTable({
 						"sAjaxSource": "/micro/site/news/categories/data",
 						"dataSrc": "data",
+						
 						"responsive": true,
 						"aoColumns": [
 							{
@@ -324,8 +322,14 @@
 						"tableTools": {
             				"sSwfPath": "/micro/swf/copy_csv_xls_pdf.swf",
 	        				"aButtons": [
-			                    "xls",
-			                    "print"
+			                    {
+			                    	"sExtends": "xls",
+			                    	"sTitle": "Micro Engine - Продажи("+$salePicker.val()+")"
+			                    },
+			                    {
+			                    	"sExtends": "print",
+			                    	"sTitle": "Micro Engine - Продажи("+$salePicker.val()+")"
+			                    }
 	                		]
         				},
 						"ajax": {
@@ -384,7 +388,9 @@
 	            				total += p;
 	            			});
 
-	            			$(api.column(5).footer()).html('<b>'+roadPrice(total)+'</b>');
+	            			$('.qweqweqwe').html('<b>'+roadPrice(total)+'</b>')
+
+	            			// $(api.column(5).footer()).html('<b>'+roadPrice(total)+'</b>');
 						}
 
 					});
@@ -657,7 +663,7 @@
 				success: function(data){
 					
 					$.each(data, function(i, rate) {
-						Rate.chart.addData([rate.USD, rate.EUR, rate.RUB], moment(rate.date).format('MM.D.YYYY'));
+						Rate.chart.addData([rate.USD, rate.EUR, rate.RUB], moment(rate.date).format('D.MM.YYYY'));
 					});
 				}
 			});	
@@ -1268,6 +1274,7 @@
 		};
 
 		new SaleCalculation({qty: $('#goods-sale-qty'), price: $('#goods-sale-price')},{sum: $('#goods-sale-sum')});
+		
 
 		/********************************************************************************************* 
 
@@ -1380,6 +1387,12 @@
 					break;
 					case 'table-reload':
 						dataTablesReload();
+					break;
+					case 'load-rates':
+						Notification.new('success', 'Актуальные курсы валют');
+					break;
+					case 'help':
+						window.location.href = "/micro/help";
 					break;
 				}
 			}, function(tool, source){

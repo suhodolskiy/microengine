@@ -454,7 +454,6 @@ footer.b-footer .logo-company{
     top: 50%; margin-top: -32px;
     z-index: 997;
 }
-
 .b-carousel .owl-prev{
     left: 200px;
 }
@@ -462,6 +461,14 @@ footer.b-footer .logo-company{
 .b-carousel .owl-next{
     right: 200px;
     background-position: -61px 0;
+}
+
+
+
+@media (max-width: 1200px) {
+    .b-carousel, .b-app{
+        width: 1200px; 
+    }
 }
 
 
