@@ -19,8 +19,7 @@ exports.get = function(req, res, next) {
             pageName : 'editNews',
             pageNameRu : 'Редактирование новости',
             categories : results[0],
-            news : results[1],
-            level: req.authUser._group[0].lvl
+            news : results[1]
         });  
     });
 };

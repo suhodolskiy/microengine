@@ -1,0 +1,2 @@
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2015-06-28T15:59:58.140Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"app/app.js","timestamp":"2015-06-28T15:59:58.678Z"}

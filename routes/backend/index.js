@@ -1,17 +1,13 @@
 var express = require('express'),
 	router = express.Router(),
 	checkAuth = require('../../middleware/checkAuth'),
-	checkLogin = require('../../middleware/checkLogin'),
-	level = require('../../middleware/level');
-
-	// Level
-		router.get('/level', checkLogin, require('./level').get);
-
+	checkLogin = require('../../middleware/checkLogin');
+	
 	// Login
 		router.get('/login', checkLogin, require('./login').get);
 
 			router.post('/login', require('./login/signin').post);
-			router.get('/signout', checkLogin, require('./login/signout').get);
+			router.get('/signout', checkAuth, require('./login/signout').get);
 
 		router.get('/forgot', checkLogin, require('./forgot').get);
 
@@ -23,7 +19,6 @@ var express = require('express'),
 
 	// Dashboard
 		router.get('/', checkAuth, require('./dashboard').get);
-			router.get('/rates', checkAuth, require('./dashboard/exchangerates').get);
 
 	// Help
 		router.get('/help', checkAuth, require('./help').get);
@@ -133,9 +128,5 @@ var express = require('express'),
 				router.post('/store/providers/remove', checkAuth, require('./store/providers/remove').post);
 				router.post('/store/providers/edit_data', checkAuth, require('./store/providers/edit_data').post);
 				router.post('/store/providers/edit', checkAuth, require('./store/providers/edit').post);
-
-		
-							
-
 
 module.exports = router;

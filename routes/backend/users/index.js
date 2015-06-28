@@ -11,8 +11,7 @@ exports.get = function(req, res) {
          	res.render('./micro/pages/users', {
         		pageName : 'users',
         		pageNameRu : 'Список пользователей',
-        		userGroups : userGroup,
-                level: req.authUser._group[0].lvl
+        		userGroups : userGroup
     		});   
         }
     ]);		

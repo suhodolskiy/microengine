@@ -11,7 +11,14 @@
             }
         }
     },
-    "session" : {
+    "nodemailer": {
+        "service": "Gmail",
+        "auth": {
+            "user": "",
+            "pass": "" 
+        } 
+    },
+    "session": {
         "secret" : "IlyaSuhodolskiy",
         "key": "sid",
         "cookie": {

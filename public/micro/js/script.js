@@ -516,11 +516,11 @@
 		// Logout
 		$('#signout').click(function(event) {
 			event.preventDefault();
-			$.ajax({url: '/micro/signout', type: 'GET', statusCode: {
-            	200: function(){
-            		 window.location.href = "/micro/login";
-            	}
-            }});
+			$.ajax({url: '/micro/signout', type: 'GET', statusCode : {
+				200: function(){
+					window.location.href = "/micro/login";
+				}
+			}});
 		});
 
 		// Create new page
@@ -601,7 +601,6 @@
 
 
 		// Chart
-
 		function ChartRates(options){
 			this.canvas = $(options.chart);
 			this.url = options.url;
@@ -640,70 +639,20 @@
 			};
 
 			if(!this.canvas.length){return false;}
-
 			this.chart = new Chart(this.canvas.get(0).getContext("2d")).Line(this.options, {responsive: true}); 
-
 			this.get();
 		};
 
 		ChartRates.prototype.drop = function(){
-			var Rate = this;
-
-			
-			$.each(this.chart.datasets, function(i, points) {
-				console.log(points.length);
-			});
 		};
 		ChartRates.prototype.get = function(){
-			var Rate = this;
-
-			$.ajax({
-				url: Rate.url,
-				type: 'GET',
-				success: function(data){
-					
-					$.each(data, function(i, rate) {
-						Rate.chart.addData([rate.USD, rate.EUR, rate.RUB], moment(rate.date).format('D.MM.YYYY'));
-					});
-				}
-			});	
-		}
-
+		};
 		ChartRates.prototype.load = function(){ 
-				// http://172.16.0.1/
-				// http://217.21.36.125/
-
-
-			// $.ajax({ 
-			// 	url: 'http://172.16.0.1/umc/public/api/kurs',
-			// 	type: 'GET',
-			// 	dataType: 'JSONP',
-			// 	success: function(data){
-			// 		console.log(data);
-			// 	}
-			// });
-
-			// $.get('http://172.16.0.1/umc/public/api/kurs', function(data) {
-			// 	console.log(data);
-			// });
-
-	$.ajax({
-		url: 'http://172.16.0.1/umc/public/api/kurs',
-		type: 'GET',
-		dataType: 'JSONP',
-		success: function(data){
-			console.log(data.Currency[0].Name);
-		}
-	});
-
-			
 		};
 
 
 
 		Chart = new ChartRates({chart: '#chart-rates', url: '/micro/rates'});
-
-
 
 		/********************************************************************************************* 
 			
@@ -1049,22 +998,6 @@
 
 				turnoverPanelTools.setAccess();
 			});
-
-			// this.panel = panelTools;
-			// this.tools = this.panel.find('[data-tool]');
-
-			// this.tools.click(function(event) {
-			// 	event.preventDefault();
-				
-			// 	switch ($(this).data('tool')){
-			// 		case 'category-edit':
-			// 			if(!$(this).hasClass('disabled')){ category.renameNODE(); } else{ Notification.new('error', 'Ни одна категория не выбранна!'); }
-			// 		break;
-			// 		case 'category-remove':
-			// 			if($(this).hasClass('disabled')){ Notification.new('error', 'Ни одна категория не выбранна!'); }
-			// 		break;
-			// 	};
-			// });
 		};
 
 		Goods.prototype.getSelected = function(){
@@ -1282,66 +1215,6 @@
 			
 		*********************************************************************************************/
 
-		// function PanelTools(options, action, selected){
-		// 	this.panel = $(options.panel);
-		// 	this.tools = this.panel.find('[data-tool]');
-		// 	this.trigger = this.panel.children('[data-tool=trigger]');
-		// 	this.noti = this.panel.find('.notifications');
-		// 	this.card = this.panel.closest('.app-card');
-
-		// 	var PanelTools = this;
-
-
-		// 	PanelTools.tools.click(function() {
-		// 		switch ($(this).data('tool')){
-		// 			case 'trigger':
-		// 				$(this).toggleClass('is-open').next('.tools-more').toggleClass('is-open');
-		// 			break;
-		// 			case 'edit-page':
-		// 				if(!$(this).hasClass('disabled')){
-		// 				 	window.location.href = "/micro/site/pages/edit/"+CheckBoxTable.selected[0];
-		// 				}
-		// 			break;
-		// 			case 'edit-news':
-		// 				if(!$(this).hasClass('disabled')){
-		// 				 	window.location.href = "/micro/site/news/edit/"+CheckBoxTable.selected[0];
-		// 				}
-		// 			break;
-		// 			case 'table-reload':
-		// 				dataTablesReload();
-		// 			break;
-		// 			case 'card-resize':
-		// 				PanelTools.card.toggleClass('fullsize');
-		// 			break;
-		// 		};
-		// 	});
-
-			
-		// };
-		// PanelTools.prototype.setAccess = function(action){
-		// 	var lSelected = CheckBoxTable.selected.length;
-
-
-		// 	if(lSelected > 0){ 
-		// 		PanelTools.noti.addClass('is-visible').html(lSelected); 
-		// 	} else{ 
-		// 		PanelTools.noti.removeClass('is-visible').html(''); 
-		// 	}
-		// 	PanelTools.tools.each(function(i, tool){
-		// 		var tool = $(tool);
-
-		// 		if(tool.data('tool') == 'edit' || tool.data('tool') == 'edit-page' || tool.data('tool') == 'edit-news'){
-		// 			if(lSelected == 1){ tool.removeClass('disabled'); } else{ tool.addClass('disabled'); }	
-		// 		}
-		// 		if(tool.data('tool') == 'remove'){
-		// 			if(lSelected > 0){ tool.removeClass('disabled'); } else{ tool.addClass('disabled'); }	
-		// 		}
-		// 	});
-		// };
-		
-		// // init
-		// panelTools = new PanelTools({panel:'.panel-tools'});
-
 		function PanelTools(options, actions, set){
 			this.tools = options.panel.find('a[data-tool]');
 			this.trigger = options.panel.find('.trigger');
@@ -1366,8 +1239,6 @@
 			var PanelTools = this;
 			this.tools.each(function(i, tool){PanelTools.set($(tool), source);});
 		};
-
-
 
 		basicPanelTools = new PanelTools(
 			{panel: $('.basic-panel'), source: CheckBoxTable}, function(){
@@ -1404,10 +1275,6 @@
 				}
 			}
 		);
-
-
-
-
 
 		goodsPanelTools = new PanelTools(
 			{panel: $('.goods-panel'), source: goods}, function(){
@@ -1541,335 +1408,6 @@
 			});
 			return $new;
 		};
-
-		/********************************************************************************************* 
-			
-			Validate - Class
-
-		*********************************************************************************************/
-
-
-
-		// function Validator(form){
-		// 	form ? this.form = $(form) : $.error('Validator: Form is not passed');
-		// 	this.fields = {input : Validator.form.find('input[validator]'), textarea: Validator.form.find('textarea[validator]'), select: Validator.form.find('select[validator]')};
-
-		// 	var Validator = this;
-
-		// 	// action 
-		// 	Validator.fields.input.keyup(function(event) {
-		// 		Validator.checkState($(this));
-		// 	});	
-
-		// };
-
-		// Validator.prototype.checkState = function(field){
-		// 	this.active = {
-		// 		field: field,
-		// 		methods : field.attr('validator').split(' '),
-		// 		states: []
-		// 	};
-
-		// 	var Validator = this, type = true, message = '';
-
-		// 	function setState(type, message){
-		// 		Validator.active.states.push({type: type, message: type ? 'Поле успешно прошло проверку' : message});
-		// 	};
-
-		// 	Validator.active.methods.forEach(function(method){
-		// 		switch(method){
-		// 			case 'email':
-		// 				/^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/.test(Validator.active.field.val()) ? setState(true) : setState(false, 'E-mail введен некорректно');
-		// 				break;
-		// 			case 'min':
-		// 				var length = Validator.active.field.attr('valid-min') || 3;
-		// 				Validator.active.field.val().length > length-1 ? setState(true) : setState(false, 'Минимальное количество символов '+length);
-		// 				break;
-		// 			case 'req-select':
-						
-		// 				break;
-		// 			case 'req':
-		// 				Validator.active.field.val().length != 0 ? setState(true) : setState(false, 'Поля обязательно для заполнения');
-		// 				break;
-		// 			case 'number':
-		// 				// it working!
-		// 				break;
-		// 			case 'pass':
-		// 				var $repeatPass = Validator.fields.input.filter('[validator="req repeat-pass"]');
-		// 				/(?=^.{5,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/.test(Validator.active.field.val()) ? setState(true) : setState(false, 'Пароль должен содержать cтрочные и прописные латинские буквы, цифры')
-		// 				if($repeatPass.length) $repeatPass.parent('.form-group').attr({'valid-state': false, 'valid-message': 'Пароли не совпадают'});
-		// 				break;
-		// 			case 'repeat-pass':
-		// 				Validator.active.field.val() == Validator.fields.input.filter('[validator="req pass"]').val() ? setState(true) : setState(false, 'Пароли не совпадают');
-		// 				break;
-		// 			default:
-		// 				$.error('Type "'+type+'" not found');
-		// 				break;
-		// 		};
-		// 	});
-
-		// 	Validator.active.states.forEach(function(state){
-		// 		if(!state.type && type) type = false; 
-		// 		if(!state.type){message += !message.length ? state.message : ', '+state.message.toLowerCase()}	
-		// 	});
-
-		// 	Validator.active.field.parent('.form-group').attr({
-		// 		'valid-state': type,
-		// 		'valid-message': message || 'Поле успешно прошло проверку'
-		// 	});
-		// };	
-
-		// Validator.prototype.submit = function(){
-		// 	var Validator = this;
-
-		// 	Validator.fields.each(function(i, field) {
-		// 		var $field = $(field);
-
-		// 		!$field.parent('.form-group').attr('valid-state') ? Validator.checkState($field) : console.log('False');
-		// 	});
-		// };
-
-
-
-
-
-// var Validator = this, type = true, message = '';
-
-// 			function setState(type, message){
-// 				Validator.active.states.push({'type': type, 'message': type ? 'Поле успешно прошло проверку' : message})
-// 			};
-
-// 			Validator.active.methods.forEach(function(type){
-// 				switch(type){
-// 					case 'email':
-// 						/^[\w\.\d-_]+@[\w\.\d-_]+\.\w{1,4}$/i.test(Validator.active.field.val()) ? setState(true) : setState(false, 'E-mail введен некорректно');
-// 						break;
-// 					case 'min':
-// 						Validator.active.field.val().length < 4 ? setState(false, 'Минимальное число символов 4') : setState(true);
-// 						break;
-// 					default:
-// 						$.error('Type "'+type+'" not found');
-// 						break;
-// 				};
-// 			});
-
-// 			Validator.active.states.forEach(function(state){
-// 				if(!state.type && type) type = false; 
-// 				if(!state.type){message += !message.length ? state.message : ', '+state.message.toLowerCase()}	
-// 			});
-
-// 			Validator.active.field.parent('.form-group').attr({
-// 				'valid-state': type,
-// 				'valid-message': message
-// 			});
-
-
-
-
-
-
-// this.methods = {
-// 				email: {
-// 					reqExp: /^[\w\.\d-_]+@[\w\.\d-_]+\.\w{1,4}$/i,
-// 					err: 'E-mail введен некорректно'
-// 				},
-// 				password: {
-// 					reqExp: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/i,
-// 					err: 'Пароль должен содержать строчные и прописные латинские буквы, цифры, спецсимволы'
-// 				}
-// 			};
-
-
-
-
-
-
-
-
-
-
-
-
-		// Validator.prototype.set = function(){	
-		// 	Validator.active.methods.forEach(function(type){
-		// 		switch(type){
-		// 			case 'email':
-		// 				Validator.methods.email.reqExp.test(Validator.active.field.val()) ? pushState(true) : pushState(false);
-		// 				break;
-		// 			default:
-		// 				$.error('Type "'+type+'" not found');
-		// 				break;
-		// 		};
-
-		// 		initState()
-		// 	});
-
-		// 	function initState(type, message){
-		// 		field.parent('.form-group').attr({
-		// 			"validator-state": type,
-		// 			"validator-message": message
-		// 		});
-		// 	};
-		// };
-
-		
-		// Validator.prototype.submit = function(){
-		// 	var Validator = this;
-
-		// 	this.fields.each(function(i, field) {
-		// 		var $field = $(field);
-
-		// 		if(!$field.parent('.form-group').attr('validator-state')) Validator.set($field, false, 'Поле на заполнено');
-		// 	});
-		// };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			// function pushState(type){
-			// 	console.log(Validator.methods.type);
-
-
-			// 	// Validator.active.states.push({'type': type, 'message': message || 'Успешно проверено'});
-			// };
-			// function setState(){
-			// 	var type = true, message = '';
-
-			// 	Validator.active.states.forEach(function(state){ 
-			// 		if(!state.type && type) type = false; 
-			// 		if(!state.type){message += !message.length ? state.message : ', '+state.message.toLowerCase()}	
-			// 	});	
-
-
-
-
-			// 	Validator.set(Validator.active.field, type, message);
-			// };
-
-	// Validator.fields.keydown(function(event){
-	// 			Validator.active = {
-	// 				field : $(this), 
-	// 				types: $(this).attr('validator').split(' '), 
-	// 				states: []
-	// 			};
-
-	// 			Validator.active.types.forEach(function(type){
-	// 				switch(type){
-	// 					case 'email':
-	// 						Validator.regExp.email.test(Validator.active.field.val()) ? pushState(true) : pushState(false, 'E-mail введен некорректно');
-	// 						break;
-	// 					default:
-	// 						$.error('Type "'+type+'" not found');
-	// 						break;
-	// 				};
-	// 			});
-
-	// 			setState();
-	// 		});
-
-	// 		function pushState(type, message){
-	// 			Validator.active.states.push({'type': type, 'message': message || 'Успешно проверено'});
-	// 		};
-	// 		function setState(){
-	// 			var type = true, message = '';
-
-	// 			Validator.active.states.forEach(function(state){
-	// 				if(!state.type && type) type = false;
-	// 				if(!state.type) message += !message.length ? state.message : ', '+state.message.toLowerCase();
-	// 			});
-
-	// 			Validator.set(Validator.active.field, type, message);
-	// 		};
-
-
-		// function Validator(form){
-		// 	form ? this.form = $(form) : $.error('Validator: Form is not passed');
-
-		// 	this.fields = this.form.find('[data-validate]');
-		// 	this.options = {min: 4, max: 10, state: ['error', 'success']};
-
-		// 	var Validator = this;
-
-		// 	Validator.fields.keydown(function(event) {
-		// 		Validator.active = {field : $(this), types: $(this).data('validate').split(' '), states: []};
-
-		// 		Validator.active.types.forEach(function(type){
-		// 			switch(type){
-		// 				case 'required': 
-		// 					Validator.active.field.val().length < 2 ? Validator.active.states.push({type: false, message:'Поле обязательно для заполнения'}) : Validator.active.states.push({type: true}); 
-		// 					break;	
-		// 				case 'min':
-		// 					var min = Validator.active.field.data('validate-min') || Validator.options.min;
-		// 					Validator.active.field.val().length <= min-2 ? Validator.active.states.push({type: false, message:'Минимальное число символов: '+min}) : Validator.active.states.push({type: true}); 
-		// 					break;
-		// 				case 'email': 
-		// 					/^[\w\.\d-_]+@[\w\.\d-_]+\.\w{1,4}$/i.test();
-		// 					break;
-		// 				case 'number':
-		// 					if(!(event.which==8 || event.which==44 ||event.which==45 ||event.which==46 ||(event.which>47 && event.which<58))) event.preventDefault(); 
-		// 					break;
-		// 				case 'password':
-		// 					/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/i.test(Validator.active.field.val()) ? Validator.active.states.push({type: true}) : Validator.active.states.push({type: false, message:'Пароль должен содержать строчные и прописные латинские буквы, цифры, спецсимволы'});
-		// 					break;
-		// 			};
-		// 		});
-
-		// 		set();
-		// 	});
-
-		// 	function set(){
-		// 		
-		// 	};			
-		// };
-
-		// Validator.prototype.checkField = function(){
-		// 	if(!this.active){ $.error('Active field not found'); return false; }			
-		// 	var Validator = this, type = true, message = '';
-
-		// 	Validator.active.states.forEach(function(state){
-		// 			if(!state.type && type) type = false;
-		// 			if(!state.type) message += !message.length ? state.message : ', '+state.message.toLowerCase();
-		// 	});
-		// 	Validator.active.field.parent('.form-group').attr({
-		// 		'data-validate-state': type ? Validator.options.state[1] : Validator.options.state[0],
-		// 		'data-validate-message': type ? 'Поле успешно прошло проверку' : message
-		// 	});	
-		// };
-		// Validator.prototype.submit = function(){
-		// 	var type = true;
-
-		// 	$.each(this.fields, function(i, field) {
-		// 		var $field = $(field);
-
-		// 		if(!$field.data('validate-state')){$field.attr('validate-state','errror');}
-		// 		if($field.parent('.form-group').data('validate-state') == 'error'){ type = false; }
-		// 	});
-
-		// 	return type;
-		// };
 
 		/********************************************************************************************* 
 			

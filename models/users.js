@@ -1,7 +1,8 @@
 var crypto = require('crypto'),
     async = require('async'),
     HttpMessage = require('../components/error/').HttpMessage,
-    nodemailer = require('nodemailer');
+    nodemailer = require('nodemailer'),
+    config = require('config');
 
 var UserGroup = require('./userGroup.js').UserGroup;
 
@@ -70,13 +71,13 @@ var mongoose = require('../components/mongoose/'),
     // Statics
 
         var smtpTransport = nodemailer.createTransport({
-            service: 'Gmail',
+            service: config.get('nodemailer.service'),
             auth: {
-                user: 'app.microengine@gmail.com',
-                pass: '4c57b5824a3ceabd'
+                user: config.get('nodemailer.auth.user'),
+                pass: config.get('nodemailer.auth.pass')
             }
         });
-
+        
         // Reset password
 
             Users.statics.reset = function(password, token, callback){
@@ -88,7 +89,6 @@ var mongoose = require('../components/mongoose/'),
                             if(!user) {
                                 return res.redirect('/micro/login');
                             }
-
                             user.password = password;
                             user.resetPasswordToken = undefined;
                             user.resetPasswordExpires = undefined;
@@ -101,7 +101,7 @@ var mongoose = require('../components/mongoose/'),
                     function(user, callback){
                         var mailOptions = {
                             to: user.email,
-                            from: 'app.microengine@gmail.com',
+                            from: config.get('nodemailer.auth.user'),
                             subject: 'Ваш пароль был изменен',
                             text: 'Привет,\n\n' +
                             'Это подтверждение того, что пароль для вашей учетной записи ' + user.email + ' был изменен.\n'
@@ -111,17 +111,13 @@ var mongoose = require('../components/mongoose/'),
                             callback(null);
                         });
                     }
-                ], callback);
-
-                                
+                ], callback);                    
             };
 
         // Forgot password
 
             Users.statics.forgot = function(email, host, callback){
                 var User = this;
-
-                console.log('Forgot 2');
 
                 async.waterfall([
                     function(callback){
@@ -132,6 +128,7 @@ var mongoose = require('../components/mongoose/'),
                     },
                     function(token, callback){
                         User.findOne({email: email}, function(err, user){
+                            console.log(user);
                             if (!user) {
                                 callback(new HttpMessage(403, 'Пользователь с таким E-mail не найден'));
                             }

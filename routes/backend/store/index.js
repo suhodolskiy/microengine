@@ -20,8 +20,7 @@ exports.get = function(req, res) {
 			pageName : 'store',
 			pageNameRu : 'Складской учет',
 			units: results[0],
-			providers: results[1],
-			level: req.authUser._group[0].lvl
+			providers: results[1]
 		});	  
 	});
 	

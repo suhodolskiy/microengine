@@ -10,8 +10,7 @@ exports.get = function(req, res) {
          	res.render('./micro/pages/new_news',{
 				pageName : 'newNews',
 				pageNameRu : 'Создание новости',
-				categories : newsCategories,
-                level: req.authUser._group[0].lvl
+				categories : newsCategories
 			});	 
         }
     ]);	

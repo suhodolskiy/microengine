@@ -3,7 +3,7 @@
 		<div class="row">
 			<div class="col-ph-12">
 				<div class="app-menu-item site">
-					<div <% if(level > 1) {%> class="disabled" <% } %>>
+					<div <% if(authUser._group[0].lvl > 1) {%> class="disabled" <% } %>>
 						<i class="spr spr-menu-site"></i>
 						<span>
 							Управление сайтом
@@ -13,9 +13,9 @@
 						<i class="item-arrow ion-chevron-down"></i>
 					</div>
 					<ul class="item-drop">
-						<li><a href="/micro/site/news" <% if(level > 1) {%> class="disabled" <% } %>>Новости</a></li>
-						<li><a href="/micro/site/news/categories" <% if(level > 1) {%> class="disabled" <% } %>>Категория новостей</a></li>
-						<li><a href="/micro/site/pages/" <% if(level > 1) {%> class="disabled" <% } %>>Страницы</a></li>
+						<li><a href="/micro/site/news" <% if(authUser._group[0].lvl > 1) {%> class="disabled" <% } %>>Новости</a></li>
+						<li><a href="/micro/site/news/categories" <% if(authUser._group[0].lvl > 1) {%> class="disabled" <% } %>>Категория новостей</a></li>
+						<li><a href="/micro/site/pages/" <% if(authUser._group[0].lvl > 1) {%> class="disabled" <% } %>>Страницы</a></li>
 					</ul>
 				</div>
 				<div class="app-menu-item store">
@@ -31,12 +31,12 @@
 					<ul class="item-drop">
 						<li><a href="/micro/store/">Товар</a></li>
 						<li><a href="/micro/store/sale">Продажи</a></li>
-						<li><a href="/micro/store/providers" <% if(level == 3) {%> class="disabled" <% } %>>Поставщики</a></li>
+						<li><a href="/micro/store/providers" <% if(authUser._group[0].lvl == 3) {%> class="disabled" <% } %>>Поставщики</a></li>
 						<li><a href="/micro/store/units/">Еденицы измерения</a></li>
 					</ul>
 				</div>
 				<div class="app-menu-item users">
-					<div <% if(level == 3) {%> class="disabled" <% } %>> 
+					<div <% if(authUser._group[0].lvl == 3) {%> class="disabled" <% } %>> 
 						<i class="spr spr-menu-users"></i>
 						<span>
 							Пользователи
@@ -46,8 +46,8 @@
 						<i class="item-arrow ion-chevron-down"></i>
 					</div>
 					<ul class="item-drop">
-						<li><a href="/micro/users" <% if(level == 3) {%> class="disabled" <% } %>>Список пользователей</a></li>
-						<li><a href="/micro/users/group" <% if(level > 1) {%> class="disabled" <% } %>>Группы пользователей</a></li>
+						<li><a href="/micro/users" <% if(authUser._group[0].lvl == 3) {%> class="disabled" <% } %>>Список пользователей</a></li>
+						<li><a href="/micro/users/group" <% if(authUser._group[0].lvl > 1) {%> class="disabled" <% } %>>Группы пользователей</a></li>
 					</ul>
 				</div>
 				<div class="app-menu-item timetable">

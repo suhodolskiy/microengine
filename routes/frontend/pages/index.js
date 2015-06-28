@@ -3,6 +3,9 @@ var News = require('../../../models/news.js').News,
 	async = require('async');
 
 exports.get = function(req, res) {
+
+	console.log('test');
+
     async.parallel([
 		function(callback){
 			Pages.find({}, '-_id name', callback);

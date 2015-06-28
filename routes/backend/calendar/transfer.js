@@ -4,8 +4,7 @@ var Events = require('../../../models/events.js').Events,
 
 exports.post = function(req, res) {
     var body = req.body;
-
-
+    
     if(req.authUser._group[0].lvl == 1){
 	    Events.findOneAndUpdate({_id: body.id},{start: body.start}, function(err){
 	        if(err){

@@ -5,8 +5,7 @@ var express = require('express'),
 	log = require('./components/log')(module),
 	cookieParser = require('cookie-parser'),
 	bodyParser = require('body-parser'),
-	favicon = require('serve-favicon'),
-	HttpMessage = require('./components/error/').HttpMessage;
+	favicon = require('serve-favicon');
 
 var app = express();
 
@@ -42,12 +41,12 @@ var app = express();
 
 // Routes
 
-
+	
 	app.use('/micro', require('./routes/backend/'));
 	app.use('/', require('./routes/frontend/'));
+	
 	app.use(express.static(path.join(__dirname + '/public')));
-
-
+	
 
 // catch 404 and forward to error handler
 	app.use(function(req, res, next) {
@@ -56,33 +55,11 @@ var app = express();
 	    next(err);
 	});
 
-	app.use(function(err, req, res, next) {
-        if (typeof err == 'number') { // next(404);
-            err = new HttpMessage(err);
-        }
-        if (err instanceof HttpMessage) {
-            res.sendHttpError(err);
-        } else {
-            if (app.get('env') == 'development') {
-                express.errorHandler()(err, req, res, next);
-            } else {
-                log.error(err);
-                err = new HttpMessage(500);
-                res.sendHttpError(err);
-            }
-        }
-    });
-
-	// production error handler
-	// no stacktraces leaked to user
-	app.use(function(err, req, res, next) {
-		console.log('Error: '+ err.message);
-	    // res.status(err.status || 500);
-	    // res.render('pages/error', {
-	    //     message: err.message,
-	    //     error: {}
-	    // });
-	});
+	if (app.get('env') === 'development') {
+	    app.use(function(err, req, res, next) {
+	        log.error(err.status || 500+" | "+err.message);
+	    });
+	}
 	
 // Server
 
