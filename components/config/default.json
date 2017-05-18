@@ -26,5 +26,11 @@
             "httpOnly": true,
             "maxAge": null
         }
+    },
+    "mysql": {
+        "host": "localhost",
+        "user": "admin",
+        "password": "ilyasuhodolskiy",
+        "database": "microengine"
     }
 }

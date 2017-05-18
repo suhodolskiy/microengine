@@ -1,4 +1,4 @@
-var Users = require('../../../models/users.js').Users,
+var Users = require('../../../models/users.js'),
     HttpMessage = require('../../../components/error').HttpMessage;
 
 exports.post = function(req, res, next) {
