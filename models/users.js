@@ -47,21 +47,16 @@ class Users {
     }
 
     getUser(id, callback){
-        db.query(`SELECT * FROM users WHERE id="${id}"`, function(err, results){
+        db.query(`SELECT *, id AS _id FROM users WHERE id="${id}"`, function(err, results){
             const user = results[0];
 
-            db.query(`SELECT * FROM user_group WHERE id="${user.id}"`, function(err, res){
+            db.query(`SELECT *, id AS _id FROM user_group WHERE id="${user._group}"`, function(err, res){
                 const group = res[0];
 
                 if(!err && group && user){
-                    callback(null, Object.assign({}, user, {
-                        _id: user.id,
-                        _group: [
-                            Object.assign({}, group, {
-                                _id: group.id
-                            })
-                        ]
-                    }));
+                    user._group = [group];
+
+                    callback(null, user);
                 } else callback(err); 
             });
         })
@@ -72,11 +67,36 @@ class Users {
 
         db.query(`SELECT id FROM users`, function(err, usersIds){
             if(!err){
-                async.map(usersIds, function(user, cb){
-                    Users.getUser(user.id, cb);
+                async.map(usersIds, function(userId, cb){
+                    Users.getUser(userId.id, cb);
                 }, callback)
             } else callback(err);
         })
+    }
+
+    edit(body, callback){
+        const Users = this;
+
+        console.log(body);
+
+        if(body.password && body.password.length){
+            const salt = Math.random().toString();
+            const hashedPassword = encryptPassword(body.password, salt);
+            
+            db.query(`UPDATE users SET email="${body.email}", name="${body.name}", _group="${body.group}", salt="${salt}", hashedPassword="${hashedPassword}" WHERE id="${body.id}"`, callback);
+        } else {
+            db.query(`UPDATE users SET email="${body.email}", name="${body.name}", _group="${body.group}" WHERE id="${body.id}"`, callback);
+        }
+    }
+
+    create(body, callback){
+        const salt = Math.random().toString();
+        const hashedPassword = encryptPassword(body.password, salt);
+        db.query(`INSERT INTO users (email, name, _group, salt, hashedPassword) VALUES ("${body.email}", "${body.name}", "${body.group}", "${salt}", "${hashedPassword}")`, callback);
+    }
+
+    delete(body, callback){
+        db.query(`DELETE FROM users WHERE id="${body[0]}"`, callback);
     }
 
 }

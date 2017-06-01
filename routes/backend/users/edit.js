@@ -2,8 +2,10 @@ var Users = require('../../../models/users.js').Users,
     HttpMessage = require('../../../components/error').HttpMessage,
     async = require('async');
 
+const store = require('../../../models');
+
 exports.post = function(req, res, next) {
-    Users.edit(req.body, function(err){
+    store.users.edit(req.body, function(err){
         if(err){
             return next(new HttpMessage(403, err.message));
         }
