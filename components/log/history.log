@@ -74,3 +74,110 @@
 {"level":"error","message":"500 | /Users/fanl2/Documents/work/microengine/views/micro/layout/base_chart.ejs:15\n    13| \t<main class=\"app\" role=\"main\">\n    14| \t\t<%-partial('../partials/loading')%>\n >> 15| \t\t<%-partial('../partials/header')%>\n    16| \t\t<%-partial('../partials/menu')%>\n    17| \t\t\t<div class=\"app-content container\">\n    18| \t\t\t\t<%- body -%>\n\n/Users/fanl2/Documents/work/microengine/views/micro/partials/header.ejs:12\n    10| \t\t\t\t\t\t<span>\n    11| \t\t\t\t\t\t\t<%=authUser.name %>\n >> 12| \t\t\t\t\t\t\t<small><%=authUser._group[0].name %></small>\n    13| \t\t\t\t\t\t</span>\n    14| \t\t\t\t\t\t<img src=\"/micro/images/photo.png\" alt=\"\">\n    15| \t\t\t\t\t</a>\n\nCannot read property 'name' of undefined","label":"microengine/app.js","timestamp":"2017-05-18T13:42:09.112Z"}
 {"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-05-18T13:42:24.643Z"}
 {"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-05-18T13:42:25.071Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T17:27:38.628Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T17:27:39.242Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T17:27:51.788Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T17:27:52.600Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T17:31:30.956Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T17:31:31.448Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T17:32:52.252Z"}
+{"level":"info","message":"Express localhost listening on port 27017","label":"microengine/app.js","timestamp":"2017-06-01T17:32:52.894Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T17:33:18.956Z"}
+{"level":"info","message":"Express localhost listening on port 27017","label":"microengine/app.js","timestamp":"2017-06-01T17:33:19.336Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T17:35:50.221Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 27017","label":"microengine/app.js","timestamp":"2017-06-01T17:35:50.774Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T17:38:01.069Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 27017","label":"microengine/app.js","timestamp":"2017-06-01T17:38:01.161Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T17:38:58.873Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 27017","label":"microengine/app.js","timestamp":"2017-06-01T17:38:58.965Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T17:39:17.285Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T17:39:17.377Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T17:39:48.515Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T17:39:48.708Z"}
+{"level":"error","message":"500 | Cannot read property 'authUser' of undefined","label":"microengine/app.js","timestamp":"2017-06-01T17:39:52.036Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T17:40:49.061Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T17:40:49.146Z"}
+{"level":"error","message":"500 | Cannot read property 'authUser' of undefined","label":"microengine/app.js","timestamp":"2017-06-01T17:40:50.709Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T17:41:05.659Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T17:41:06.111Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T17:43:52.568Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T17:43:52.935Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T17:45:50.827Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T17:45:51.182Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T17:46:16.465Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T17:46:17.213Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T17:46:34.189Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T17:46:34.580Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T17:46:53.238Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T17:46:53.606Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T17:47:46.226Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T17:47:46.861Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T17:51:45.557Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T17:51:46.212Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T17:51:57.283Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T17:51:58.244Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T17:52:23.500Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T17:52:23.943Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T17:52:51.479Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T17:52:51.853Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T17:53:30.087Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T17:53:30.657Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T17:53:43.944Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T17:53:44.535Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T17:54:42.106Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T17:54:42.723Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T17:58:50.580Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T17:58:51.052Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T17:59:05.850Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T17:59:06.497Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T18:00:30.955Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T18:00:31.697Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T18:01:22.292Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T18:01:22.751Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T18:02:28.600Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T18:02:29.449Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T18:02:54.093Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T18:02:54.842Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T18:03:25.448Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T18:03:26.459Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T18:03:55.363Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T18:03:56.600Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T18:04:09.697Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T18:04:10.260Z"}
+{"level":"error","message":"500 | Cannot read property 'edit' of undefined","label":"microengine/app.js","timestamp":"2017-06-01T18:04:19.786Z"}
+{"level":"error","message":"500 | Cannot read property 'edit' of undefined","label":"microengine/app.js","timestamp":"2017-06-01T18:04:21.250Z"}
+{"level":"error","message":"500 | Cannot read property 'edit' of undefined","label":"microengine/app.js","timestamp":"2017-06-01T18:04:21.409Z"}
+{"level":"error","message":"500 | Cannot read property 'edit' of undefined","label":"microengine/app.js","timestamp":"2017-06-01T18:04:22.924Z"}
+{"level":"error","message":"500 | Cannot read property 'edit' of undefined","label":"microengine/app.js","timestamp":"2017-06-01T18:04:23.111Z"}
+{"level":"error","message":"500 | Cannot read property 'edit' of undefined","label":"microengine/app.js","timestamp":"2017-06-01T18:04:23.289Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T18:05:26.402Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T18:05:27.554Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T18:07:12.720Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T18:07:13.386Z"}
+{"level":"error","message":"403","label":"microengine/app.js","timestamp":"2017-06-01T18:07:23.768Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T18:08:25.924Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T18:08:26.773Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T18:09:17.654Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T18:09:18.651Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T18:09:56.954Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T18:09:56.171Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T18:11:54.801Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T18:11:55.497Z"}
+{"level":"error","message":"500 | Cannot read property 'add' of undefined","label":"microengine/app.js","timestamp":"2017-06-01T18:12:18.976Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T18:13:52.724Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T18:13:53.377Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T18:14:55.130Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T18:14:55.717Z"}
+{"level":"error","message":"500 | Cannot read property 'remove' of undefined","label":"microengine/app.js","timestamp":"2017-06-01T18:15:32.907Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T18:15:43.526Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T18:15:44.184Z"}
+{"level":"error","message":"500 | Cannot read property 'delete' of undefined","label":"microengine/app.js","timestamp":"2017-06-01T18:15:49.738Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T18:16:12.080Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T18:16:12.731Z"}
+{"level":"error","message":"500 | Cannot read property 'delete' of undefined","label":"microengine/app.js","timestamp":"2017-06-01T18:16:19.519Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T18:16:59.896Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T18:17:01.024Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T18:17:26.003Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T18:17:26.766Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T18:17:43.718Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T18:17:44.421Z"}

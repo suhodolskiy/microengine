@@ -2,12 +2,14 @@ var UserGroup = require('../../../models/userGroup.js').UserGroup,
     HttpMessage = require('../../../components/error').HttpMessage,
     async = require('async');
 
+    const store = require('../../../models');
+
 exports.post = function(req, res, next) {
     var body = req.body;
 
     async.waterfall([
         function(callback){
-            UserGroup.findOne({_id: body.id}, callback);
+            store.groups.getGroup(body.id, callback);
         },
         function(user, callback){
             res.send(JSON.stringify({

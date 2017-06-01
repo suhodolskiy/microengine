@@ -1,13 +1,14 @@
-var Users = require('../../../models/users.js').Users,
-    HttpMessage = require('../../../components/error').HttpMessage,
+var HttpMessage = require('../../../components/error').HttpMessage,
     async = require('async');
+
+const store = require('../../../models');
 
 exports.post = function(req, res, next) {
     var body = req.body;
 
     async.waterfall([
         function(callback){
-            Users.findOne({_id: body.id},'_id email name _group').populate('_group', 'name').exec(callback);
+            store.users.getUser(body.id, callback);
         },
         function(user, callback){
             res.send(JSON.stringify({

@@ -1,11 +1,13 @@
 var UserGroup = require('../../../models/userGroup.js').UserGroup,
     HttpMessage = require('../../../components/error').HttpMessage;
 
+const store = require('../../../models');
+
 exports.post = function(req, res, next) {
-	UserGroup.add(req.body, function(err){
-		if(err){
+	store.groups.create(req.body, function(err){
+        if(err){
             return next(new HttpMessage(403, err.message));
-		}
-		res.status(200).end();
-	});
+        }
+        res.status(200).end();
+    })
 };
