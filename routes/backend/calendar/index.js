@@ -2,10 +2,12 @@ var Users = require('../../../models/users.js').Users,
 	HttpMessage = require('../../../components/error').HttpMessage,
 	async = require('async');
 
+const store = require('../../../models');
+
 exports.get = function(req, res) {
 	 async.waterfall([
 	 	function(callback){
-	 		Users.find({_group: '5559e8fc25287fd5545e4885'}, 'name _group').populate('_group', 'name').exec(callback);
+	 		store.users.getUsers(callback);
 	 	},
 	 	function(users){  
             if(users){

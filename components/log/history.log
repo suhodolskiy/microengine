@@ -245,3 +245,13 @@
 {"level":"error","message":"403","label":"microengine/app.js","timestamp":"2017-06-01T18:47:16.089Z"}
 {"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T18:49:09.231Z"}
 {"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T18:49:09.626Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-01T18:52:06.214Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-01T18:52:06.761Z"}
+{"level":"info","message":"Mongoose successfully connected","label":"mongoose/index.js","timestamp":"2017-06-25T19:54:34.730Z"}
+{"level":"info","message":"Express 127.0.0.1 listening on port 3000","label":"microengine/app.js","timestamp":"2017-06-25T19:54:35.253Z"}
+{"level":"error","message":"500 | /Users/fanl2/Documents/work/microengine/views/template/pages/page.ejs:1\n >> 1| <% layout('../layout/base') -%>\n    2| <% block('title', Page[0].name.initial) -%>\n    3| \n    4| <div class=\"container\">\n\nCannot read property 'name' of undefined","label":"microengine/app.js","timestamp":"2017-06-25T19:54:43.581Z"}
+{"level":"error","message":"403","label":"microengine/app.js","timestamp":"2017-06-25T19:54:59.525Z"}
+{"level":"error","message":"403","label":"microengine/app.js","timestamp":"2017-06-25T19:55:01.707Z"}
+{"level":"error","message":"403","label":"microengine/app.js","timestamp":"2017-06-25T19:55:02.556Z"}
+{"level":"error","message":"403","label":"microengine/app.js","timestamp":"2017-06-25T19:55:10.685Z"}
+{"level":"error","message":"403","label":"microengine/app.js","timestamp":"2017-06-25T19:55:19.803Z"}

@@ -2,22 +2,6 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-ph-12">
-				<div class="app-menu-item site">
-					<div <% if(authUser._group[0].lvl > 1) {%> class="disabled" <% } %>>
-						<i class="spr spr-menu-site"></i>
-						<span>
-							Управление сайтом
-							<small>Новости, категории нов...</small>
-						</span>
-						
-						<i class="item-arrow ion-chevron-down"></i>
-					</div>
-					<ul class="item-drop">
-						<li><a href="/micro/site/news" <% if(authUser._group[0].lvl > 1) {%> class="disabled" <% } %>>Новости</a></li>
-						<li><a href="/micro/site/news/categories" <% if(authUser._group[0].lvl > 1) {%> class="disabled" <% } %>>Категория новостей</a></li>
-						<li><a href="/micro/site/pages/" <% if(authUser._group[0].lvl > 1) {%> class="disabled" <% } %>>Страницы</a></li>
-					</ul>
-				</div>
 				<div class="app-menu-item store">
 					<div>
 						<i class="spr spr-menu-store"></i>
