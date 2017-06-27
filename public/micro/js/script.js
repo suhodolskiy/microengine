@@ -1153,7 +1153,7 @@
 			return (Number(rate.replace('%',''))+100)/100;
 		};	
 		function roadPrice(price){
-			return (Math.round(price / 100) * 100).toFixed(0);
+			return price.toFixed(2);
 		};
 
 		/********************************************************************************************* 
@@ -1182,6 +1182,8 @@
 				var markup = rateNumber(Goods.input.markup.val()),
 					purchaseprice = nb(Goods.input.purchaseprice.val()),
 					qty = nb(Goods.input.qty.val());
+
+					console.log(markup*purchaseprice);
 
 				Goods.output.price.val(roadPrice(markup*purchaseprice));
 			}

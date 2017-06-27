@@ -39,6 +39,22 @@ var app = express();
 	app.use(require('./middleware/sendHttpMessage'));
 	app.use(require('./middleware/userLoad'));
 
+
+	var Users = require('./models/users').Users;
+	var UserGroup = require('./models/userGroup').UserGroup;
+
+	// new UserGroup({
+	// 	name: 'Администратор',
+	// 	lvl: 1
+	// }).save();
+
+	// new Users({
+	// 	name: 'Илья',
+	// 	email: 'test@test.test',
+	// 	password: 'test',
+	// 	_group: '5950168d92ff2350336eec72'
+	// }).save();
+
 // Routes
 
 	
